@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.yzdev.sportome.common.getAllSports
 import com.yzdev.sportome.common.getCountryBySport
 import com.yzdev.sportome.common.getLeaguesByCountry
+import com.yzdev.sportome.presentation.screens.tutorial.TutorialScreen
 
 @Composable
 fun Navigation() {
@@ -19,7 +20,7 @@ fun Navigation() {
 
     NavHost(
         navController = navigation,
-        startDestination = Destination.ON_BOARDING.screenRoute
+        startDestination = Destination.TUTORIAL.screenRoute
     ){
         /** ON BOARDING SCREEN*/
         composable(
@@ -39,7 +40,7 @@ fun Navigation() {
             //val viewmodel = hiltViewModel<HomeViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-
+                TutorialScreen(navHostController = navigation)
             }
         }
 
