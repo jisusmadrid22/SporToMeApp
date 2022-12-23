@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,12 +21,13 @@ import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun TopHeaderTutorialOne(
-
+    alpha: Float
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = 24.dp, start = 24.dp, top = 12.dp),
+            .padding(end = 24.dp, start = 24.dp, top = 12.dp)
+            .graphicsLayer(alpha = alpha),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,12 +22,14 @@ import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun ContentCenterTutorialOne(
-    text: String = AppResource.getString(R.string.tutotialText)
+    text: String = AppResource.getString(R.string.tutotialText),
+    alpha: Float
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp)
+            .graphicsLayer(alpha = alpha),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,13 +25,15 @@ import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 @Composable
 fun ContentBottomCircle(
     textOne: String = AppResource.getString(R.string.clickText),
-    textTwo: String = AppResource.getString(R.string.startProgressText)
+    textTwo: String = AppResource.getString(R.string.startProgressText),
+    alpha: Float
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(horizontal = 24.dp, vertical = 32.dp),
+            .padding(horizontal = 24.dp, vertical = 32.dp)
+            .graphicsLayer(alpha = alpha),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -81,6 +84,7 @@ fun ContentBottomCircle(
     }
 }
 
+/*
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewContent() {
@@ -96,4 +100,4 @@ fun PreviewContent() {
             )
         }
     }
-}
+}*/

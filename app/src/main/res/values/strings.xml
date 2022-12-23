@@ -5,6 +5,6 @@
     <string name="tutorialTitle">Tutorial</string>
     <string name="welcomeHeader">Hola, Bienvenido a</string>
     <string name="tutotialText">Para comenzar, dinos cual es tu deporte y equipo favorito</string>
-    <string name="clickText">Click</string>
+    <string name="clickText">Presione o deslice</string>
     <string name="startProgressText">para comenzar el proceso</string>
 </resources>

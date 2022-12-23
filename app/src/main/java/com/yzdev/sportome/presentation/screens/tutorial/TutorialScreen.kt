@@ -1,6 +1,8 @@
 package com.yzdev.sportome.presentation.screens.tutorial
 
 import android.util.Log
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.rememberScrollableState
@@ -35,28 +37,55 @@ private fun TutorialLayout(
     var scrollController by remember {
         mutableStateOf(false)
     }
+    var initAnimation by remember {
+        mutableStateOf(false)
+    }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+    var initAnimationCircle by remember {
+        mutableStateOf(false)
+    }
+
+    val alphaTransition = animateFloatAsState(
+        targetValue = if(!initAnimation) 1f else 0f,
+        animationSpec = tween(200),
+        finishedListener = {
+            initAnimationCircle = true
+        }
+    )
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceBetween,
+            verticalArrangement = if(!initAnimationCircle) Arrangement.SpaceBetween else Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopHeaderTutorialOne()
+            if(!initAnimationCircle){
+                TopHeaderTutorialOne(
+                    alpha = alphaTransition.value
+                )
+            }
 
-            ContentCenterTutorialOne("Para comenzar, dinos cual es tu deporte y equipo favorito")
+            if(!initAnimationCircle){
+                ContentCenterTutorialOne(
+                    text = "Para comenzar, dinos cual es tu deporte y equipo favorito",
+                    alpha = alphaTransition.value
+                )
+            }
 
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(LocalConfiguration.current.screenHeightDp.dp * 0.275f)
                 .scrollable(
                     state = rememberScrollableState { delta ->
-                        if (!scrollController){
+                        if (!scrollController) {
                             scrollController = true
+                            initAnimation = !initAnimation
                             Log.e("delta", "scroll")
-                        }else{
+                        } else {
                             //nothing for now
                         }
                         delta
@@ -70,11 +99,19 @@ private fun TutorialLayout(
                     Log.e("delta", "click")
                 }
             ) {  //valor fijo muy cercano al diseño -> 212dp
-                BottomCircleTutorialOne()
-                ContentBottomCircle(
-                    textOne = "Presione o deslice",
-                    textTwo = "para comenzar el proceso"
+                BottomCircleTutorialOne(
+                    initAnimationCircle = initAnimationCircle,
+                    finishAnimationCircle = {
+
+                    }
                 )
+                if(!initAnimationCircle){
+                    ContentBottomCircle(
+                        textOne = "Presione o deslice",
+                        textTwo = "para comenzar el proceso",
+                        alpha = alphaTransition.value
+                    )
+                }
             }
         }
     }
