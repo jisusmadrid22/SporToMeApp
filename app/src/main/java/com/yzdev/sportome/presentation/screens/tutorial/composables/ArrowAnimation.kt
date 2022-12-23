@@ -44,7 +44,7 @@ fun ArrowAnimationTutorial(
             onDraw = {
                 /** arrow top*/
                 drawLine(
-                    color = Color.Black,
+                    color = Color.White,
                     start = Offset(x = 0f, y = (size.height / 2)),
                     end = Offset(x = (size.width / 2), y = 0f),
                     strokeWidth = 6f,
@@ -52,7 +52,7 @@ fun ArrowAnimationTutorial(
                 )
 
                 drawLine(
-                    color = Color.Black,
+                    color = Color.White,
                     start = Offset(x = (size.width / 2) - 3, y = 0f),
                     end = Offset(x = size.width - 3, y = (size.height / 2)),
                     strokeWidth = 6f,
@@ -61,7 +61,7 @@ fun ArrowAnimationTutorial(
 
                 /** arrow bottom*/
                 drawLine(
-                    color = Color.Black,
+                    color = Color.White,
                     start = Offset(x = 0f, y = size.height),
                     end = Offset(x = (size.width / 2), y = (size.height / 2)),
                     strokeWidth = 6f,
@@ -69,7 +69,7 @@ fun ArrowAnimationTutorial(
                 )
 
                 drawLine(
-                    color = Color.Black,
+                    color = Color.White,
                     start = Offset(x = (size.width / 2) - 3, y = (size.height / 2)),
                     end = Offset(x = size.width - 3, y = size.height),
                     strokeWidth = 6f,

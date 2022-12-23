@@ -9,8 +9,10 @@ import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -26,12 +28,30 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTut
 fun TutorialScreen(
     navHostController: NavHostController
 ) {
-    TutorialLayout()
+
+    var isTwoTutorial by remember {
+        mutableStateOf(false)
+    }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        backgroundColor = if (!isTwoTutorial) MaterialTheme.colors.background else MaterialTheme.colors.primary
+    ) {
+        if(!isTwoTutorial){
+            TutorialLayout(
+                isTwoTutorialOnChange = {
+                    isTwoTutorial = it
+                }
+            )
+        }else{
+
+        }
+    }
 }
 
 @Composable
 private fun TutorialLayout(
-
+    isTwoTutorialOnChange: (Boolean)-> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var scrollController by remember {
@@ -102,7 +122,7 @@ private fun TutorialLayout(
                 BottomCircleTutorialOne(
                     initAnimationCircle = initAnimationCircle,
                     finishAnimationCircle = {
-
+                        isTwoTutorialOnChange(true)
                     }
                 )
                 if(!initAnimationCircle){
@@ -117,6 +137,7 @@ private fun TutorialLayout(
     }
 }
 
+/*
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewLayout(
@@ -125,4 +146,4 @@ fun PreviewLayout(
     Box(modifier = Modifier.fillMaxSize()) {
         TutorialLayout()
     }
-}
+}*/
