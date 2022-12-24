@@ -1,18 +1,12 @@
 package com.yzdev.sportome.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.yzdev.sportome.common.getAllSports
-import com.yzdev.sportome.common.getCountryBySport
-import com.yzdev.sportome.common.getLeaguesByCountry
-import com.yzdev.sportome.presentation.screens.tutorial.TutorialScreen
+import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
 
 @Composable
 fun Navigation() {
@@ -40,7 +34,7 @@ fun Navigation() {
             //val viewmodel = hiltViewModel<HomeViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                TutorialScreen(navHostController = navigation)
+                IntroTutorialScreen(navHostController = navigation)
             }
         }
 

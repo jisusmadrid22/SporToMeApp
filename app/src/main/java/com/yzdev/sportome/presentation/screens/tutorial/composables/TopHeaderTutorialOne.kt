@@ -33,7 +33,7 @@ fun TopHeaderTutorialOne(
     ) {
         Column {
             Text(
-                text = "Hola, Bienvenido a",//AppResource.getString(R.string.welcomeHeader),
+                text = AppResource.getString(R.string.welcomeHeader),
                 style = TextStyle(
                     fontWeight = FontWeight.Light,
                     fontSize = 12.sp,
@@ -42,7 +42,7 @@ fun TopHeaderTutorialOne(
             )
 
             Text(
-                text = "* App name *",//AppResource.getString(R.string.app_name),
+                text = AppResource.getString(R.string.app_name),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

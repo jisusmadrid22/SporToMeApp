@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomCircleTutorialOne
@@ -25,33 +23,28 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.ContentCente
 import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTutorialOne
 
 @Composable
-fun TutorialScreen(
+fun IntroTutorialScreen(
     navHostController: NavHostController
 ) {
 
-    var isTwoTutorial by remember {
+    var goToTutorialContent by remember {
         mutableStateOf(false)
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        backgroundColor = if (!isTwoTutorial) MaterialTheme.colors.background else MaterialTheme.colors.primary
-    ) {
-        if(!isTwoTutorial){
-            TutorialLayout(
-                isTwoTutorialOnChange = {
-                    isTwoTutorial = it
-                }
-            )
-        }else{
-
-        }
+    if(!goToTutorialContent){
+        IntroTutorialLayout(
+            goToTutorialContentOnChange = {
+                goToTutorialContent = it
+            }
+        )
+    }else{
+        TutorialContentScreen(navHostController = navHostController)
     }
 }
 
 @Composable
-private fun TutorialLayout(
-    isTwoTutorialOnChange: (Boolean)-> Unit
+private fun IntroTutorialLayout(
+    goToTutorialContentOnChange: (Boolean)-> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var scrollController by remember {
@@ -91,7 +84,6 @@ private fun TutorialLayout(
 
             if(!initAnimationCircle){
                 ContentCenterTutorialOne(
-                    text = "Para comenzar, dinos cual es tu deporte y equipo favorito",
                     alpha = alphaTransition.value
                 )
             }
@@ -116,19 +108,23 @@ private fun TutorialLayout(
                     interactionSource = interactionSource,
                     indication = null
                 ) {
-                    Log.e("delta", "click")
+                    if (!scrollController) {
+                        scrollController = true
+                        initAnimation = !initAnimation
+                        Log.e("delta", "click")
+                    } else {
+                        //nothing for now
+                    }
                 }
             ) {  //valor fijo muy cercano al diseño -> 212dp
                 BottomCircleTutorialOne(
                     initAnimationCircle = initAnimationCircle,
                     finishAnimationCircle = {
-                        isTwoTutorialOnChange(true)
+                        goToTutorialContentOnChange(true)
                     }
                 )
                 if(!initAnimationCircle){
                     ContentBottomCircle(
-                        textOne = "Presione o deslice",
-                        textTwo = "para comenzar el proceso",
                         alpha = alphaTransition.value
                     )
                 }
