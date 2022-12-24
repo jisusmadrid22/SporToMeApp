@@ -18,12 +18,13 @@ import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 
 @Composable
 fun TextFieldTutorial(
+    value: String,
     numberStep: Int,
     textOnChange: (String)-> Unit
 ) {
     TextField(
         modifier = Modifier.fillMaxWidth(),
-        value = "",
+        value = value,
         onValueChange = {
             textOnChange(it)
         },

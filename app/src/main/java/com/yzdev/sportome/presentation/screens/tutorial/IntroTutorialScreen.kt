@@ -9,7 +9,6 @@ import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,7 +23,8 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTut
 
 @Composable
 fun IntroTutorialScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    viewmodel: TutorialViewModel
 ) {
 
     var goToTutorialContent by remember {
@@ -38,7 +38,7 @@ fun IntroTutorialScreen(
             }
         )
     }else{
-        TutorialContentScreen(navHostController = navHostController)
+        TutorialContentScreen(navHostController = navHostController, viewModel = viewmodel)
     }
 }
 

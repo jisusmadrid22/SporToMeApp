@@ -20,9 +20,9 @@ import com.yzdev.sportome.common.getCountryBySport
 @Composable
 fun ListCountry(
     sportId: Int,
+    listCountry: List<Country>,
     clickItem: (Country)-> Unit
 ) {
-    val listCountry = getCountryBySport(sportId)
 
     Box(modifier = Modifier.fillMaxWidth()) {
         LazyVerticalGrid(
