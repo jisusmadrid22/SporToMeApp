@@ -7,4 +7,7 @@
     <string name="tutotialText">Para comenzar, dinos cual es tu deporte y equipo favorito</string>
     <string name="clickText">Presione o deslice</string>
     <string name="startProgressText">para comenzar el proceso</string>
+    <string name="sportTitle">Deporte</string>
+    <string name="continueTitle">Continuar</string>
+    <string name="finishTitle">Finalizar</string>
 </resources>

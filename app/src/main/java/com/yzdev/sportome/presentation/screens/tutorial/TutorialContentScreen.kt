@@ -1,36 +1,38 @@
-@file:OptIn(ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 
 package com.yzdev.sportome.presentation.screens.tutorial
 
-import android.view.animation.Animation.AnimationListener
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.yzdev.sportome.R
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListCountry
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListLeague
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListSports
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListTeam
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
+import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomSheetTutorialDesign
 import com.yzdev.sportome.presentation.screens.tutorial.composables.TextFieldTutorial
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import kotlinx.coroutines.launch
 
 @Composable
 fun TutorialContentScreen(
@@ -49,7 +51,7 @@ private fun TutorialContentLayout(
 ) {
 
     var textTopBar by remember {
-        mutableStateOf("Deporte")
+        mutableStateOf(AppResource.getString(R.string.sportTitle))
     }
 
     var numberStep by remember {
@@ -75,6 +77,14 @@ private fun TutorialContentLayout(
         mutableStateOf(null)
     }
 
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
+
+    val context = LocalContext.current
+
+    val scope = rememberCoroutineScope()
+
     LaunchedEffect(
         key1 = true,
         block = {
@@ -94,9 +104,34 @@ private fun TutorialContentLayout(
         }
     })
 
-    Scaffold(
+    LaunchedEffect(key1 = numberStep, block = {
+        when(numberStep){
+            1-> textTopBar = AppResource.getString(R.string.sportTitle)
+            2-> textTopBar = sportSelected?.name ?: AppResource.getString(R.string.sportTitle)
+            3-> textTopBar = "${sportSelected?.name ?: AppResource.getString(R.string.sportTitle)} - ${countrySelected?.name ?: ""}"
+            4-> textTopBar = "${sportSelected?.name ?: AppResource.getString(R.string.sportTitle)} - ${countrySelected?.name ?: ""} - ${leagueSelected?.name ?: ""}"
+        }
+    })
+
+    BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
-        backgroundColor = MaterialTheme.colors.primary
+        backgroundColor = MaterialTheme.colors.primary,
+        scaffoldState = scaffoldState,
+        sheetShape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp),
+        sheetElevation = 4.dp,
+        sheetPeekHeight = 0.dp,
+        sheetContent = {
+            BottomSheetTutorialDesign(numberStep = numberStep) {
+                scope.launch {
+                    scaffoldState.bottomSheetState.collapse()
+                    if(numberStep < 4){
+                        numberStep++
+                    }else{
+                        Toast.makeText(context, "to home", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -185,6 +220,8 @@ private fun TutorialContentLayout(
                 Spacer(modifier = Modifier.padding(top = 4.dp))
 
                 /** Animation list*/
+
+                /** Animation list*/
                 AnimationList(
                     numberStep = numberStep,
                     viewModel = viewModel,
@@ -196,10 +233,11 @@ private fun TutorialContentLayout(
                     listSport = listSport,
                     listTeam = listTeam,
                 ){
-                    if(numberStep == 4){
-                        //navigate
-                    }else{
-                        numberStep++
+                    Log.e("bottomsheet", "click")
+                    scope.launch {
+                        if(scaffoldState.bottomSheetState.isCollapsed){
+                            scaffoldState.bottomSheetState.expand()
+                        }
                     }
                 }
             }
