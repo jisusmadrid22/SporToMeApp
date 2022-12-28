@@ -122,14 +122,14 @@ private fun TutorialContentLayout(
         sheetPeekHeight = 0.dp,
         sheetContent = {
             BottomSheetTutorialDesign(numberStep = numberStep) {
-                scope.launch {
+                /*scope.launch {
                     scaffoldState.bottomSheetState.collapse()
                     if(numberStep < 4){
                         numberStep++
                     }else{
                         Toast.makeText(context, "to home", Toast.LENGTH_SHORT).show()
                     }
-                }
+                }*/
             }
         }
     ) {
@@ -234,11 +234,16 @@ private fun TutorialContentLayout(
                     listTeam = listTeam,
                 ){
                     Log.e("bottomsheet", "click")
-                    scope.launch {
+                    if(numberStep < 4){
+                        numberStep++
+                    }else{
+                        Toast.makeText(context, "to home", Toast.LENGTH_SHORT).show()
+                    }
+                    /*scope.launch {
                         if(scaffoldState.bottomSheetState.isCollapsed){
                             scaffoldState.bottomSheetState.expand()
                         }
-                    }
+                    }*/
                 }
             }
         }
