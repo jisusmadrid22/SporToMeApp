@@ -10,4 +10,16 @@
     <string name="sportTitle">Deporte</string>
     <string name="continueTitle">Continuar</string>
     <string name="finishTitle">Finalizar</string>
+    <string name="closeApp">Cerrar Aplicación</string>
+    <string name="sportSelector">Cambiar deporte</string>
+    <string name="search">Buscador</string>
+    <string name="favorites">Favoritos</string>
+    <string name="todayMatchTitle">Partidos del dia</string>
+    <string name="monday">Lunes</string>
+    <string name="thursday">Jueves</string>
+    <string name="wednesday">Miercoles</string>
+    <string name="tuesday">Martes</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sabado</string>
+    <string name="sunday">Domingo</string>
 </resources>

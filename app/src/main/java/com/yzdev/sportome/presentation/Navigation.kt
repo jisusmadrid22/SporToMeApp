@@ -3,11 +3,11 @@ package com.yzdev.sportome.presentation
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.yzdev.sportome.presentation.screens.home.HomeScreen
 import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
@@ -45,10 +45,10 @@ fun Navigation() {
         composable(
             route = Destination.HOME.screenRoute
         ){
-            //val viewmodel = hiltViewModel<HomeViewModel>()
+            //val viewmodel: HomeViewModel = viewModel()
 
             Box(modifier = Modifier.fillMaxSize()){
-
+                HomeScreen()
             }
         }
     }

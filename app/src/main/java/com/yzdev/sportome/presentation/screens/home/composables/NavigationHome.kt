@@ -1,0 +1,58 @@
+package com.yzdev.sportome.presentation.screens.home.composables
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.yzdev.sportome.presentation.screens.today_match.TodayMatchScreen
+
+@Composable
+fun NavigationHome(
+    navHostController: NavHostController,
+    scaffoldState: ScaffoldState
+) {
+    NavHost(
+        navController = navHostController,
+        startDestination = DestinationHome.TODAY_MATCH.screenRoute
+    ){
+        /** TODAY MATCH INTO HOME SCREEN*/
+        composable(
+            route = DestinationHome.TODAY_MATCH.screenRoute
+        ){
+            //val viewmodel = hiltViewModel<HomeViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                TodayMatchScreen(
+                    scaffoldState = scaffoldState
+                )
+            }
+        }
+
+        /** FAVORITE VIEW INTO HOME SCREEN*/
+        composable(
+            route = DestinationHome.FAVORITES.screenRoute
+        ){
+            //val viewmodel = hiltViewModel<HomeViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                Text(text = "FAVORITES")
+            }
+        }
+
+        /** SEARCH VIEW INTO HOME SCREEN*/
+        composable(
+            route = DestinationHome.SEARCH.screenRoute
+        ){
+            //val viewmodel = hiltViewModel<HomeViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                Text(text = "SEARCH")
+            }
+        }
+    }
+}

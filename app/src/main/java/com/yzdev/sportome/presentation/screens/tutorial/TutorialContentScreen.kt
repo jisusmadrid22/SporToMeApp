@@ -29,6 +29,7 @@ import com.yzdev.sportome.common.composable.listDesign.animationList.ListLeague
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListSports
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListTeam
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
+import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomSheetTutorialDesign
 import com.yzdev.sportome.presentation.screens.tutorial.composables.TextFieldTutorial
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
@@ -237,7 +238,9 @@ private fun TutorialContentLayout(
                     if(numberStep < 4){
                         numberStep++
                     }else{
-                        Toast.makeText(context, "to home", Toast.LENGTH_SHORT).show()
+                        navHostController.navigate(route = Destination.HOME.screenRoute){
+                            popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+                        }
                     }
                     /*scope.launch {
                         if(scaffoldState.bottomSheetState.isCollapsed){
