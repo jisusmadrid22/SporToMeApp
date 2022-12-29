@@ -1,5 +1,8 @@
 package com.yzdev.sportome.presentation.screens.home.composables
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -17,33 +20,40 @@ import com.yzdev.sportome.presentation.Destination
 @Composable
 fun BottomAppDesign(
     navHostController: NavHostController,
-    listItems: List<DestinationHome>
+    listItems: List<DestinationHome>,
+    bottomAppBarState: Boolean
 ) {
     val currentPage = getCurrentPage(navHostController = navHostController)
 
-    BottomNavigation(
-        backgroundColor = Color.White,
-        elevation = 0.dp
+    AnimatedVisibility(
+        visible = bottomAppBarState,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        listItems.forEach {item->
-            BottomNavigationItem(
-                selected = currentPage == item.screenRoute,
-                onClick = {
-                    navHostController.navigate(item.screenRoute){
-                        popUpTo(navHostController.graph.findStartDestination().id){
-                            saveState = true
-                        }
+        BottomNavigation(
+            backgroundColor = Color.White,
+            elevation = 0.dp
+        ) {
+            listItems.forEach {item->
+                BottomNavigationItem(
+                    selected = currentPage == item.screenRoute,
+                    onClick = {
+                        navHostController.navigate(item.screenRoute){
+                            popUpTo(navHostController.graph.findStartDestination().id){
+                                saveState = true
+                            }
 
-                        launchSingleTop = true
-                    }
-                },
-                icon = {
-                    Icon(imageVector = ImageVector.vectorResource(id = item.iconRes), contentDescription = item.title)
-                },
-                alwaysShowLabel = false,
-                selectedContentColor = MaterialTheme.colors.primary,
-                unselectedContentColor = Color.Black.copy(alpha = 0.5f),
-            )
+                            launchSingleTop = true
+                        }
+                    },
+                    icon = {
+                        Icon(imageVector = ImageVector.vectorResource(id = item.iconRes), contentDescription = item.title)
+                    },
+                    alwaysShowLabel = false,
+                    selectedContentColor = MaterialTheme.colors.primary,
+                    unselectedContentColor = Color.Black.copy(alpha = 0.5f),
+                )
+            }
         }
     }
 }

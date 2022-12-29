@@ -166,7 +166,8 @@ fun getTeamMatch(): List<TeamMatch>{
                     goal = 3
                 )
             ),
-            time = "56:25"
+            time = "56:25",
+            dateTime = "09:00 Am"
         ),
         TeamMatch(
             stadium = "Nombre estadio",
@@ -182,7 +183,8 @@ fun getTeamMatch(): List<TeamMatch>{
                     goal = 0
                 )
             ),
-            time = "90:00+4"
+            time = "90:00 +4",
+            dateTime = "03:00 Pm"
         ),
         TeamMatch(
             stadium = "Nombre estadio",
@@ -198,7 +200,25 @@ fun getTeamMatch(): List<TeamMatch>{
                     goal = 0
                 )
             ),
-            time = "32:00"
+            time = "32:00",
+            dateTime = "04:00 Pm"
+        ),
+        TeamMatch(
+            stadium = "Nombre estadio",
+            teams = listOf(
+                TeamInfo(
+                    nameTeam = "Team 1",
+                    typeTeam = "Alfitrion",
+                    goal = 1
+                ),
+                TeamInfo(
+                    nameTeam = "Team 2",
+                    typeTeam = "Invitado",
+                    goal = 0
+                )
+            ),
+            time = "32:00",
+            dateTime = "12:00 Pm"
         )
     )
 }
@@ -206,11 +226,40 @@ fun getTeamMatch(): List<TeamMatch>{
 data class TeamMatch(
     val stadium: String,
     val teams: List<TeamInfo>,
-    val time: String
+    val time: String,
+    val dateTime: String
 )
 
 data class TeamInfo(
     val nameTeam: String,
     val typeTeam: String,
     val goal: Int
+)
+
+/** competition list*/
+
+fun getListCompetition(): List<Competition>{
+    return listOf(
+        Competition(
+            name = "Competicion 1",
+            matches = getTeamMatch()
+        ),
+        Competition(
+            name = "Competicion 2",
+            matches = getTeamMatch()
+        ),
+        Competition(
+            name = "Competicion 3",
+            matches = getTeamMatch()
+        ),
+        Competition(
+            name = "Competicion 4",
+            matches = getTeamMatch()
+        )
+    )
+}
+
+data class Competition(
+    val name: String,
+    val matches: List<TeamMatch>
 )

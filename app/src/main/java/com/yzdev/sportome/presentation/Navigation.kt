@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.yzdev.sportome.presentation.screens.home.HomeScreen
+import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
@@ -17,7 +18,7 @@ fun Navigation() {
 
     NavHost(
         navController = navigation,
-        startDestination = Destination.TUTORIAL.screenRoute
+        startDestination = Destination.HOME.screenRoute
     ){
         /** ON BOARDING SCREEN*/
         composable(
@@ -45,10 +46,12 @@ fun Navigation() {
         composable(
             route = Destination.HOME.screenRoute
         ){
-            //val viewmodel: HomeViewModel = viewModel()
+            val viewModel: HomeViewModel = viewModel()
 
             Box(modifier = Modifier.fillMaxSize()){
-                HomeScreen()
+                HomeScreen(
+                    viewModel = viewModel
+                )
             }
         }
     }

@@ -9,12 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.today_match.TodayMatchScreen
 
 @Composable
 fun NavigationHome(
     navHostController: NavHostController,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    homeViewModel: HomeViewModel
 ) {
     NavHost(
         navController = navHostController,
@@ -28,7 +30,8 @@ fun NavigationHome(
 
             Box(modifier = Modifier.fillMaxSize()){
                 TodayMatchScreen(
-                    scaffoldState = scaffoldState
+                    scaffoldState = scaffoldState,
+                    homeViewModel = homeViewModel
                 )
             }
         }
