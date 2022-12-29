@@ -263,3 +263,125 @@ data class Competition(
     val name: String,
     val matches: List<TeamMatch>
 )
+
+fun getAllLeaguesFavorites(): List<League>{
+    return listOf(
+        League(
+            id = 0,
+            name = "Liga 1",
+            idCountry = 0,
+            teams = listOf(
+                Team(
+                    id = 0,
+                    name = "Real Madrid"
+                ),
+                Team(
+                    id = 1,
+                    name = "Barcelona"
+                ),
+                Team(
+                    id = 2,
+                    name = "Atletico de Madrid"
+                ),
+                Team(
+                    id = 3,
+                    name = "Osasuna"
+                )
+            )
+        ),
+        League(
+            id = 1,
+            name = "Liga 2",
+            idCountry = 1,
+            teams = listOf(
+                Team(
+                    id = 4,
+                    name = "Deportivo Táchira FC"
+                ),
+                Team(
+                    id = 5,
+                    name = "Academia Puerto Cabello"
+                ),
+                Team(
+                    id = 6,
+                    name = "Portuguesa FC"
+                ),
+                Team(
+                    id = 7,
+                    name = "AC Lara"
+                )
+            )
+        ),
+        League(
+            id = 1,
+            name = "Copa 1",
+            idCountry = 1,
+            teams = listOf(
+                Team(
+                    id = 4,
+                    name = "Deportivo Táchira FC"
+                ),
+                Team(
+                    id = 5,
+                    name = "Academia Puerto Cabello"
+                ),
+                Team(
+                    id = 6,
+                    name = "Portuguesa FC"
+                ),
+                Team(
+                    id = 7,
+                    name = "AC Lara"
+                )
+            )
+        ),
+        League(
+            id = 1,
+            name = "Copa 2",
+            idCountry = 1,
+            teams = listOf(
+                Team(
+                    id = 4,
+                    name = "Deportivo Táchira FC"
+                ),
+                Team(
+                    id = 5,
+                    name = "Academia Puerto Cabello"
+                ),
+                Team(
+                    id = 6,
+                    name = "Portuguesa FC"
+                ),
+                Team(
+                    id = 7,
+                    name = "AC Lara"
+                )
+            )
+        )
+    )
+}
+
+fun getAllTeamsFavorites(): List<Team>{
+    return listOf(
+        Team(
+            id = 0,
+            name = "Team 1"
+        ),
+        Team(
+            id = 0,
+            name = "Team 2"
+        ),
+        Team(
+            id = 0,
+            name = "Team 3"
+        ),
+        Team(
+            id = 0,
+            name = "Team 4"
+        ),
+        Team(
+            id = 0,
+            name = "Team 5"
+        )
+    )
+}

@@ -20,7 +20,6 @@ import com.yzdev.sportome.common.getLeaguesByCountry
 
 @Composable
 fun ListLeague(
-    countryId: Int,
     listLeague: List<League>,
     clickItem: (League)-> Unit
 ) {

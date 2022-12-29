@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.yzdev.sportome.presentation.screens.favorites.FavoriteScreen
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.today_match.TodayMatchScreen
 
@@ -43,7 +44,7 @@ fun NavigationHome(
             //val viewmodel = hiltViewModel<HomeViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                Text(text = "FAVORITES")
+                FavoriteScreen(navHostController = navHostController, scaffoldState = scaffoldState)
             }
         }
 

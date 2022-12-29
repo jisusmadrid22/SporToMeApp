@@ -301,7 +301,6 @@ private fun AnimationList(
                 }
                 3-> countrySelected?.let {
                     ListLeague(
-                        countryId = it.id,
                         listLeague = listLeague
                     ){league->
                         viewModel.changeLeague(league)

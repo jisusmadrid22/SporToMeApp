@@ -48,6 +48,7 @@ fun ItemTutorialDesign(
         modifier = modifierCustom,
         backgroundColor = Color.White,
         shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp,
         onClick = {
             clickItem(item)
         }
@@ -99,6 +100,7 @@ fun ItemTutorialDesign(
         modifier = modifierCustom,
         backgroundColor = Color.White,
         shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp,
         onClick = {
             clickItem(item)
         }
@@ -150,6 +152,7 @@ fun ItemTutorialDesign(
         modifier = modifierCustom,
         backgroundColor = Color.White,
         shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp,
         onClick = {
             clickItem(item)
         }
@@ -201,6 +204,7 @@ fun ItemTutorialDesign(
         modifier = modifierCustom,
         backgroundColor = Color.White,
         shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp,
         onClick = {
             clickItem(item)
         }
