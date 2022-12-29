@@ -19,20 +19,24 @@ fun CalendarWeek(
             .fillMaxWidth()
             .background(Color.White), contentAlignment = Alignment.Center
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            days.forEachIndexed { index, i ->
-                DayWeekDesign(
-                    nameDay = getNameDayWeek(index).take(3),
-                    dayNumber = i,
-                    isSelected = i == currentDay
-                )
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                days.forEachIndexed { index, i ->
+                    DayWeekDesign(
+                        nameDay = getNameDayWeek(index).take(3),
+                        dayNumber = i,
+                        isSelected = i == currentDay
+                    )
+                }
             }
+
+            Spacer(modifier = Modifier.padding(top = 4.dp))
         }
     }
 }

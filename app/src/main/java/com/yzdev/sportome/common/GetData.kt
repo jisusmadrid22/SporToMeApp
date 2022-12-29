@@ -147,3 +147,70 @@ data class Team(
     val id: Int,
     val name: String
 )
+
+/** match*/
+
+fun getTeamMatch(): List<TeamMatch>{
+    return listOf(
+        TeamMatch(
+            stadium = "Nombre estadio",
+            teams = listOf(
+                TeamInfo(
+                    nameTeam = "Team 1",
+                    typeTeam = "Alfitrion",
+                    goal = 1
+                ),
+                TeamInfo(
+                    nameTeam = "Team 2",
+                    typeTeam = "Invitado",
+                    goal = 3
+                )
+            ),
+            time = "56:25"
+        ),
+        TeamMatch(
+            stadium = "Nombre estadio",
+            teams = listOf(
+                TeamInfo(
+                    nameTeam = "Team 1",
+                    typeTeam = "Alfitrion",
+                    goal = 0
+                ),
+                TeamInfo(
+                    nameTeam = "Team 2",
+                    typeTeam = "Invitado",
+                    goal = 0
+                )
+            ),
+            time = "90:00+4"
+        ),
+        TeamMatch(
+            stadium = "Nombre estadio",
+            teams = listOf(
+                TeamInfo(
+                    nameTeam = "Team 1",
+                    typeTeam = "Alfitrion",
+                    goal = 1
+                ),
+                TeamInfo(
+                    nameTeam = "Team 2",
+                    typeTeam = "Invitado",
+                    goal = 0
+                )
+            ),
+            time = "32:00"
+        )
+    )
+}
+
+data class TeamMatch(
+    val stadium: String,
+    val teams: List<TeamInfo>,
+    val time: String
+)
+
+data class TeamInfo(
+    val nameTeam: String,
+    val typeTeam: String,
+    val goal: Int
+)
