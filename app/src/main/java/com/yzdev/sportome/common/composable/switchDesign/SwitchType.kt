@@ -18,6 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yzdev.sportome.R
+import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 
 @Composable
@@ -42,7 +44,7 @@ fun SwitchType(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             CardSwitch(
-                text = "Competiciones",
+                text = AppResource.getString(R.string.competition),
                 isSelected = !isSelected,
                 widthPercent = 0.5f,
                 onClick = {
@@ -51,7 +53,7 @@ fun SwitchType(
             )
 
             CardSwitch(
-                text = "Equipos",
+                text = AppResource.getString(R.string.team),
                 isSelected = isSelected,
                 widthPercent = 1f,
                 onClick = {

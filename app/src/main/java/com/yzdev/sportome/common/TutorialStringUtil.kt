@@ -1,13 +1,15 @@
 package com.yzdev.sportome.common
 
+import com.yzdev.sportome.R
+
 fun titleTutorialByStep(
     numberStep: Int
 ): String{
     return when(numberStep){
-        1-> "$numberStep. Deporte favorito"
-        2-> "$numberStep. Pais de tu equipo favorito"
-        3-> "$numberStep. Competicion de tu equipo favorito"
-        4-> "$numberStep. Equipo favorito"
+        1-> "$numberStep. ${AppResource.getString(R.string.sportFavorite)}"
+        2-> "$numberStep. ${AppResource.getString(R.string.countryFavorite)}"
+        3-> "$numberStep. ${AppResource.getString(R.string.competitionFavorite)}"
+        4-> "$numberStep. ${AppResource.getString(R.string.teamFavorite)}"
         else -> ""
     }
 }
@@ -16,10 +18,10 @@ fun labelTextFieldByStep(
     numberStep: Int
 ): String{
     return when(numberStep){
-        1-> "Buscar deporte"
-        2-> "Buscar pais"
-        3-> "Buscar competicion"
-        4-> "Buscar equipo"
+        1-> AppResource.getString(R.string.searchSport)
+        2-> AppResource.getString(R.string.searchCountry)
+        3-> AppResource.getString(R.string.searchCompetition)
+        4-> AppResource.getString(R.string.searchTeam)
         else -> ""
     }
 }

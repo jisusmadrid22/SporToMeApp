@@ -78,12 +78,13 @@ fun CompetitionItemDesign(
                     )
                     .background(Color.Transparent)
             ) {
+
                 Text(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                     text = item.time,
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 6.sp,
+                        fontSize = 8.sp,
                         fontFamily = QuickSandFont,
                         color = greenSuccess
                     ),

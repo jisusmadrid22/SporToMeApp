@@ -24,4 +24,15 @@
     <string name="sunday">Domingo</string>
     <string name="match_favorites">Partidos favoritos</string>
     <string name="showMore">Ver mas</string>
+    <string name="competition">Competición</string>
+    <string name="team">Equipo</string>
+    <string name="searchSport">Buscar deporte</string>
+    <string name="searchCountry">Buscar pais</string>
+    <string name="searchCompetition">Buscar competicion</string>
+    <string name="searchTeam">Buscar equipo</string>
+    <string name="sportFavorite">Deporte favorito</string>
+    <string name="countryFavorite">Pais de tu equipo favorito</string>
+    <string name="competitionFavorite">Competicion de tu equipo favorito</string>
+    <string name="teamFavorite">Equipo favorito</string>
+    <string name="searcher">Buscador</string>
 </resources>

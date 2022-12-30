@@ -64,7 +64,7 @@ fun CompetitionList(
                 text = AppResource.getString(R.string.showMore),
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
-                    fontSize = 8.sp,
+                    fontSize = 10.sp,
                     fontFamily = QuickSandFont,
                     color = Color.Black.copy(alpha = 0.5f)
                 ),

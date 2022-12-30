@@ -100,7 +100,7 @@ fun FavoriteMatchDesign(
                             text = item.time,
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 6.sp,
+                                fontSize = 8.sp,
                                 fontFamily = QuickSandFont,
                                 color = greenSuccess
                             ),
