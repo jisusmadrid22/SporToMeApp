@@ -1,8 +1,10 @@
 package com.yzdev.sportome.common
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.annotation.ArrayRes
 import androidx.annotation.BoolRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import com.yzdev.sportome.App
@@ -16,6 +18,10 @@ object AppResource {
 
     fun getBoolean(@BoolRes boolRes: Int): Boolean {
         return App.instance.resources.getBoolean(boolRes)
+    }
+
+    fun getDrawable(@DrawableRes res: Int): Drawable{
+        return App.instance.resources.getDrawable(res)
     }
 
     fun getInt(@IntegerRes intRes: Int): Int {

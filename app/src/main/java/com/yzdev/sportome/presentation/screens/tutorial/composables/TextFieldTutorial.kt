@@ -33,7 +33,7 @@ fun TextFieldTutorial(
             fontSize = 14.sp,
             fontFamily = QuickSandFont
         ),
-        label = {
+        placeholder = {
             Text(
                 text = labelTextFieldByStep(numberStep),
                 style = TextStyle(
