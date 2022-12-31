@@ -1,15 +1,48 @@
 package com.yzdev.sportome.presentation.screens.tutorial
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.yzdev.sportome.common.*
+import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class TutorialViewModel: ViewModel() {
+@HiltViewModel
+class TutorialViewModel @Inject constructor(
+    private val getAllCountriesUseCase: GetAllCountriesUseCase
+) : ViewModel() {
+
+    private val _stateListCountry = mutableStateOf(CountryState())
+    val stateListCountry: State<CountryState> = _stateListCountry
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.e("countries", "init")
+            getAllCountriesUseCase().onEach { result->
+                when(result){
+                    is Resource.Error -> {
+                        _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
+                    }
+                    is Resource.Loading -> {
+                        _stateListCountry.value = CountryState(isLoading = true)
+                    }
+                    is Resource.Success -> {
+                        _stateListCountry.value = CountryState(info = result.data)
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
 
     /** query state*/
     val querySport = mutableStateOf("")

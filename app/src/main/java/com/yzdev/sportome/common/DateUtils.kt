@@ -46,3 +46,13 @@ fun getCurrentDay(): Int {
 
     return cal[Calendar.DAY_OF_MONTH]
 }
+
+fun getHourDifference(timeDifference: Long): Int{
+    var time = timeDifference
+    val hours = time / 3600
+    time %= 3600
+    val minutes = time / 60
+    time %= 60
+    val seconds = time
+    return hours.toInt()
+}

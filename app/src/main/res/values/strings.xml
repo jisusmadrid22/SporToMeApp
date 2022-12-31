@@ -35,4 +35,6 @@
     <string name="competitionFavorite">Competicion de tu equipo favorito</string>
     <string name="teamFavorite">Equipo favorito</string>
     <string name="searcher">Buscador</string>
+    <string name="erroGeneric">An unexpected error occurred</string>
+    <string name="apiServerError">Couldn\'t reach server. Check your internet connection</string>
 </resources>

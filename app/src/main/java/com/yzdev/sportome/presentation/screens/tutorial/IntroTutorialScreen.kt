@@ -31,6 +31,20 @@ fun IntroTutorialScreen(
         mutableStateOf(false)
     }
 
+    val listCountries = viewmodel.stateListCountry.value
+
+    when{
+        listCountries.isLoading -> {
+            Log.e("countries", "is Loading")
+        }
+        listCountries.error.isNotEmpty() -> {
+            Log.e("countries", "error ${listCountries.error}")
+        }
+        else -> {
+            Log.e("countries", "success -> ${listCountries.info}")
+        }
+    }
+
     if(!goToTutorialContent){
         IntroTutorialLayout(
             goToTutorialContentOnChange = {
