@@ -8,7 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yzdev.sportome.common.*
+import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.CompetitionUseCaseFormat
+import com.yzdev.sportome.domain.use_case.getAllCompetitionQueryRemote.GetAllCompetitionQueryRemoteUseCase
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,11 +23,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TutorialViewModel @Inject constructor(
-    private val getAllCountriesUseCase: GetAllCountriesUseCase
+    private val getAllCountriesUseCase: GetAllCountriesUseCase,
+    private val getAllCompetitionQueryRemoteUseCase: GetAllCompetitionQueryRemoteUseCase,
+    private val competitionUseCase: CompetitionUseCaseFormat
 ) : ViewModel() {
 
     private val _stateListCountry = mutableStateOf(CountryState())
     val stateListCountry: State<CountryState> = _stateListCountry
+
+    private val _stateListCompetition = mutableStateOf(CompetitionState())
+    val stateListCompetition: State<CompetitionState> = _stateListCompetition
 
     /** repo functions*/
     suspend fun getAllCountries(){
@@ -46,6 +54,35 @@ class TutorialViewModel @Inject constructor(
         }
     }
 
+    suspend fun getCompetitionRemote(){
+        Log.e("competition", "init competition ${countrySelected.value}")
+        countrySelected.value?.code?.let {
+            getAllCompetitionQueryRemoteUseCase(countryCode = it).onEach { result->
+                when(result){
+                    is Resource.Error -> {
+                        _stateListCompetition.value = CompetitionState(error = result.message ?: "An unexpected error occurred")
+                    }
+                    is Resource.Loading -> {
+                        _stateListCompetition.value = CompetitionState(isLoading = true)
+                    }
+                    is Resource.Success -> {
+                        _stateListCompetition.value = CompetitionState(info = result.data)
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    suspend fun insertFavoriteCompetition(localCompetition: LocalCompetition){
+        try {
+            competitionUseCase.insertFavoriteCompetition(
+                localCompetition = localCompetition
+            )
+        } catch(e: InvalidException) {
+            Log.e("Invalid Exception", "Error -> $e")
+        }
+    }
+
     /** query state*/
     val querySport = mutableStateOf("")
 
@@ -64,8 +101,8 @@ class TutorialViewModel @Inject constructor(
     private val _countrySelected: MutableState<LocalCountry?> = mutableStateOf(null)
     val countrySelected: State<LocalCountry?> = _countrySelected
 
-    private val _leagueSelected: MutableState<League?> = mutableStateOf(null)
-    val leagueSelected: State<League?> = _leagueSelected
+    private val _leagueSelected: MutableState<LocalCompetition?> = mutableStateOf(null)
+    val leagueSelected: State<LocalCompetition?> = _leagueSelected
 
     private val _teamSelected: MutableState<Team?> = mutableStateOf(null)
     val teamSelected: State<Team?> = _teamSelected
@@ -106,7 +143,7 @@ class TutorialViewModel @Inject constructor(
         _countrySelected.value = item
     }
 
-    fun changeLeague(item: League?){
+    fun changeLeague(item: LocalCompetition?){
         _leagueSelected.value = item
     }
 

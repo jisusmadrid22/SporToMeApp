@@ -25,6 +25,7 @@ import com.yzdev.sportome.common.League
 import com.yzdev.sportome.common.Sport
 import com.yzdev.sportome.common.Team
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
+import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
@@ -139,9 +140,9 @@ fun ItemTutorialDesign(
 
 @Composable
 fun ItemTutorialDesign(
-    item: League,
+    item: LocalCompetition,
     index: Int,
-    clickItem: (League)-> Unit
+    clickItem: (LocalCompetition)-> Unit
 ) {
 
     val modifierCustom = if ((index % 2) == 0){

@@ -1,14 +1,15 @@
 package com.yzdev.sportome.domain.repository
 
+import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
 import kotlinx.coroutines.flow.Flow
 
 interface AppRepository {
 
     //---------------------------------- API ----------------------------------------------
-    /** Get all countries from api
-     * */
-    //suspend fun getAllCountriesRemote():
+    /** get all competition from api by country code and current season*/
+    suspend fun getAllCompetitionRemoteQuery(countryCode: String): CompetitionDtoResponse
 
     //-------------------------------------------------------------------------------------
 
@@ -16,6 +17,19 @@ interface AppRepository {
 
     /** get all countries from db*/
     suspend fun getAllLocalCountries(): List<LocalCountry>
+
+    /*** COMPETITIONS *******************************************************************/
+    /** get all local favorite competition from db*/
+    suspend fun getAllLocalFavoriteCompetition(): Flow<List<LocalCompetition>>
+
+    /** get local favorite competition from db by id*/
+    suspend fun getLocalFavoriteCompetition(id: Int): LocalCompetition
+
+    /** insert favorite competition*/
+    suspend fun insertFavoriteCompetition(localCompetition: LocalCompetition)
+
+    /** delete favorite competition*/
+    suspend fun deleteFavoriteCompetition(favoriteCompetition: LocalCompetition)
 
     //-------------------------------------------------------------------------------------
 

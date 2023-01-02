@@ -9,6 +9,11 @@ import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.InterceptorClient
 import com.yzdev.sportome.data.repository.AppRepositoryImp
 import com.yzdev.sportome.domain.repository.AppRepository
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.CompetitionUseCaseFormat
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.deleteFavoriteCompetition.DeleteFavoriteCompetitionUseCase
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.getAllFavoriteCompetition.GetAllLocalFavoriteCompetitionUseCase
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.getLocalFavoriteCompetitionById.GetFavoriteCompetitionUseCase
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.insertFavoriteCompetition.InsertFavoriteCompetitionUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,6 +67,18 @@ object AppModule {
         return AppRepositoryImp(
             dao = appDb.appDao,
             api = api
+        )
+    }
+
+    //USES CASES FORMAT
+    @Provides
+    @Singleton
+    fun provideCompetitionUseCases(repository: AppRepository): CompetitionUseCaseFormat {
+        return CompetitionUseCaseFormat(
+            insertFavoriteCompetition = InsertFavoriteCompetitionUseCase(repository),
+            getAllLocalFavoriteCompetitionUseCase = GetAllLocalFavoriteCompetitionUseCase(repository),
+            getFavoriteCompetitionUseCase = GetFavoriteCompetitionUseCase(repository),
+            deleteFavoriteCompetitionUseCase = DeleteFavoriteCompetitionUseCase(repository)
         )
     }
 

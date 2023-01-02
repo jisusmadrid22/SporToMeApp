@@ -28,6 +28,7 @@ import com.yzdev.sportome.common.composable.listDesign.animationList.ListLeague
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListSports
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListTeam
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
+import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomSheetTutorialDesign
@@ -206,8 +207,6 @@ private fun TutorialContentLayout(
                 Spacer(modifier = Modifier.padding(top = 4.dp))
 
                 /** Animation list*/
-
-                /** Animation list*/
                 AnimationList(
                     numberStep = numberStep,
                     viewModel = viewModel,
@@ -224,7 +223,10 @@ private fun TutorialContentLayout(
                             }
                         }
                         2->{
-                            numberStep++
+                            scope.launch {
+                                viewModel.getCompetitionRemote()
+                                numberStep++
+                            }
                         }
                         3->{
                             numberStep++
@@ -251,12 +253,13 @@ private fun AnimationList(
     viewModel: TutorialViewModel,
     sportSelected: Sport?,
     countrySelected: LocalCountry?,
-    leagueSelected: League?,
+    leagueSelected: LocalCompetition?,
     numberStep: Int,
     numberStepOnChange: ()-> Unit
 ) {
 
     val listCountries = viewModel.stateListCountry.value
+    val listCompetition = viewModel.stateListCompetition.value
 
     AnimatedContent(
         targetState = numberStep,
@@ -294,7 +297,7 @@ private fun AnimationList(
                 }
                 3-> countrySelected?.let {
                     ListLeague(
-                        listLeague = getAllLeagues()
+                        listLeague = listCompetition
                     ){league->
                         viewModel.changeLeague(league)
                         viewModel.clearQuery(numberStep)

@@ -20,6 +20,7 @@ import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
 import com.yzdev.sportome.common.getAllLeaguesFavorites
 import com.yzdev.sportome.common.getAllTeamsFavorites
 import com.yzdev.sportome.presentation.screens.searcher.composable.SearcherField
+import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -83,7 +84,7 @@ private fun SearcherLayout(
             if (!isSelected.value){
                 /** show list competition*/
                 ListLeague(
-                    listLeague = getAllLeaguesFavorites(),
+                    listLeague = CompetitionState(),
                     clickItem = {
 
                     }

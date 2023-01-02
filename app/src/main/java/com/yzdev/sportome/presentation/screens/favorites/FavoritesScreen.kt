@@ -20,6 +20,7 @@ import com.yzdev.sportome.common.composable.switchDesign.SwitchTypeWithContainer
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
 import com.yzdev.sportome.common.getAllLeaguesFavorites
 import com.yzdev.sportome.common.getAllTeamsFavorites
+import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -72,7 +73,7 @@ private fun FavoriteLayout(
             if (!isSelected.value){
                 /** show list competition*/
                 ListLeague(
-                    listLeague = getAllLeaguesFavorites(),
+                    listLeague = CompetitionState(),
                     clickItem = {
 
                     }
