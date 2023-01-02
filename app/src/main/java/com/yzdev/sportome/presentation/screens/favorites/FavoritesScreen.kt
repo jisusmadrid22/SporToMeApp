@@ -21,6 +21,7 @@ import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
 import com.yzdev.sportome.common.getAllLeaguesFavorites
 import com.yzdev.sportome.common.getAllTeamsFavorites
 import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
+import com.yzdev.sportome.presentation.screens.tutorial.TeamState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -81,7 +82,7 @@ private fun FavoriteLayout(
             }else{
                 /** show list teams*/
                 ListTeam(
-                    teamList = getAllTeamsFavorites(),
+                    teamList = TeamState(),
                     clickItem = {
 
                     }

@@ -14,6 +14,11 @@ import com.yzdev.sportome.domain.use_case.favoriteCompetition.deleteFavoriteComp
 import com.yzdev.sportome.domain.use_case.favoriteCompetition.getAllFavoriteCompetition.GetAllLocalFavoriteCompetitionUseCase
 import com.yzdev.sportome.domain.use_case.favoriteCompetition.getLocalFavoriteCompetitionById.GetFavoriteCompetitionUseCase
 import com.yzdev.sportome.domain.use_case.favoriteCompetition.insertFavoriteCompetition.InsertFavoriteCompetitionUseCase
+import com.yzdev.sportome.domain.use_case.favoriteTeam.TeamUseCaseFormat
+import com.yzdev.sportome.domain.use_case.favoriteTeam.deleteFavoriteTeam.DeleteFavoriteTeamUseCase
+import com.yzdev.sportome.domain.use_case.favoriteTeam.getAllFavoriteTeam.GetAllLocalFavoriteTeamUseCase
+import com.yzdev.sportome.domain.use_case.favoriteTeam.getLocalFavoriteTeamById.GetFavoriteTeamUseCase
+import com.yzdev.sportome.domain.use_case.favoriteTeam.insertFavoriteTeam.InsertFavoriteTeamUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -79,6 +84,17 @@ object AppModule {
             getAllLocalFavoriteCompetitionUseCase = GetAllLocalFavoriteCompetitionUseCase(repository),
             getFavoriteCompetitionUseCase = GetFavoriteCompetitionUseCase(repository),
             deleteFavoriteCompetitionUseCase = DeleteFavoriteCompetitionUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideTeamUseCases(repository: AppRepository): TeamUseCaseFormat {
+        return TeamUseCaseFormat(
+            insertFavoriteTeamUseCase = InsertFavoriteTeamUseCase(repository),
+            getAllLocalFavoriteTeamUseCase = GetAllLocalFavoriteTeamUseCase(repository),
+            getFavoriteTeamUseCase = GetFavoriteTeamUseCase(repository),
+            deleteFavoriteTeamUseCase = DeleteFavoriteTeamUseCase(repository)
         )
     }
 

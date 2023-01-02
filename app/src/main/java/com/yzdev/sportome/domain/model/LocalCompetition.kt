@@ -13,7 +13,8 @@ data class LocalCompetition(
     val type: String,
     val countryCode: String?,
     val countryFlag: String?,
-    val countryName: String
+    val countryName: String,
+    val yearSeason: Int
 )
 
 fun CompetitionDtoResponse.toListLocalCompetition(): List<LocalCompetition>{
@@ -25,7 +26,8 @@ fun CompetitionDtoResponse.toListLocalCompetition(): List<LocalCompetition>{
             type = it.league.type,
             countryCode = it.country.code,
             countryFlag = it.country.flag,
-            countryName = it.country.name
+            countryName = it.country.name,
+            yearSeason = it.seasons.first().year
         )
     }
 }

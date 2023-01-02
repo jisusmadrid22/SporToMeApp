@@ -9,10 +9,13 @@ import androidx.lifecycle.viewModelScope
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
+import com.yzdev.sportome.domain.model.LocalTeam
 import com.yzdev.sportome.domain.use_case.favoriteCompetition.CompetitionUseCaseFormat
+import com.yzdev.sportome.domain.use_case.favoriteTeam.TeamUseCaseFormat
 import com.yzdev.sportome.domain.use_case.getAllCompetitionQueryRemote.GetAllCompetitionQueryRemoteUseCase
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
 import com.yzdev.sportome.domain.use_case.getAllSeasonsYear.GetAllSeasonsYearUseCase
+import com.yzdev.sportome.domain.use_case.getAllTeamsQueryRemote.GetAllTeamsQueryRemoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -25,7 +28,9 @@ class TutorialViewModel @Inject constructor(
     private val getAllCountriesUseCase: GetAllCountriesUseCase,
     private val getAllCompetitionQueryRemoteUseCase: GetAllCompetitionQueryRemoteUseCase,
     private val competitionUseCase: CompetitionUseCaseFormat,
-    private val getAllSeasonsYearUseCase: GetAllSeasonsYearUseCase
+    private val getAllSeasonsYearUseCase: GetAllSeasonsYearUseCase,
+    private val teamUseCase: TeamUseCaseFormat,
+    private val getAllTeamsQueryRemoteUseCase: GetAllTeamsQueryRemoteUseCase
 ) : ViewModel() {
 
     private val _stateListCountry = mutableStateOf(CountryState())
@@ -33,6 +38,9 @@ class TutorialViewModel @Inject constructor(
 
     private val _stateListCompetition = mutableStateOf(CompetitionState())
     val stateListCompetition: State<CompetitionState> = _stateListCompetition
+
+    private val _stateListTeam = mutableStateOf(TeamState())
+    val stateListTeam: State<TeamState> = _stateListTeam
 
     init {
         viewModelScope.launch {
@@ -90,6 +98,54 @@ class TutorialViewModel @Inject constructor(
         }
     }
 
+    /** get all teams from api*/
+    suspend fun getAllTeamsRemote(){
+        Log.e("team", "init team ${leagueSelected.value}")
+        leagueSelected.value?.let {
+            getAllTeamsQueryRemoteUseCase(leagueId = it.idApi, yearSeason = it.yearSeason).onEach { result->
+                when(result){
+                    is Resource.Error -> {
+                        _stateListTeam.value = TeamState(error = result.message ?: "An unexpected error occurred")
+                    }
+                    is Resource.Loading -> {
+                        _stateListTeam.value = TeamState(isLoading = true)
+                    }
+                    is Resource.Success -> {
+                        _stateListTeam.value = TeamState(info = result.data)
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    /** insert favorite competition*/
+    suspend fun insertFavoriteTeam(localTeam: LocalTeam){
+        try {
+            teamUseCase.insertFavoriteTeamUseCase(
+                localTeam = localTeam
+            )
+        } catch(e: InvalidException) {
+            Log.e("Invalid Exception", "Error -> $e")
+        }
+    }
+
+    /** save data tutorial into db*/
+    suspend fun saveDataTutorial(){
+        //save league favorite
+        leagueSelected.value?.let {
+            competitionUseCase.insertFavoriteCompetition(
+                localCompetition = it
+            )
+        }
+
+        //league team favorite
+        teamSelected.value?.let {
+            teamUseCase.insertFavoriteTeamUseCase(
+                localTeam = it
+            )
+        }
+    }
+
     /** get all seasons year from api or db*/
     private suspend fun getAllSeasonsYear(){
         Log.e("countries", "init")
@@ -130,8 +186,8 @@ class TutorialViewModel @Inject constructor(
     private val _leagueSelected: MutableState<LocalCompetition?> = mutableStateOf(null)
     val leagueSelected: State<LocalCompetition?> = _leagueSelected
 
-    private val _teamSelected: MutableState<Team?> = mutableStateOf(null)
-    val teamSelected: State<Team?> = _teamSelected
+    private val _teamSelected: MutableState<LocalTeam?> = mutableStateOf(null)
+    val teamSelected: State<LocalTeam?> = _teamSelected
 
     /************************************************/
 
@@ -173,7 +229,7 @@ class TutorialViewModel @Inject constructor(
         _leagueSelected.value = item
     }
 
-    fun changeTeam(item: Team?){
+    fun changeTeam(item: LocalTeam?){
         _teamSelected.value = item
     }
 

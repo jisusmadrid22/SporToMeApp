@@ -6,6 +6,7 @@ import com.yzdev.sportome.common.timeToUnix
 import com.yzdev.sportome.data.data_source.AppDao
 import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +25,14 @@ class AppRepositoryImp @Inject constructor(
      * */
     override suspend fun getAllCompetitionRemoteQuery(countryCode: String): CompetitionDtoResponse {
         return api.getAllCurrentLeaguesByCountry(code = countryCode)
+    }
+
+    /** get all teams from api, query for current season and id league
+     * @param leagueId id of league selected
+     * @param yearSeason years season current of league selected
+     * */
+    override suspend fun getAllTeamsRemoteQuery(leagueId: Int, yearSeason: Int): TeamsDtoResponse {
+        return api.getAllTeamByLeagueId(league = leagueId, season = yearSeason)
     }
 
     //-------------------------------------------------------------------------------------
@@ -77,7 +86,7 @@ class AppRepositoryImp @Inject constructor(
     }
 
     /** delete favorite competition from db
-     * @param id id competition saved into db
+     * @param favoriteCompetition competition saved into db
      * */
     override suspend fun deleteFavoriteCompetition(favoriteCompetition: LocalCompetition) {
         return dao.deleteFavoriteCompetition(favoriteCompetition)
@@ -107,6 +116,34 @@ class AppRepositoryImp @Inject constructor(
 
         Log.e("seasons", "hours difference ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
         return seasons
+    }
+
+    /** get all competition from db*/
+    override suspend fun getAllLocalFavoriteTeam(): Flow<List<LocalTeam>> {
+        return dao.getAllLocalTeam().map { team->
+            team.sortedBy { it.name.lowercase() }
+        }
+    }
+
+    /** get query favorite team from db
+     * @param id id team saved into db
+     * */
+    override suspend fun getLocalFavoriteTeam(id: Int): LocalTeam {
+        return dao.getFavoriteTeamById(id)
+    }
+
+    /** insert favorite team into db
+     * @param localTeam team will save into db
+     * */
+    override suspend fun insertFavoriteTeam(localTeam: LocalTeam) {
+        return dao.insertFavoriteTeam(localTeam)
+    }
+
+    /** delete favorite team from db
+     * @param localTeam team saved into db
+     * */
+    override suspend fun deleteFavoriteTeam(localTeam: LocalTeam) {
+        return dao.deleteFavoriteTeam(localTeam)
     }
 
     //-------------------------------------------------------------------------------------

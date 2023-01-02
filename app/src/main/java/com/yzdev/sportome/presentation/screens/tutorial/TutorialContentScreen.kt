@@ -229,11 +229,17 @@ private fun TutorialContentLayout(
                             }
                         }
                         3->{
-                            numberStep++
+                            scope.launch {
+                                viewModel.getAllTeamsRemote()
+                                numberStep++
+                            }
                         }
                         4->{
-                            navHostController.navigate(route = Destination.HOME.screenRoute){
-                                popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+                            scope.launch {
+                                viewModel.saveDataTutorial()
+                                navHostController.navigate(route = Destination.HOME.screenRoute){
+                                    popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+                                }
                             }
                         }
                     }
@@ -260,6 +266,7 @@ private fun AnimationList(
 
     val listCountries = viewModel.stateListCountry.value
     val listCompetition = viewModel.stateListCompetition.value
+    val listTeam = viewModel.stateListTeam.value
 
     AnimatedContent(
         targetState = numberStep,
@@ -306,7 +313,7 @@ private fun AnimationList(
                 }
                 4-> leagueSelected?.let {
                     ListTeam(
-                        teamList = getAllLeagues().first().teams
+                        teamList = listTeam
                     ){team->
                         viewModel.changeTeam(team)
                         numberStepOnChange()

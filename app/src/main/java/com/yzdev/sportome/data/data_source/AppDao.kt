@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.domain.model.LocalSeasons
+import com.yzdev.sportome.domain.model.LocalTeam
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -62,6 +63,25 @@ interface AppDao {
     /** delete season from db*/
     @Delete
     suspend fun deleteSeason(season: LocalSeasons)
+
+    /************************************************************************/
+
+    /** TEAMS*/
+    /** get all favorite team from db*/
+    @Query("SELECT * FROM localteam")
+    fun getAllLocalTeam(): Flow<List<LocalTeam>>
+
+    /** get favorite team from db*/
+    @Query("SELECT * FROM localteam WHERE id = :id")
+    suspend fun getFavoriteTeamById(id: Int): LocalTeam
+
+    /** insert favorite team from db*/
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavoriteTeam(favoriteTeam: LocalTeam)
+
+    /** delete favorite team from db*/
+    @Delete
+    suspend fun deleteFavoriteTeam(favoriteTeam: LocalTeam)
 
     /************************************************************************/
 }

@@ -16,12 +16,29 @@ data class LocalCountry(
 
 /** mapper*/
 fun CountriesDtoResponse.toListLocalCountry(): List<LocalCountry>{
-    return this.response.map {
+    /*return this.response.map {
         LocalCountry(
             timeRequest = timeToUnix(),
             code = it.code,
             flag = it.flag,
             name = it.name
         )
+    }*/
+
+    val listCountries = mutableListOf<LocalCountry>()
+
+    this.response.forEach{
+        if (it.code != null){
+            listCountries.add(
+                LocalCountry(
+                    timeRequest = timeToUnix(),
+                    code = it.code,
+                    flag = it.flag,
+                    name = it.name
+                )
+            )
+        }
     }
+
+    return listCountries
 }

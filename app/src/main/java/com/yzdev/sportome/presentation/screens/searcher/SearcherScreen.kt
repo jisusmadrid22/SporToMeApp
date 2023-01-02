@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
+import com.yzdev.sportome.common.Team
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListLeague
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListTeam
 import com.yzdev.sportome.common.composable.switchDesign.SwitchTypeWithContainer
@@ -21,6 +22,7 @@ import com.yzdev.sportome.common.getAllLeaguesFavorites
 import com.yzdev.sportome.common.getAllTeamsFavorites
 import com.yzdev.sportome.presentation.screens.searcher.composable.SearcherField
 import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
+import com.yzdev.sportome.presentation.screens.tutorial.TeamState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -92,7 +94,7 @@ private fun SearcherLayout(
             }else{
                 /** show list teams*/
                 ListTeam(
-                    teamList = getAllTeamsFavorites(),
+                    teamList = TeamState(),
                     clickItem = {
 
                     }
