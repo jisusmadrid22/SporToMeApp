@@ -224,7 +224,7 @@ private fun TutorialContentLayout(
                         }
                         2->{
                             scope.launch {
-                                viewModel.getCompetitionRemote()
+                                viewModel.getAllCompetitionsRemote()
                                 numberStep++
                             }
                         }

@@ -3,7 +3,6 @@ package com.yzdev.sportome.presentation.screens.tutorial
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,19 +12,20 @@ import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.domain.use_case.favoriteCompetition.CompetitionUseCaseFormat
 import com.yzdev.sportome.domain.use_case.getAllCompetitionQueryRemote.GetAllCompetitionQueryRemoteUseCase
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
+import com.yzdev.sportome.domain.use_case.getAllSeasonsYear.GetAllSeasonsYearUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class TutorialViewModel @Inject constructor(
     private val getAllCountriesUseCase: GetAllCountriesUseCase,
     private val getAllCompetitionQueryRemoteUseCase: GetAllCompetitionQueryRemoteUseCase,
-    private val competitionUseCase: CompetitionUseCaseFormat
+    private val competitionUseCase: CompetitionUseCaseFormat,
+    private val getAllSeasonsYearUseCase: GetAllSeasonsYearUseCase
 ) : ViewModel() {
 
     private val _stateListCountry = mutableStateOf(CountryState())
@@ -34,27 +34,33 @@ class TutorialViewModel @Inject constructor(
     private val _stateListCompetition = mutableStateOf(CompetitionState())
     val stateListCompetition: State<CompetitionState> = _stateListCompetition
 
-    /** repo functions*/
-    suspend fun getAllCountries(){
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.e("countries", "init")
-            getAllCountriesUseCase().onEach { result->
-                when(result){
-                    is Resource.Error -> {
-                        _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
-                    }
-                    is Resource.Loading -> {
-                        _stateListCountry.value = CountryState(isLoading = true)
-                    }
-                    is Resource.Success -> {
-                        _stateListCountry.value = CountryState(info = result.data)
-                    }
-                }
-            }.launchIn(viewModelScope)
+    init {
+        viewModelScope.launch {
+            getAllSeasonsYear()
         }
     }
 
-    suspend fun getCompetitionRemote(){
+    /** use case functions*/
+    /** get all countries*/
+    suspend fun getAllCountries(){
+        Log.e("countries", "init")
+        getAllCountriesUseCase().onEach { result->
+            when(result){
+                is Resource.Error -> {
+                    _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
+                }
+                is Resource.Loading -> {
+                    _stateListCountry.value = CountryState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _stateListCountry.value = CountryState(info = result.data)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    /** get all competition from api*/
+    suspend fun getAllCompetitionsRemote(){
         Log.e("competition", "init competition ${countrySelected.value}")
         countrySelected.value?.code?.let {
             getAllCompetitionQueryRemoteUseCase(countryCode = it).onEach { result->
@@ -73,6 +79,7 @@ class TutorialViewModel @Inject constructor(
         }
     }
 
+    /** insert favorite competition*/
     suspend fun insertFavoriteCompetition(localCompetition: LocalCompetition){
         try {
             competitionUseCase.insertFavoriteCompetition(
@@ -81,6 +88,25 @@ class TutorialViewModel @Inject constructor(
         } catch(e: InvalidException) {
             Log.e("Invalid Exception", "Error -> $e")
         }
+    }
+
+    /** get all seasons year from api or db*/
+    private suspend fun getAllSeasonsYear(){
+        Log.e("countries", "init")
+        delay(15000)
+        getAllSeasonsYearUseCase().onEach { result->
+            when(result){
+                is Resource.Error -> {
+                    Log.e("seasons", "error -> ${result.message}")
+                }
+                is Resource.Loading -> {
+                    Log.e("countries", "loading")
+                }
+                is Resource.Success -> {
+                    Log.e("countries", "success")
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     /** query state*/

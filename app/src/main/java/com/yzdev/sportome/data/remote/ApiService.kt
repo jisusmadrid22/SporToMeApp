@@ -1,6 +1,7 @@
 package com.yzdev.sportome.data.remote
 
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.SeasonsDtoResponse
 import com.yzdev.sportome.data.remote.dto.countries.CountriesDtoResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,4 +18,8 @@ interface ApiService {
      * */
     @GET("leagues")
     suspend fun getAllCurrentLeaguesByCountry(@Query("code") code: String, @Query("current") current: Boolean = true): CompetitionDtoResponse
+
+    /** get all seasons year from api*/
+    @GET("leagues/seasons")
+    suspend fun getAllSeasonYearRemote(): SeasonsDtoResponse
 }

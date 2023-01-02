@@ -6,9 +6,7 @@ import com.yzdev.sportome.common.timeToUnix
 import com.yzdev.sportome.data.data_source.AppDao
 import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
-import com.yzdev.sportome.domain.model.LocalCompetition
-import com.yzdev.sportome.domain.model.LocalCountry
-import com.yzdev.sportome.domain.model.toListLocalCountry
+import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -83,6 +81,32 @@ class AppRepositoryImp @Inject constructor(
      * */
     override suspend fun deleteFavoriteCompetition(favoriteCompetition: LocalCompetition) {
         return dao.deleteFavoriteCompetition(favoriteCompetition)
+    }
+
+    /** get all seasons year from db or api*/
+    override suspend fun getAllLocalSeasons(): List<LocalSeasons> {
+        Log.e("seasons", "init fun seasons")
+        var seasons = dao.getAllSeasonsYear()
+        if(seasons.isEmpty()){
+            //from api
+            Log.e("countries", "from api countries")
+            val apiSeasons = api.getAllSeasonYearRemote()
+
+            dao.insertSeasons(apiSeasons.toListLocalSeasons())
+
+            seasons = dao.getAllSeasonsYear()
+
+        }else if(getHourDifference(timeToUnix() - seasons.first().timeRequest) >= 72){    //if hours is 72hr
+            Log.e("seasons", "from api seasons update ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
+            val apiSeasons = api.getAllSeasonYearRemote()
+
+            dao.insertSeasons(apiSeasons.toListLocalSeasons())
+
+            seasons = dao.getAllSeasonsYear()
+        }
+
+        Log.e("seasons", "hours difference ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
+        return seasons
     }
 
     //-------------------------------------------------------------------------------------
