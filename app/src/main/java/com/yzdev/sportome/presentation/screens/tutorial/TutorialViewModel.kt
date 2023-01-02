@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yzdev.sportome.common.*
+import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,8 @@ class TutorialViewModel @Inject constructor(
     private val _stateListCountry = mutableStateOf(CountryState())
     val stateListCountry: State<CountryState> = _stateListCountry
 
-    init {
+    /** repo functions*/
+    suspend fun getAllCountries(){
         viewModelScope.launch(Dispatchers.IO) {
             Log.e("countries", "init")
             getAllCountriesUseCase().onEach { result->
@@ -59,8 +61,8 @@ class TutorialViewModel @Inject constructor(
     private val _sportSelected: MutableState<Sport?> = mutableStateOf(null)
     val sportSelected: State<Sport?> = _sportSelected
 
-    private val _countrySelected: MutableState<Country?> = mutableStateOf(null)
-    val countrySelected: State<Country?> = _countrySelected
+    private val _countrySelected: MutableState<LocalCountry?> = mutableStateOf(null)
+    val countrySelected: State<LocalCountry?> = _countrySelected
 
     private val _leagueSelected: MutableState<League?> = mutableStateOf(null)
     val leagueSelected: State<League?> = _leagueSelected
@@ -69,90 +71,6 @@ class TutorialViewModel @Inject constructor(
     val teamSelected: State<Team?> = _teamSelected
 
     /************************************************/
-
-    /** sport filter*/
-    private val _filteredListSport = mutableStateListOf<Sport>()
-    val filteredListSport: List<Sport> = _filteredListSport
-
-    fun filterListSport(
-        listParent: List<Sport>,
-        query: String
-    ){
-        _filteredListSport.clear()
-        if(query.isEmpty()){
-            _filteredListSport.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListSport.addAll(filtered)
-        }
-    }
-    /****************************************************/
-
-    /** country filter*/
-    private val _filteredListCountry = mutableStateListOf<Country>()
-    val filteredListCountry: List<Country> = _filteredListCountry
-
-    fun filterListCountry(
-        listParent: List<Country>,
-        query: String
-    ){
-        _filteredListCountry.clear()
-        if(query.isEmpty()){
-            _filteredListCountry.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListCountry.addAll(filtered)
-        }
-    }
-    /*****************************************************/
-
-    /** league filter*/
-    private val _filteredListLeague = mutableStateListOf<League>()
-    val filteredListLeague: List<League> = _filteredListLeague
-
-    fun filterListLeague(
-        listParent: List<League>,
-        query: String
-    ){
-        _filteredListLeague.clear()
-        if(query.isEmpty()){
-            _filteredListLeague.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListLeague.addAll(filtered)
-        }
-    }
-    /*****************************************************/
-
-    /** league filter*/
-    private val _filteredListTeam = mutableStateListOf<Team>()
-    val filteredListTeam: List<Team> = _filteredListTeam
-
-    fun filterListTeam(
-        listParent: List<Team>,
-        query: String
-    ){
-        _filteredListTeam.clear()
-        if(query.isEmpty()){
-            _filteredListTeam.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListTeam.addAll(filtered)
-        }
-    }
-    /*****************************************************/
 
     /** clear querys*/
     fun clearQuery(
@@ -182,29 +100,14 @@ class TutorialViewModel @Inject constructor(
     /** change selected items*/
     fun changeSport(item: Sport?){
         _sportSelected.value = item
-        if(item != null){
-            filterListCountry(listParent = getCountryBySport(item.id), query = "")
-        }else{
-            _filteredListCountry.clear()
-        }
     }
 
-    fun changeCountry(item: Country?){
+    fun changeCountry(item: LocalCountry?){
         _countrySelected.value = item
-        if(item != null){
-            filterListLeague(listParent = getLeaguesByCountry(item.id), query = "")
-        }else{
-            _filteredListLeague.clear()
-        }
     }
 
     fun changeLeague(item: League?){
         _leagueSelected.value = item
-        if(item != null){
-            filterListTeam(listParent = item.teams, query = "")
-        }else{
-            _filteredListTeam.clear()
-        }
     }
 
     fun changeTeam(item: Team?){

@@ -24,25 +24,11 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTut
 @Composable
 fun IntroTutorialScreen(
     navHostController: NavHostController,
-    viewmodel: TutorialViewModel
+    viewModel: TutorialViewModel
 ) {
 
     var goToTutorialContent by remember {
         mutableStateOf(false)
-    }
-
-    val listCountries = viewmodel.stateListCountry.value
-
-    when{
-        listCountries.isLoading -> {
-            Log.e("countries", "is Loading")
-        }
-        listCountries.error.isNotEmpty() -> {
-            Log.e("countries", "error ${listCountries.error}")
-        }
-        else -> {
-            Log.e("countries", "success -> ${listCountries.info}")
-        }
     }
 
     if(!goToTutorialContent){
@@ -52,7 +38,7 @@ fun IntroTutorialScreen(
             }
         )
     }else{
-        TutorialContentScreen(navHostController = navHostController, viewModel = viewmodel)
+        TutorialContentScreen(navHostController = navHostController, viewModel = viewModel)
     }
 }
 

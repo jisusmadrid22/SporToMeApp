@@ -39,7 +39,7 @@ fun Navigation() {
             val viewModel: TutorialViewModel = hiltViewModel<TutorialViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                IntroTutorialScreen(navHostController = navigation, viewmodel = viewModel)
+                IntroTutorialScreen(navHostController = navigation, viewModel = viewModel)
             }
         }
 

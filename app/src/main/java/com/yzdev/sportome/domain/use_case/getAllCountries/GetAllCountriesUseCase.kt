@@ -6,6 +6,7 @@ import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.Resource
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.domain.repository.AppRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -22,7 +23,6 @@ class GetAllCountriesUseCase @Inject constructor(
             val data = repo.getAllLocalCountries()
             emit(Resource.Success(data))
 
-            Log.e("countries", "data -> $data")
         } catch (e: HttpException){
             emit(Resource.Error(message = e.localizedMessage ?: AppResource.getString(R.string.erroGeneric)))
 
