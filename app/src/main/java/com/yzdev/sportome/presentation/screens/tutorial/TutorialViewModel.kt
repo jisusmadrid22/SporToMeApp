@@ -176,13 +176,13 @@ class TutorialViewModel @Inject constructor(
     }
 
     /** query state*/
-    val querySport = mutableStateOf("")
+    private val querySport = mutableStateOf("")
 
-    val queryCountry = mutableStateOf("")
+    private val queryCountry = mutableStateOf("")
 
-    val queryLeague = mutableStateOf("")
+    private val queryLeague = mutableStateOf("")
 
-    val queryTeam = mutableStateOf("")
+    private val queryTeam = mutableStateOf("")
 
     /*********************/
 

@@ -6,10 +6,12 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.yzdev.sportome.presentation.screens.favorites.FavoriteScreen
+import com.yzdev.sportome.presentation.screens.favorites.FavoriteViewModel
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.searcher.SearcherScreen
 import com.yzdev.sportome.presentation.screens.today_match.TodayMatchScreen
@@ -42,10 +44,10 @@ fun NavigationHome(
         composable(
             route = DestinationHome.FAVORITES.screenRoute
         ){
-            //val viewmodel = hiltViewModel<HomeViewModel>()
+            val viewModel = hiltViewModel<FavoriteViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                FavoriteScreen(navHostController = navHostController, scaffoldState = scaffoldState)
+                FavoriteScreen(navHostController = navHostController, scaffoldState = scaffoldState, viewModel = viewModel)
             }
         }
 

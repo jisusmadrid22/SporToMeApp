@@ -52,8 +52,8 @@ fun TextFieldTutorial(
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Black,
             backgroundColor = Color.White,
-            focusedIndicatorColor = MaterialTheme.colors.primary,
-            unfocusedIndicatorColor = MaterialTheme.colors.primary
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
         )
     )
 }
