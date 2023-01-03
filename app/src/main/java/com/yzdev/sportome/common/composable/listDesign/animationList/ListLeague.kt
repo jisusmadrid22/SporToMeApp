@@ -19,11 +19,14 @@ import com.yzdev.sportome.common.composable.itemListDesign.itemTutorial.ItemTuto
 import com.yzdev.sportome.common.getCountryBySport
 import com.yzdev.sportome.common.getLeaguesByCountry
 import com.yzdev.sportome.domain.model.LocalCompetition
+import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
 
 @Composable
 fun ListLeague(
     listLeague: CompetitionState,
+    filteredList: List<LocalCompetition>,
+    onSuccess: ()-> Unit,
     clickItem: (LocalCompetition)-> Unit
 ) {
 
@@ -63,13 +66,14 @@ fun ListLeague(
             }
             else -> {
                 Log.e("countries", "success -> ${listLeague.info}")
+                onSuccess()
                 LazyVerticalGrid(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     cells = GridCells.Fixed(count = 2),
                     content = {
-                        itemsIndexed(listLeague.info ?: emptyList()){ index, item->
+                        itemsIndexed(filteredList){ index, item->
                             ItemTutorialDesign(
                                 item = item,
                                 index = index

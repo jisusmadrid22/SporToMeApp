@@ -3,6 +3,7 @@ package com.yzdev.sportome.presentation.screens.tutorial
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -265,4 +266,67 @@ class TutorialViewModel @Inject constructor(
     }
 
     /***********************************/
+
+    /** QUERYS *****************************************************/
+    /** sports*/
+    private val _filteredSport = mutableStateListOf<Sport>()
+    val filteredSport: List<Sport> = _filteredSport
+
+    fun querySport(listParent: List<Sport>){
+        _filteredSport.clear()
+        Log.e("query", "value ${querySport.value}")
+        if (querySport.value.isEmpty()){
+            _filteredSport.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(querySport.value.lowercase()) }
+            _filteredSport.addAll(list)
+        }
+    }
+
+    /** countries*/
+    private val _filteredCountries = mutableStateListOf<LocalCountry>()
+    val filteredCountries: List<LocalCountry> = _filteredCountries
+
+    fun queryCountries(listParent: List<LocalCountry>){
+        _filteredCountries.clear()
+        Log.e("query", "value country ${queryCountry.value}")
+        if (queryCountry.value.isEmpty()){
+            _filteredCountries.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(queryCountry.value.lowercase()) }
+            _filteredCountries.addAll(list)
+        }
+    }
+
+    /** competition*/
+    private val _filteredCompetition = mutableStateListOf<LocalCompetition>()
+    val filteredCompetition: List<LocalCompetition> = _filteredCompetition
+
+    fun queryCompetition(listParent: List<LocalCompetition>){
+        _filteredCompetition.clear()
+        Log.e("query", "value competition ${queryLeague.value}")
+        if (queryLeague.value.isEmpty()){
+            _filteredCompetition.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(queryLeague.value.lowercase()) }
+            _filteredCompetition.addAll(list)
+        }
+    }
+
+    /** team*/
+    private val _filteredTeam = mutableStateListOf<LocalTeam>()
+    val filteredTeam: List<LocalTeam> = _filteredTeam
+
+    fun queryTeam(listParent: List<LocalTeam>){
+        _filteredTeam.clear()
+        Log.e("query", "value competition ${queryTeam.value}")
+        if (queryTeam.value.isEmpty()){
+            _filteredTeam.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(queryTeam.value.lowercase()) }
+            _filteredTeam.addAll(list)
+        }
+    }
+
+    /***************************************************************/
 }

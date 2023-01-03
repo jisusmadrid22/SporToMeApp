@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class,
+    ExperimentalMaterialApi::class
+)
 
 package com.yzdev.sportome.presentation.screens.tutorial
 
@@ -64,42 +66,22 @@ private fun TutorialContentLayout(
     val countrySelected = viewModel.countrySelected.value
     val leagueSelected = viewModel.leagueSelected.value
 
-    val listAllSport = produceState(initialValue = emptyList<Sport>(), producer = {
-        value = getAllSports()
-    })
-    var listAllCountryBySport: List<Country>? by remember {
-        mutableStateOf(null)
-    }
-    var listAllLeagueByCountry: List<League>? by remember {
-        mutableStateOf(null)
-    }
-
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
     )
 
-    val context = LocalContext.current
-
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = sportSelected, block = {
-        if(sportSelected != null){
-            listAllCountryBySport = getCountryBySport(sportSelected.id)
+    LaunchedEffect(
+        key1 = true,
+        block = {
+            viewModel.querySport(listParent = getAllSports())  //set all sport from api
         }
-    })
-
-    LaunchedEffect(key1 = countrySelected, block = {
-        if(countrySelected != null){
-            listAllLeagueByCountry = getLeaguesByCountry(countrySelected.id)
-        }
-    })
+    )
 
     LaunchedEffect(key1 = numberStep, block = {
         when(numberStep){
-            1-> {
-                textTopBar = AppResource.getString(R.string.sportTitle)
-
-            }
+            1-> textTopBar = AppResource.getString(R.string.sportTitle)
             2-> textTopBar = sportSelected?.name ?: AppResource.getString(R.string.sportTitle)
             3-> textTopBar = "${sportSelected?.name ?: AppResource.getString(R.string.sportTitle)} - ${countrySelected?.name ?: ""}"
             4-> textTopBar = "${sportSelected?.name ?: AppResource.getString(R.string.sportTitle)} - ${countrySelected?.name ?: ""} - ${leagueSelected?.name ?: ""}"
@@ -172,6 +154,13 @@ private fun TutorialContentLayout(
                             number = numberStep,
                             query = it
                         )
+
+                        when(numberStep){
+                            1-> viewModel.querySport(listParent = getAllSports())
+                            /*2-> listAllCountryBySport?.let { it1 -> viewModel.filterListCountry(listParent = it1, query = viewModel.queryCountry.value) }
+                            3-> listAllLeagueByCountry?.let { it1 -> viewModel.filterListLeague(listParent = it1, query = viewModel.queryLeague.value) }
+                            4-> leagueSelected?.let { it1 -> viewModel.filterListTeam(listParent = it1.teams, query = viewModel.queryTeam.value) }*/
+                        }
                     }
                 )
 
@@ -268,6 +257,12 @@ private fun AnimationList(
     val listCompetition = viewModel.stateListCompetition.value
     val listTeam = viewModel.stateListTeam.value
 
+    //filters
+    val listSportFiltered = viewModel.filteredSport
+    val listCountriesFiltered = viewModel.filteredCountries
+    val listCompetitionFiltered = viewModel.filteredCompetition
+    val listTeamFiltered = viewModel.filteredTeam
+
     AnimatedContent(
         targetState = numberStep,
         transitionSpec = {
@@ -286,7 +281,7 @@ private fun AnimationList(
             when(targetCount){
                 1-> {
                     ListSports(
-                        listSport = listOf(getAllSports().first())
+                        listSport = listSportFiltered
                     ) {
                         viewModel.changeSport(it)
                         viewModel.clearQuery(numberStep)
@@ -295,7 +290,11 @@ private fun AnimationList(
                 }
                 2-> sportSelected?.let {
                     ListCountry(
-                        listCountry = listCountries
+                        listCountry = listCountries,
+                        filteredList = listCountriesFiltered,
+                        onSuccess = {
+                            viewModel.queryCountries(listCountries.info ?: emptyList())
+                        }
                     ){country->
                         viewModel.changeCountry(country)
                         viewModel.clearQuery(numberStep)
@@ -304,7 +303,11 @@ private fun AnimationList(
                 }
                 3-> countrySelected?.let {
                     ListLeague(
-                        listLeague = listCompetition
+                        listLeague = listCompetition,
+                        filteredList = listCompetitionFiltered,
+                        onSuccess = {
+                            viewModel.queryCompetition(listCompetition.info ?: emptyList())
+                        }
                     ){league->
                         viewModel.changeLeague(league)
                         viewModel.clearQuery(numberStep)
@@ -313,7 +316,11 @@ private fun AnimationList(
                 }
                 4-> leagueSelected?.let {
                     ListTeam(
-                        teamList = listTeam
+                        teamList = listTeam,
+                        filteredList = listTeamFiltered,
+                        onSuccess = {
+                            viewModel.queryTeam(listTeam.info ?: emptyList())
+                        }
                     ){team->
                         viewModel.changeTeam(team)
                         numberStepOnChange()

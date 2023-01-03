@@ -89,7 +89,11 @@ private fun SearcherLayout(
                     listLeague = CompetitionState(),
                     clickItem = {
 
-                    }
+                    },
+                    onSuccess = {
+
+                    },
+                    filteredList = emptyList()
                 )
             }else{
                 /** show list teams*/
@@ -97,7 +101,11 @@ private fun SearcherLayout(
                     teamList = TeamState(),
                     clickItem = {
 
-                    }
+                    },
+                    onSuccess = {
+
+                    },
+                    filteredList = emptyList()
                 )
             }
         }

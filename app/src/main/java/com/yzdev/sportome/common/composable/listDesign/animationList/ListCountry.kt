@@ -23,6 +23,8 @@ import com.yzdev.sportome.presentation.screens.tutorial.CountryState
 @Composable
 fun ListCountry(
     listCountry: CountryState,
+    filteredList: List<LocalCountry>,
+    onSuccess: ()-> Unit,
     clickItem: (LocalCountry)-> Unit
 ) {
 
@@ -62,13 +64,14 @@ fun ListCountry(
             }
             else -> {
                 Log.e("countries", "success -> ${listCountry.info}")
+                onSuccess()
                 LazyVerticalGrid(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     cells = GridCells.Fixed(count = 2),
                     content = {
-                        itemsIndexed(listCountry.info ?: emptyList()){ index, item->
+                        itemsIndexed(filteredList){ index, item->
                             ItemTutorialDesign(
                                 item = item,
                                 index = index

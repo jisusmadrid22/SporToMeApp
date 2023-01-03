@@ -77,7 +77,11 @@ private fun FavoriteLayout(
                     listLeague = CompetitionState(),
                     clickItem = {
 
-                    }
+                    },
+                    onSuccess = {
+
+                    },
+                    filteredList = emptyList()
                 )
             }else{
                 /** show list teams*/
@@ -85,7 +89,11 @@ private fun FavoriteLayout(
                     teamList = TeamState(),
                     clickItem = {
 
-                    }
+                    },
+                    onSuccess = {
+
+                    },
+                    filteredList = emptyList()
                 )
             }
         }
