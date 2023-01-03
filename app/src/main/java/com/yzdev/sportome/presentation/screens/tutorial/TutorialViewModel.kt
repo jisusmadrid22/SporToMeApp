@@ -6,6 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yzdev.sportome.TutorialDs
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
@@ -16,6 +17,8 @@ import com.yzdev.sportome.domain.use_case.getAllCompetitionQueryRemote.GetAllCom
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
 import com.yzdev.sportome.domain.use_case.getAllSeasonsYear.GetAllSeasonsYearUseCase
 import com.yzdev.sportome.domain.use_case.getAllTeamsQueryRemote.GetAllTeamsQueryRemoteUseCase
+import com.yzdev.sportome.ds.KeysDataStore
+import com.yzdev.sportome.ds.tutorialState.TutorialStateDs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -144,6 +147,12 @@ class TutorialViewModel @Inject constructor(
                 localTeam = it
             )
         }
+
+        TutorialStateDs().changeTutorialStateDs(
+            keyTutorial = KeysDataStore.KeyTutorialDs.keyName,
+            value = true,
+            dataStore = AppResource.getAppContext().TutorialDs
+        )
     }
 
     /** get all seasons year from api or db*/

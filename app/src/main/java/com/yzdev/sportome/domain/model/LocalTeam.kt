@@ -8,9 +8,9 @@ import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 data class LocalTeam(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val idApi: Int,
-    val code: String,
-    val country: String,
-    val logo: String,
+    val code: String?,
+    val country: String?,
+    val logo: String?,
     val name: String,
 )
 

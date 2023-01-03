@@ -14,7 +14,9 @@ import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
 @Composable
-fun Navigation() {
+fun Navigation(
+    isNotTutorial: Boolean
+) {
     val navigation = rememberNavController()
 
     NavHost(
@@ -39,7 +41,7 @@ fun Navigation() {
             val viewModel: TutorialViewModel = hiltViewModel<TutorialViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                IntroTutorialScreen(navHostController = navigation, viewModel = viewModel)
+                IntroTutorialScreen(navHostController = navigation, viewModel = viewModel, isNotTutorial = isNotTutorial)
             }
         }
 

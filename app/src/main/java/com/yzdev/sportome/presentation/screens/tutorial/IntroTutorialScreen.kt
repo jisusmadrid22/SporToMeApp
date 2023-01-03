@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomCircleTutorialOne
 import com.yzdev.sportome.presentation.screens.tutorial.composables.ContentBottomCircle
 import com.yzdev.sportome.presentation.screens.tutorial.composables.ContentCenterTutorialOne
@@ -24,21 +25,28 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTut
 @Composable
 fun IntroTutorialScreen(
     navHostController: NavHostController,
-    viewModel: TutorialViewModel
+    viewModel: TutorialViewModel,
+    isNotTutorial: Boolean
 ) {
 
-    var goToTutorialContent by remember {
-        mutableStateOf(false)
-    }
-
-    if(!goToTutorialContent){
-        IntroTutorialLayout(
-            goToTutorialContentOnChange = {
-                goToTutorialContent = it
-            }
-        )
+    if (isNotTutorial){
+        navHostController.navigate(route = Destination.HOME.screenRoute){
+            popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+        }
     }else{
-        TutorialContentScreen(navHostController = navHostController, viewModel = viewModel)
+        var goToTutorialContent by remember {
+            mutableStateOf(false)
+        }
+
+        if(!goToTutorialContent){
+            IntroTutorialLayout(
+                goToTutorialContentOnChange = {
+                    goToTutorialContent = it
+                }
+            )
+        }else{
+            TutorialContentScreen(navHostController = navHostController, viewModel = viewModel)
+        }
     }
 }
 
