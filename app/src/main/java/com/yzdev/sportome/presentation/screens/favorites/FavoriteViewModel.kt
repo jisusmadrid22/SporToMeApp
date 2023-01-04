@@ -25,18 +25,18 @@ class FavoriteViewModel @Inject constructor(
     private val competitionUseCase: CompetitionUseCaseFormat
 ) : ViewModel() {
 
+    private val _stateListCompetition = mutableStateOf(CompetitionState())
+    val stateListCompetition: State<CompetitionState> = _stateListCompetition
+
+    private val _stateListTeam = mutableStateOf(TeamState())
+    val stateListTeam: State<TeamState> = _stateListTeam
+
     init {
         viewModelScope.launch {
             getAllFavoriteCompetition()
             getAllFavoriteTeam()
         }
     }
-
-    private val _stateListCompetition = mutableStateOf(CompetitionState())
-    val stateListCompetition: State<CompetitionState> = _stateListCompetition
-
-    private val _stateListTeam = mutableStateOf(TeamState())
-    val stateListTeam: State<TeamState> = _stateListTeam
 
     /** get all competition from db*/
     private suspend fun getAllFavoriteCompetition(){

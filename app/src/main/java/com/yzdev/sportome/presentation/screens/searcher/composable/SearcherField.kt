@@ -2,6 +2,7 @@
 
 package com.yzdev.sportome.presentation.screens.searcher.composable
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,76 +26,81 @@ import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.labelTextFieldByStep
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 
 @Composable
 fun SearcherField(
-    selectedSwitch: Boolean,
     searcherClick: (String)-> Unit
 ) {
 
     var textValue by remember {
         mutableStateOf("")
     }
-    val textLabel = if (!selectedSwitch) AppResource.getString(R.string.searchCompetition) else AppResource.getString(R.string.searchTeam)
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .background(Color.White)
     ) {
-        TextField(
-            modifier = Modifier.fillMaxWidth(0.85f),
-            value = textValue,
-            onValueChange = {
-                textValue = it
-            },
-            textStyle = TextStyle(
-                fontWeight = FontWeight.Light,
-                fontSize = 14.sp,
-                fontFamily = QuickSandFont
-            ),
-            placeholder = {
-                Text(
-                    text = textLabel,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp,
-                        fontFamily = QuickSandFont
-                    )
-                )
-            },
-            shape = RoundedCornerShape(18.dp),
-            singleLine = true,
-            maxLines = 1,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.Black,
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            )
-        )
-
-        Spacer(modifier = Modifier.padding(4.dp))
-
-        Card(
+        Row(
             modifier = Modifier
-                .width(48.dp)
-                .height(48.dp),
-            backgroundColor = Color.White,
-            shape = CircleShape,
-            elevation = 0.dp,
-            onClick = {
-                searcherClick(textValue)
-            }
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                modifier = Modifier.padding(8.dp),
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
-                contentDescription = "",
-                tint = Color.Black
+            TextField(
+                modifier = Modifier.fillMaxWidth(0.83f),
+                value = textValue,
+                onValueChange = {
+                    textValue = it
+                },
+                textStyle = TextStyle(
+                    fontWeight = FontWeight.Light,
+                    fontSize = 14.sp,
+                    fontFamily = QuickSandFont
+                ),
+                placeholder = {
+                    Text(
+                        text = AppResource.getString(R.string.searchCompetition),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 14.sp,
+                            fontFamily = QuickSandFont
+                        )
+                    )
+                },
+                shape = RoundedCornerShape(18.dp),
+                singleLine = true,
+                maxLines = 1,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    backgroundColor = grayBackground,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
             )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+
+            Card(
+                modifier = Modifier
+                    .width(48.dp)
+                    .height(48.dp),
+                backgroundColor = grayBackground,
+                shape = CircleShape,
+                elevation = 0.dp,
+                onClick = {
+                    searcherClick(textValue)
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.padding(12.dp),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_search),
+                    contentDescription = "",
+                    tint = Color.Black
+                )
+            }
         }
     }
 }

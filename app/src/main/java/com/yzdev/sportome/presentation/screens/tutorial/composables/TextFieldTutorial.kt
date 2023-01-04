@@ -20,6 +20,8 @@ import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 fun TextFieldTutorial(
     value: String,
     numberStep: Int,
+    background: Color = Color.White,
+    placeholder: String = labelTextFieldByStep(numberStep),
     textOnChange: (String)-> Unit
 ) {
     TextField(
@@ -35,7 +37,7 @@ fun TextFieldTutorial(
         ),
         placeholder = {
             Text(
-                text = labelTextFieldByStep(numberStep),
+                text = placeholder,
                 style = TextStyle(
                     fontWeight = FontWeight.Normal,
                     fontSize = 14.sp,
@@ -51,7 +53,7 @@ fun TextFieldTutorial(
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Black,
-            backgroundColor = Color.White,
+            backgroundColor = background,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )

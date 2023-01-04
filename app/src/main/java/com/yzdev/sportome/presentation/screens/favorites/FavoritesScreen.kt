@@ -146,6 +146,7 @@ fun AnimationList(
                             clickItem = {
 
                             },
+                            showPadding = true,
                             onSuccess = {
                                 viewModel.queryCompetition(listCompetition.info ?: emptyList())
                             },
@@ -159,6 +160,7 @@ fun AnimationList(
                             clickItem = {
 
                             },
+                            showPadding = true,
                             onSuccess = {
                                 viewModel.queryTeam(listTeam.info ?: emptyList())
                             },

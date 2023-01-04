@@ -10,8 +10,10 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.yzdev.sportome.common.Country
 import com.yzdev.sportome.common.League
 import com.yzdev.sportome.common.composable.itemListDesign.itemTutorial.ItemShimmer
@@ -26,11 +28,13 @@ import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
 fun ListLeague(
     listLeague: CompetitionState,
     filteredList: List<LocalCompetition>,
+    showPadding: Boolean = false,
     onSuccess: ()-> Unit,
     clickItem: (LocalCompetition)-> Unit
 ) {
+    val modifierCustom = if (showPadding) Modifier.fillMaxWidth().fillMaxHeight(0.9f) else Modifier.fillMaxWidth()
 
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(modifier = modifierCustom) {
 
         when{
             listLeague.isLoading -> {
