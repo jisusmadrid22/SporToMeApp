@@ -1,14 +1,15 @@
 package com.yzdev.sportome.data.repository
 
 import android.util.Log
-import com.yzdev.sportome.common.getHourDifference
-import com.yzdev.sportome.common.timeToUnix
+import com.yzdev.sportome.R
+import com.yzdev.sportome.common.*
 import com.yzdev.sportome.data.data_source.AppDao
 import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -144,6 +145,70 @@ class AppRepositoryImp @Inject constructor(
      * */
     override suspend fun deleteFavoriteTeam(localTeam: LocalTeam) {
         return dao.deleteFavoriteTeam(localTeam)
+    }
+
+    override suspend fun getWeekDataHome(): List<LocalMatch> {
+        val competitionFav = dao.getAllLocalCompetitionWithOutFlow()
+        val teamsFav = dao.getAllLocalTeamWithoutFlow()
+        var localMatch = dao.getAllLocalMatchWithoutFlow()
+        val dateWeek = getAllDateOfWeek()
+
+        val dateMatches = mutableListOf<LocalMatch>()
+
+        if (localMatch.isEmpty()){
+
+            //get calendar matches
+            if (competitionFav.isNotEmpty()){
+                if (teamsFav.isNotEmpty()){
+                    competitionFav.forEach {
+                        teamsFav.forEach {team->
+                            val data = api.getAllMatchesTeamForThisWeekRemote(from = dateWeek.first(), to = dateWeek.last(), team = team.idApi, season = it.yearSeason).toListMatchesResponseLocal()
+
+                            data.forEach {response->
+                                dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix()))
+                            }
+                        }
+                    }
+                }else{
+                    throw InvalidException(message = AppResource.getString(R.string.notTeamFavoriteForQueryWeek))
+                }
+
+            }else{
+                throw InvalidException(message = AppResource.getString(R.string.notLeagueFavoriteForQueryWeek))
+            }
+
+            dao.insertListMatch(dateMatches)
+
+            localMatch = dao.getAllLocalMatchWithoutFlow()
+
+        }else if ((localMatch.first().timestamp > dateToUnix(dateWeek.first())) and (currentDayIsMonday())){
+            //get calendar matches
+            if (competitionFav.isNotEmpty()){
+                if (teamsFav.isNotEmpty()){
+                    competitionFav.forEach {
+                        teamsFav.forEach {team->
+                            val data = api.getAllMatchesTeamForThisWeekRemote(from = dateWeek.first(), to = dateWeek.last(), team = team.idApi, season = it.yearSeason).toListMatchesResponseLocal()
+
+                            data.forEach {response->
+                                dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix()))
+                            }
+                        }
+                    }
+                }else{
+                    throw InvalidException(message = AppResource.getString(R.string.notTeamFavoriteForQueryWeek))
+                }
+
+            }else{
+                throw InvalidException(message = AppResource.getString(R.string.notLeagueFavoriteForQueryWeek))
+            }
+
+            dao.insertListMatch(dateMatches)
+
+            localMatch = dao.getAllLocalMatchWithoutFlow()
+
+        }
+
+        return localMatch
     }
 
     //-------------------------------------------------------------------------------------

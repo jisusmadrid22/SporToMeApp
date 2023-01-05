@@ -16,6 +16,8 @@ import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.searcher.SearchViewModel
 import com.yzdev.sportome.presentation.screens.searcher.SearcherScreen
 import com.yzdev.sportome.presentation.screens.today_match.TodayMatchScreen
+import com.yzdev.sportome.presentation.screens.today_match.TodayMatchViewModel
+import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
 @Composable
 fun NavigationHome(
@@ -31,12 +33,12 @@ fun NavigationHome(
         composable(
             route = DestinationHome.TODAY_MATCH.screenRoute
         ){
-            //val viewmodel = hiltViewModel<HomeViewModel>()
+            val viewModel = hiltViewModel<TodayMatchViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
                 TodayMatchScreen(
                     scaffoldState = scaffoldState,
-                    homeViewModel = homeViewModel
+                    viewModel = viewModel
                 )
             }
         }

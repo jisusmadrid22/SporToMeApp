@@ -2,10 +2,7 @@ package com.yzdev.sportome.domain.repository
 
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
-import com.yzdev.sportome.domain.model.LocalCompetition
-import com.yzdev.sportome.domain.model.LocalCountry
-import com.yzdev.sportome.domain.model.LocalSeasons
-import com.yzdev.sportome.domain.model.LocalTeam
+import com.yzdev.sportome.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface AppRepository {
@@ -56,4 +53,9 @@ interface AppRepository {
 
     //-------------------------------------------------------------------------------------
 
+    //HYBRID
+
+    /** get week data for home*/
+    suspend fun getWeekDataHome(): List<LocalMatch>
+    // -------------------------------------------------------------------------------------
 }

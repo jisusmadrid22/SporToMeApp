@@ -5,10 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.yzdev.sportome.domain.model.LocalCompetition
-import com.yzdev.sportome.domain.model.LocalCountry
-import com.yzdev.sportome.domain.model.LocalSeasons
-import com.yzdev.sportome.domain.model.LocalTeam
+import com.yzdev.sportome.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -32,9 +29,13 @@ interface AppDao {
 
     /** LEAGUES*/
 
-    /** get all favorite competition from db*/
+    /** get all favorite competition from db flow*/
     @Query("SELECT * FROM localcompetition")
     fun getAllLocalCompetition(): Flow<List<LocalCompetition>>
+
+    /** get all favorite competition from db*/
+    @Query("SELECT * FROM localcompetition")
+    suspend fun getAllLocalCompetitionWithOutFlow(): List<LocalCompetition>
 
     /** get favorite competition from db*/
     @Query("SELECT * FROM localcompetition WHERE id = :id")
@@ -71,6 +72,10 @@ interface AppDao {
     @Query("SELECT * FROM localteam")
     fun getAllLocalTeam(): Flow<List<LocalTeam>>
 
+    /** get all favorite team from db*/
+    @Query("SELECT * FROM localteam")
+    suspend fun getAllLocalTeamWithoutFlow(): List<LocalTeam>
+
     /** get favorite team from db*/
     @Query("SELECT * FROM localteam WHERE id = :id")
     suspend fun getFavoriteTeamById(id: Int): LocalTeam
@@ -82,6 +87,30 @@ interface AppDao {
     /** delete favorite team from db*/
     @Delete
     suspend fun deleteFavoriteTeam(favoriteTeam: LocalTeam)
+
+    /** LOCAL MATCH DATE*/
+    /** get all local match from db*/
+    @Query("SELECT * FROM localmatch")
+    fun getAllLocalMatch(): Flow<List<LocalMatch>>
+
+    /** get all favorite match from db*/
+    @Query("SELECT * FROM localmatch")
+    suspend fun getAllLocalMatchWithoutFlow(): List<LocalMatch>
+
+    /** get favorite match from db*/
+    @Query("SELECT * FROM localmatch WHERE id = :id")
+    suspend fun getMatchById(id: Int): LocalMatch
+
+    /** insert favorite match from db*/
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMatch(match: LocalMatch)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertListMatch(listMatch: List<LocalMatch>)
+
+    /** delete favorite match from db*/
+    @Delete
+    suspend fun deleteMatch(match: LocalMatch)
 
     /************************************************************************/
 }
