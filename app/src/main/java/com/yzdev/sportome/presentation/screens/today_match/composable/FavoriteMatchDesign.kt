@@ -26,14 +26,16 @@ import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.TeamInfo
 import com.yzdev.sportome.common.TeamMatch
+import com.yzdev.sportome.domain.model.MatchLeagueResponse
+import com.yzdev.sportome.domain.model.MatchesResponseLocal
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
 @Composable
 fun FavoriteMatchDesign(
-    item: TeamMatch,
-    onClick: (TeamMatch)-> Unit
+    item: MatchesResponseLocal,
+    onClick: (MatchesResponseLocal)-> Unit
 ) {
 
     val width = LocalConfiguration.current.screenWidthDp.dp
@@ -57,7 +59,7 @@ fun FavoriteMatchDesign(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = item.stadium,
+                text = item.fixture.venue.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
@@ -75,13 +77,13 @@ fun FavoriteMatchDesign(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                TeamInfoMatchDesign(item = item.teams.first())
+                TeamInfoMatchDesign(item = item.teams.home)
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "${item.teams.first().goal}:${item.teams.last().goal}",
+                        text = "${item.goals.home ?: 0}:${item.goals.away ?: 0}",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 28.sp,
@@ -97,7 +99,7 @@ fun FavoriteMatchDesign(
                     ) {
                         Text(
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                            text = item.time,
+                            text = "${item.fixture.status.elapsed}'",
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 8.sp,
@@ -109,7 +111,7 @@ fun FavoriteMatchDesign(
                     }
                 }
 
-                TeamInfoMatchDesign(item = item.teams.last())
+                TeamInfoMatchDesign(item = item.teams.away)
             }
 
             Spacer(modifier = Modifier.padding(top = 6.dp))
@@ -119,7 +121,7 @@ fun FavoriteMatchDesign(
 
 @Composable
 fun TeamInfoMatchDesign(
-    item: TeamInfo
+    item: MatchesResponseLocal.Teams.Home
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -133,7 +135,7 @@ fun TeamInfoMatchDesign(
         Spacer(modifier = Modifier.padding(top = 4.dp))
 
         Text(
-            text = item.nameTeam,
+            text = item.name,
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
@@ -143,7 +145,45 @@ fun TeamInfoMatchDesign(
         )
 
         Text(
-            text = item.typeTeam,
+            text = AppResource.getString(R.string.homeTeamTitle),
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 6.sp,
+                fontFamily = QuickSandFont,
+                color = Color.White.copy(alpha = 0.5f)
+            ),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun TeamInfoMatchDesign(
+    item: MatchesResponseLocal.Teams.Away
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Box(modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .background(gray))
+
+        Spacer(modifier = Modifier.padding(top = 4.dp))
+
+        Text(
+            text = item.name,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 8.sp,
+                fontFamily = QuickSandFont
+            ),
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            text = AppResource.getString(R.string.awayTitle),
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 6.sp,

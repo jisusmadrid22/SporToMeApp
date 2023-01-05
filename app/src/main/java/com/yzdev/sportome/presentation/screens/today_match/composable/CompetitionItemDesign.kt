@@ -20,15 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.common.Competition
-import com.yzdev.sportome.common.TeamMatch
+import com.yzdev.sportome.domain.model.MatchesResponseLocal
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
 @Composable
 fun CompetitionItemDesign(
-    item: TeamMatch,
+    item: MatchesResponseLocal,
     onClick: ()-> Unit
 ) {
 
@@ -52,7 +51,7 @@ fun CompetitionItemDesign(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = item.teams.first().nameTeam,
+                text = item.teams.home.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
@@ -81,7 +80,7 @@ fun CompetitionItemDesign(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                    text = item.time,
+                    text = "${item.fixture.status.elapsed}'",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
@@ -102,7 +101,7 @@ fun CompetitionItemDesign(
             Spacer(modifier = Modifier.padding(spacer))
 
             Text(
-                text = item.teams.last().nameTeam,
+                text = item.teams.away.name,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,

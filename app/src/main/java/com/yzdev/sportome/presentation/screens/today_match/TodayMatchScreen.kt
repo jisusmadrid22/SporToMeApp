@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
-import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.today_match.composable.CalendarWeek
 import com.yzdev.sportome.presentation.screens.today_match.composable.CompetitionList
 import com.yzdev.sportome.presentation.screens.today_match.composable.FavoriteMatchDesign
@@ -34,17 +33,21 @@ fun TodayMatchScreen(
 ) {
     TodayMatchLayout(
         scaffoldState = scaffoldState,
-        homeViewModel = viewModel
+        viewModel = viewModel
     )
 }
 
 @Composable
 fun TodayMatchLayout(
     scaffoldState: ScaffoldState,
-    homeViewModel: TodayMatchViewModel
+    viewModel: TodayMatchViewModel
 ) {
     val scope = rememberCoroutineScope()
     val stateList = rememberLazyListState()
+
+    val listMatchesWeek = viewModel.stateListMatchesWeek.value
+    val listMatchesCompetition = viewModel.stateListMatchesCompetition.value
+    val listMatchesTeam = viewModel.stateListMatchesTeam.value
 
     Column {
         LazyColumn(
@@ -96,13 +99,25 @@ fun TodayMatchLayout(
                         Spacer(modifier = Modifier.padding(start = 24.dp))
                     }
 
-                    items(getTeamMatch()){ item->
-                        FavoriteMatchDesign(
-                            item = item,
-                            onClick = {
+                    when{
+                        listMatchesTeam.isLoading ->{
 
+                        }
+
+                        listMatchesTeam.error.isNotEmpty()->{
+
+                        }
+
+                        else ->{
+                            items(listMatchesTeam.info ?: emptyList()){ item->
+                                FavoriteMatchDesign(
+                                    item = item,
+                                    onClick = {
+
+                                    }
+                                )
                             }
-                        )
+                        }
                     }
 
                     item {
@@ -115,16 +130,25 @@ fun TodayMatchLayout(
                 Spacer(modifier = Modifier.padding(top = 6.dp))
             }
 
-            items(getListCompetition()){item ->
-                CompetitionList(
-                    item = item,
-                    onClickShowMore = {
+            when{
+                listMatchesCompetition.isLoading ->{
 
-                    },
-                    onClickItemMatch = {
+                }
+                listMatchesCompetition.error.isNotEmpty() -> {
 
+                }
+                else->{
+                    items(listMatchesCompetition.info ?: emptyList()){ item ->
+                        CompetitionList(
+                            item = item,
+                            onClickShowMore = {
+
+                            }
+                        ) {
+
+                        }
                     }
-                )
+                }
             }
 
             item {

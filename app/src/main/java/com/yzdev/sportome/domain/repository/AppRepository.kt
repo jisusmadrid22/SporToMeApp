@@ -55,7 +55,13 @@ interface AppRepository {
 
     //HYBRID
 
-    /** get week data for home*/
-    suspend fun getWeekDataHome(): List<LocalMatch>
+    /** get week matches team*/
+    suspend fun getWeekMatchesTeam(): List<LocalMatch>
+
+    /** get today matches competition*/
+    suspend fun getAllMatchesTodayCompetition(): List<MatchLeagueResponse>
+
+    /** get today matches team*/
+    suspend fun getAllMatchesTodayTeam(): List<MatchesResponseLocal>
     // -------------------------------------------------------------------------------------
 }

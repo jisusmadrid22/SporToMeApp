@@ -6,7 +6,6 @@ import com.yzdev.sportome.data.remote.dto.countries.CountriesDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.MatchesForThisWeekDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -37,12 +36,11 @@ interface ApiService {
      * @param league id api of league
      * */
     @GET("fixtures")
-    suspend fun getAllMatchesForThisWeekRemote(@Query("from") from: String, @Query("to") to: String, @Query("league") league: Int, @Query("season") season: Int): MatchesForThisWeekDtoResponse
+    suspend fun getAllMatchesCompetitionForThisWeekRemote(@Query("from") from: String, @Query("to") to: String, @Query("league") league: Int, @Query("season") season: Int): MatchesForThisWeekDtoResponse
 
     @GET("fixtures")
     suspend fun getAllMatchesTeamForThisWeekRemote(@Query("from") from: String, @Query("to") to: String, @Query("team") team: Int, @Query("season") season: Int): MatchesForThisWeekDtoResponse
 
-
-
-
+    @GET("fixtures")
+    suspend fun getAllMatchesTodayTeam(@Query("team") team: Int, @Query("live") live: String = "all"): MatchesForThisWeekDtoResponse
 }

@@ -40,4 +40,7 @@
     <string name="selectCountry">Seleccione un pais</string>
     <string name="notTeamFavoriteForQueryWeek">No se encontraron equipos favoritos, para obtener los partidos de la semana, sigue a un equipo para obtener su calendario semanal</string>
     <string name="notLeagueFavoriteForQueryWeek">No se encontraron competiciones favoritas, para obtener los partidos de la semana, sigue a una competicion para obtener el calendario semanal de tu equipo favorito en esa competicion</string>
+    <string name="notLeagueFavoriteWeek">No se encontraron competiciones favoritas, sigue a una competicion para obtener los partidos del dia</string>
+    <string name="awayTitle">Visitante</string>
+    <string name="homeTeamTitle">Alfitrion</string>
 </resources>

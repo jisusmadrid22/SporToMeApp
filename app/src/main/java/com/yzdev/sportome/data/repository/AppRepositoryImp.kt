@@ -9,7 +9,6 @@ import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -147,7 +146,7 @@ class AppRepositoryImp @Inject constructor(
         return dao.deleteFavoriteTeam(localTeam)
     }
 
-    override suspend fun getWeekDataHome(): List<LocalMatch> {
+    override suspend fun getWeekMatchesTeam(): List<LocalMatch> {
         val competitionFav = dao.getAllLocalCompetitionWithOutFlow()
         val teamsFav = dao.getAllLocalTeamWithoutFlow()
         var localMatch = dao.getAllLocalMatchWithoutFlow()
@@ -209,6 +208,51 @@ class AppRepositoryImp @Inject constructor(
         }
 
         return localMatch
+    }
+
+    override suspend fun getAllMatchesTodayCompetition(): List<MatchLeagueResponse> {
+        val competitionFav = dao.getAllLocalCompetitionWithOutFlow()
+        val dateWeek = unixToDateTime(timeToUnix())
+
+        val matchCompetition = mutableListOf<MatchLeagueResponse>()
+
+        if (competitionFav.isNotEmpty()){
+            competitionFav.forEach {
+                val data = dateWeek?.let { it1 -> api.getAllMatchesCompetitionForThisWeekRemote(from = it1, to = it1, league = it.idApi, season = it.yearSeason).toListMatchesResponseLocal() }
+
+                data?.let { response ->
+                    matchCompetition.add(
+                        MatchLeagueResponse(
+                            nameLeague = it.name,
+                            listMatch = response
+                        )
+                    )
+                }
+            }
+
+        }else{
+            throw InvalidException(message = AppResource.getString(R.string.notLeagueFavoriteForQueryWeek))
+        }
+
+        return matchCompetition
+    }
+
+    override suspend fun getAllMatchesTodayTeam(): List<MatchesResponseLocal> {
+        val teamsFav = dao.getAllLocalTeamWithoutFlow()
+        val listMatches = mutableListOf<MatchesResponseLocal>()
+        val dateWeek = unixToDateTime(timeToUnix())
+
+        teamsFav.forEach {
+            dateWeek?.let { it1 ->
+                val data = api.getAllMatchesTodayTeam(
+                    team = it.idApi
+                )
+
+                listMatches.addAll(data.toListMatchesResponseLocal())
+            }
+        }
+
+        return listMatches
     }
 
     //-------------------------------------------------------------------------------------
