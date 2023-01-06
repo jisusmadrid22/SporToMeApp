@@ -72,10 +72,14 @@ fun CompetitionList(
 
         Spacer(modifier = Modifier.padding(top = 8.dp))
 
-        item.listMatch.take(3).forEach {
-            CompetitionItemDesign(item = it) {
-                onClickItemMatch(it)
+        if (item.listMatch.isNotEmpty()){
+            item.listMatch.take(3).forEach {
+                CompetitionItemDesign(item = it) {
+                    onClickItemMatch(it)
+                }
             }
+        }else{
+            CardErrorListSmall(message = AppResource.getString(R.string.notMatchesForThisCompetition))
         }
 
     }

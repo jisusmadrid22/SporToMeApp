@@ -33,17 +33,6 @@ fun DayWeekDesign(
     Box(
         contentAlignment = Alignment.TopEnd
     ) {
-        if (isTodayMatch){
-            Box {
-                Box(modifier = Modifier
-                    .width(8.dp)
-                    .height(8.dp)
-                    .clip(CircleShape)
-                    .background(greenSuccess)
-                )
-            }
-        }
-
         Card(
             elevation = 0.dp,
             backgroundColor = if (isSelected) MaterialTheme.colors.primary else Color.Transparent,
@@ -74,6 +63,17 @@ fun DayWeekDesign(
                         fontFamily = QuickSandFont,
                         color = colorDay
                     )
+                )
+            }
+        }
+
+        if (isTodayMatch){
+            Box {
+                Box(modifier = Modifier
+                    .width(8.dp)
+                    .height(8.dp)
+                    .clip(CircleShape)
+                    .background(greenSuccess)
                 )
             }
         }

@@ -19,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.*
+import com.yzdev.sportome.common.composable.itemListDesign.CardLoadingFullWidth
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
 import com.yzdev.sportome.presentation.screens.today_match.composable.CalendarWeek
+import com.yzdev.sportome.presentation.screens.today_match.composable.CardErrorList
 import com.yzdev.sportome.presentation.screens.today_match.composable.CompetitionList
 import com.yzdev.sportome.presentation.screens.today_match.composable.FavoriteMatchDesign
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
@@ -95,35 +97,64 @@ fun TodayMatchLayout(
 
             /** favorite matches list*/
             item {
-                LazyRow{
-                    item {
-                        Spacer(modifier = Modifier.padding(start = 24.dp))
+
+                when{
+                    listMatchesTeam.isLoading ->{
+                        CardLoadingFullWidth()
+
                     }
 
-                    when{
-                        listMatchesTeam.isLoading ->{
+                    listMatchesTeam.error.isNotEmpty()->{
+                        CardErrorList(message = listMatchesTeam.error)
 
-                        }
+                    }
 
-                        listMatchesTeam.error.isNotEmpty()->{
+                    else ->{
+                        if (!listMatchesTeam.info.isNullOrEmpty()){
+                            LazyRow{
+                                item {
+                                    Spacer(modifier = Modifier.padding(start = 24.dp))
+                                }
 
-                        }
+                                items(listMatchesTeam.info){ item->
+                                    FavoriteMatchDesign(
+                                        item = item,
+                                        onClick = {
 
-                        else ->{
-                            items(listMatchesTeam.info ?: emptyList()){ item->
-                                FavoriteMatchDesign(
-                                    item = item,
-                                    onClick = {
+                                        }
+                                    )
+                                }
 
-                                    }
-                                )
+                                item {
+                                    Spacer(modifier = Modifier.padding(end = 24.dp))
+                                }
                             }
+                        }else{
+                            CardErrorList(message = AppResource.getString(R.string.notMatchesTodayTeam))
                         }
                     }
+                }
+            }
 
-                    item {
-                        Spacer(modifier = Modifier.padding(end = 24.dp))
-                    }
+            item {
+                Spacer(modifier = Modifier.padding(top = 18.dp))
+            }
+
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = AppResource.getString(R.string.competitionsList),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp,
+                            fontFamily = QuickSandFont
+                        )
+                    )
                 }
             }
 
@@ -133,20 +164,30 @@ fun TodayMatchLayout(
 
             when{
                 listMatchesCompetition.isLoading ->{
-
+                    item {
+                        CardLoadingFullWidth()
+                    }
                 }
                 listMatchesCompetition.error.isNotEmpty() -> {
-
+                    item {
+                        CardErrorList(message = listMatchesCompetition.error)
+                    }
                 }
                 else->{
-                    items(listMatchesCompetition.info ?: emptyList()){ item ->
-                        CompetitionList(
-                            item = item,
-                            onClickShowMore = {
+                    if (!listMatchesCompetition.info.isNullOrEmpty()){
+                        items(listMatchesCompetition.info ?: emptyList()){ item ->
+                            CompetitionList(
+                                item = item,
+                                onClickShowMore = {
+
+                                }
+                            ) {
 
                             }
-                        ) {
-
+                        }
+                    }else{
+                        item {
+                            CardErrorList(message = AppResource.getString(R.string.notMatchesCompetitionEmpty))
                         }
                     }
                 }

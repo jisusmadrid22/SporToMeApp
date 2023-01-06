@@ -43,4 +43,8 @@
     <string name="notLeagueFavoriteWeek">No se encontraron competiciones favoritas, sigue a una competicion para obtener los partidos del dia</string>
     <string name="awayTitle">Visitante</string>
     <string name="homeTeamTitle">Alfitrion</string>
+    <string name="notMatchesTodayTeam">Hoy no hay partidos para tus equipos favoritos</string>
+    <string name="notMatchesCompetitionEmpty">No se encontraron competiciones favoritas, para obtener los partidos de las competiciones, sigue a tus competiciones favoritas</string>
+    <string name="notMatchesForThisCompetition">Hoy no hay partidos para esta competicion</string>
+    <string name="competitionsList">Competiciones Favoritas</string>
 </resources>
