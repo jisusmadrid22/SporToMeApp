@@ -164,7 +164,7 @@ class AppRepositoryImp @Inject constructor(
                             val data = api.getAllMatchesTeamForThisWeekRemote(from = dateWeek.first(), to = dateWeek.last(), team = team.idApi, season = it.yearSeason).toListMatchesResponseLocal()
 
                             data.forEach {response->
-                                dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix()))
+                                dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix(), matchDay = unixToDayWeek(response.fixture.timestamp).toInt()))
                             }
                         }
                     }
@@ -189,7 +189,7 @@ class AppRepositoryImp @Inject constructor(
                             val data = api.getAllMatchesTeamForThisWeekRemote(from = dateWeek.first(), to = dateWeek.last(), team = team.idApi, season = it.yearSeason).toListMatchesResponseLocal()
 
                             data.forEach {response->
-                                dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix()))
+                                dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix(), matchDay = unixToDayWeek(response.fixture.timestamp).toInt()))
                             }
                         }
                     }

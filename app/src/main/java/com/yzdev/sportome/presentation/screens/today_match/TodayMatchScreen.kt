@@ -68,7 +68,8 @@ fun TodayMatchLayout(
             item {
                 CalendarWeek(
                     days = getAllDateNumberOfWeek(),
-                    currentDay = getCurrentDay()
+                    currentDay = getCurrentDay(),
+                    listWeekMatch = listMatchesWeek
                 )
             }
 

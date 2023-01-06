@@ -95,3 +95,11 @@ fun dateToUnix(date: String): Long{
 
     return unix
 }
+
+fun unixToDayWeek(unix: Long): String{
+    val sdf = SimpleDateFormat("dd")
+    val netDate = Date(unix * 1000)
+
+    Log.e("ee", "day ${sdf.format(netDate)}")
+    return sdf.format(netDate)
+}

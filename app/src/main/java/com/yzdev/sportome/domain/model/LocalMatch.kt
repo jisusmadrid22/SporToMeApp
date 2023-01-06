@@ -9,5 +9,6 @@ data class LocalMatch(
     val idMatch: Int,
     val idLeague: Int,
     val seasonYear: Int,
-    val timestamp: Long
+    val timestamp: Long,
+    val matchDay: Int
 )
