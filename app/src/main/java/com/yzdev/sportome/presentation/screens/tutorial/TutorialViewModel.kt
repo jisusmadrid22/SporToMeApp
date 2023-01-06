@@ -7,51 +7,182 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yzdev.sportome.TutorialDs
 import com.yzdev.sportome.common.*
+import com.yzdev.sportome.domain.model.LocalCompetition
+import com.yzdev.sportome.domain.model.LocalCountry
+import com.yzdev.sportome.domain.model.LocalTeam
+import com.yzdev.sportome.domain.use_case.favoriteCompetition.CompetitionUseCaseFormat
+import com.yzdev.sportome.domain.use_case.favoriteTeam.TeamUseCaseFormat
+import com.yzdev.sportome.domain.use_case.getAllCompetitionQueryRemote.GetAllCompetitionQueryRemoteUseCase
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
+import com.yzdev.sportome.domain.use_case.getAllSeasonsYear.GetAllSeasonsYearUseCase
+import com.yzdev.sportome.domain.use_case.getAllTeamsQueryRemote.GetAllTeamsQueryRemoteUseCase
+import com.yzdev.sportome.ds.KeysDataStore
+import com.yzdev.sportome.ds.tutorialState.TutorialStateDs
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class TutorialViewModel @Inject constructor(
-    private val getAllCountriesUseCase: GetAllCountriesUseCase
+    private val getAllCountriesUseCase: GetAllCountriesUseCase,
+    private val getAllCompetitionQueryRemoteUseCase: GetAllCompetitionQueryRemoteUseCase,
+    private val competitionUseCase: CompetitionUseCaseFormat,
+    private val getAllSeasonsYearUseCase: GetAllSeasonsYearUseCase,
+    private val teamUseCase: TeamUseCaseFormat,
+    private val getAllTeamsQueryRemoteUseCase: GetAllTeamsQueryRemoteUseCase
 ) : ViewModel() {
 
     private val _stateListCountry = mutableStateOf(CountryState())
     val stateListCountry: State<CountryState> = _stateListCountry
 
+    private val _stateListCompetition = mutableStateOf(CompetitionState())
+    val stateListCompetition: State<CompetitionState> = _stateListCompetition
+
+    private val _stateListTeam = mutableStateOf(TeamState())
+    val stateListTeam: State<TeamState> = _stateListTeam
+
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.e("countries", "init")
-            getAllCountriesUseCase().onEach { result->
+        viewModelScope.launch {
+            getAllSeasonsYear()
+        }
+    }
+
+    /** use case functions*/
+    /** get all countries*/
+    suspend fun getAllCountries(){
+        Log.e("countries", "init")
+        getAllCountriesUseCase().onEach { result->
+            when(result){
+                is Resource.Error -> {
+                    _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
+                }
+                is Resource.Loading -> {
+                    _stateListCountry.value = CountryState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _stateListCountry.value = CountryState(info = result.data)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    /** get all competition from api*/
+    suspend fun getAllCompetitionsRemote(){
+        Log.e("competition", "init competition ${countrySelected.value}")
+        countrySelected.value?.code?.let {
+            getAllCompetitionQueryRemoteUseCase(countryCode = it).onEach { result->
                 when(result){
                     is Resource.Error -> {
-                        _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
+                        _stateListCompetition.value = CompetitionState(error = result.message ?: "An unexpected error occurred")
                     }
                     is Resource.Loading -> {
-                        _stateListCountry.value = CountryState(isLoading = true)
+                        _stateListCompetition.value = CompetitionState(isLoading = true)
                     }
                     is Resource.Success -> {
-                        _stateListCountry.value = CountryState(info = result.data)
+                        _stateListCompetition.value = CompetitionState(info = result.data)
                     }
                 }
             }.launchIn(viewModelScope)
         }
     }
 
+    /** insert favorite competition*/
+    suspend fun insertFavoriteCompetition(localCompetition: LocalCompetition){
+        try {
+            competitionUseCase.insertFavoriteCompetition(
+                localCompetition = localCompetition
+            )
+        } catch(e: InvalidException) {
+            Log.e("Invalid Exception", "Error -> $e")
+        }
+    }
+
+    /** get all teams from api*/
+    suspend fun getAllTeamsRemote(){
+        Log.e("team", "init team ${leagueSelected.value}")
+        leagueSelected.value?.let {
+            getAllTeamsQueryRemoteUseCase(leagueId = it.idApi, yearSeason = it.yearSeason).onEach { result->
+                when(result){
+                    is Resource.Error -> {
+                        _stateListTeam.value = TeamState(error = result.message ?: "An unexpected error occurred")
+                    }
+                    is Resource.Loading -> {
+                        _stateListTeam.value = TeamState(isLoading = true)
+                    }
+                    is Resource.Success -> {
+                        _stateListTeam.value = TeamState(info = result.data)
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    /** insert favorite competition*/
+    suspend fun insertFavoriteTeam(localTeam: LocalTeam){
+        try {
+            teamUseCase.insertFavoriteTeamUseCase(
+                localTeam = localTeam
+            )
+        } catch(e: InvalidException) {
+            Log.e("Invalid Exception", "Error -> $e")
+        }
+    }
+
+    /** save data tutorial into db*/
+    suspend fun saveDataTutorial(){
+        //save league favorite
+        leagueSelected.value?.let {
+            competitionUseCase.insertFavoriteCompetition(
+                localCompetition = it
+            )
+        }
+
+        //league team favorite
+        teamSelected.value?.let {
+            teamUseCase.insertFavoriteTeamUseCase(
+                localTeam = it
+            )
+        }
+
+        TutorialStateDs().changeTutorialStateDs(
+            keyTutorial = KeysDataStore.KeyTutorialDs.keyName,
+            value = true,
+            dataStore = AppResource.getAppContext().TutorialDs
+        )
+    }
+
+    /** get all seasons year from api or db*/
+    private suspend fun getAllSeasonsYear(){
+        Log.e("countries", "init")
+        delay(15000)
+        getAllSeasonsYearUseCase().onEach { result->
+            when(result){
+                is Resource.Error -> {
+                    Log.e("seasons", "error -> ${result.message}")
+                }
+                is Resource.Loading -> {
+                    Log.e("countries", "loading")
+                }
+                is Resource.Success -> {
+                    Log.e("countries", "success")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     /** query state*/
-    val querySport = mutableStateOf("")
+    private val querySport = mutableStateOf("")
 
-    val queryCountry = mutableStateOf("")
+    private val queryCountry = mutableStateOf("")
 
-    val queryLeague = mutableStateOf("")
+    private val queryLeague = mutableStateOf("")
 
-    val queryTeam = mutableStateOf("")
+    private val queryTeam = mutableStateOf("")
 
     /*********************/
 
@@ -59,100 +190,16 @@ class TutorialViewModel @Inject constructor(
     private val _sportSelected: MutableState<Sport?> = mutableStateOf(null)
     val sportSelected: State<Sport?> = _sportSelected
 
-    private val _countrySelected: MutableState<Country?> = mutableStateOf(null)
-    val countrySelected: State<Country?> = _countrySelected
+    private val _countrySelected: MutableState<LocalCountry?> = mutableStateOf(null)
+    val countrySelected: State<LocalCountry?> = _countrySelected
 
-    private val _leagueSelected: MutableState<League?> = mutableStateOf(null)
-    val leagueSelected: State<League?> = _leagueSelected
+    private val _leagueSelected: MutableState<LocalCompetition?> = mutableStateOf(null)
+    val leagueSelected: State<LocalCompetition?> = _leagueSelected
 
-    private val _teamSelected: MutableState<Team?> = mutableStateOf(null)
-    val teamSelected: State<Team?> = _teamSelected
+    private val _teamSelected: MutableState<LocalTeam?> = mutableStateOf(null)
+    val teamSelected: State<LocalTeam?> = _teamSelected
 
     /************************************************/
-
-    /** sport filter*/
-    private val _filteredListSport = mutableStateListOf<Sport>()
-    val filteredListSport: List<Sport> = _filteredListSport
-
-    fun filterListSport(
-        listParent: List<Sport>,
-        query: String
-    ){
-        _filteredListSport.clear()
-        if(query.isEmpty()){
-            _filteredListSport.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListSport.addAll(filtered)
-        }
-    }
-    /****************************************************/
-
-    /** country filter*/
-    private val _filteredListCountry = mutableStateListOf<Country>()
-    val filteredListCountry: List<Country> = _filteredListCountry
-
-    fun filterListCountry(
-        listParent: List<Country>,
-        query: String
-    ){
-        _filteredListCountry.clear()
-        if(query.isEmpty()){
-            _filteredListCountry.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListCountry.addAll(filtered)
-        }
-    }
-    /*****************************************************/
-
-    /** league filter*/
-    private val _filteredListLeague = mutableStateListOf<League>()
-    val filteredListLeague: List<League> = _filteredListLeague
-
-    fun filterListLeague(
-        listParent: List<League>,
-        query: String
-    ){
-        _filteredListLeague.clear()
-        if(query.isEmpty()){
-            _filteredListLeague.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListLeague.addAll(filtered)
-        }
-    }
-    /*****************************************************/
-
-    /** league filter*/
-    private val _filteredListTeam = mutableStateListOf<Team>()
-    val filteredListTeam: List<Team> = _filteredListTeam
-
-    fun filterListTeam(
-        listParent: List<Team>,
-        query: String
-    ){
-        _filteredListTeam.clear()
-        if(query.isEmpty()){
-            _filteredListTeam.addAll(listParent)
-        }else{
-            val filtered = listParent.filter {
-                it.name.toLowerCase(Locale.getDefault()).startsWith(query.toLowerCase(Locale.getDefault()))
-            }
-
-            _filteredListTeam.addAll(filtered)
-        }
-    }
-    /*****************************************************/
 
     /** clear querys*/
     fun clearQuery(
@@ -182,32 +229,17 @@ class TutorialViewModel @Inject constructor(
     /** change selected items*/
     fun changeSport(item: Sport?){
         _sportSelected.value = item
-        if(item != null){
-            filterListCountry(listParent = getCountryBySport(item.id), query = "")
-        }else{
-            _filteredListCountry.clear()
-        }
     }
 
-    fun changeCountry(item: Country?){
+    fun changeCountry(item: LocalCountry?){
         _countrySelected.value = item
-        if(item != null){
-            filterListLeague(listParent = getLeaguesByCountry(item.id), query = "")
-        }else{
-            _filteredListLeague.clear()
-        }
     }
 
-    fun changeLeague(item: League?){
+    fun changeLeague(item: LocalCompetition?){
         _leagueSelected.value = item
-        if(item != null){
-            filterListTeam(listParent = item.teams, query = "")
-        }else{
-            _filteredListTeam.clear()
-        }
     }
 
-    fun changeTeam(item: Team?){
+    fun changeTeam(item: LocalTeam?){
         _teamSelected.value = item
     }
 
@@ -234,4 +266,67 @@ class TutorialViewModel @Inject constructor(
     }
 
     /***********************************/
+
+    /** QUERYS *****************************************************/
+    /** sports*/
+    private val _filteredSport = mutableStateListOf<Sport>()
+    val filteredSport: List<Sport> = _filteredSport
+
+    fun querySport(listParent: List<Sport>){
+        _filteredSport.clear()
+        Log.e("query", "value ${querySport.value}")
+        if (querySport.value.isEmpty()){
+            _filteredSport.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(querySport.value.lowercase()) }
+            _filteredSport.addAll(list)
+        }
+    }
+
+    /** countries*/
+    private val _filteredCountries = mutableStateListOf<LocalCountry>()
+    val filteredCountries: List<LocalCountry> = _filteredCountries
+
+    fun queryCountries(listParent: List<LocalCountry>){
+        _filteredCountries.clear()
+        Log.e("query", "value country ${queryCountry.value}")
+        if (queryCountry.value.isEmpty()){
+            _filteredCountries.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(queryCountry.value.lowercase()) }
+            _filteredCountries.addAll(list)
+        }
+    }
+
+    /** competition*/
+    private val _filteredCompetition = mutableStateListOf<LocalCompetition>()
+    val filteredCompetition: List<LocalCompetition> = _filteredCompetition
+
+    fun queryCompetition(listParent: List<LocalCompetition>){
+        _filteredCompetition.clear()
+        Log.e("query", "value competition ${queryLeague.value}")
+        if (queryLeague.value.isEmpty()){
+            _filteredCompetition.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(queryLeague.value.lowercase()) }
+            _filteredCompetition.addAll(list)
+        }
+    }
+
+    /** team*/
+    private val _filteredTeam = mutableStateListOf<LocalTeam>()
+    val filteredTeam: List<LocalTeam> = _filteredTeam
+
+    fun queryTeam(listParent: List<LocalTeam>){
+        _filteredTeam.clear()
+        Log.e("query", "value competition ${queryTeam.value}")
+        if (queryTeam.value.isEmpty()){
+            _filteredTeam.addAll(listParent)
+        }else{
+            val list = listParent.filter { it.name.lowercase().startsWith(queryTeam.value.lowercase()) }
+            _filteredTeam.addAll(list)
+        }
+    }
+
+    /***************************************************************/
 }

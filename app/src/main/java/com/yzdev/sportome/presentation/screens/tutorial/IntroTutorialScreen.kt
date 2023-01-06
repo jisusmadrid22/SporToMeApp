@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomCircleTutorialOne
 import com.yzdev.sportome.presentation.screens.tutorial.composables.ContentBottomCircle
 import com.yzdev.sportome.presentation.screens.tutorial.composables.ContentCenterTutorialOne
@@ -24,35 +25,28 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTut
 @Composable
 fun IntroTutorialScreen(
     navHostController: NavHostController,
-    viewmodel: TutorialViewModel
+    viewModel: TutorialViewModel,
+    isNotTutorial: Boolean
 ) {
 
-    var goToTutorialContent by remember {
-        mutableStateOf(false)
-    }
-
-    val listCountries = viewmodel.stateListCountry.value
-
-    when{
-        listCountries.isLoading -> {
-            Log.e("countries", "is Loading")
+    if (isNotTutorial){
+        navHostController.navigate(route = Destination.HOME.screenRoute){
+            popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
         }
-        listCountries.error.isNotEmpty() -> {
-            Log.e("countries", "error ${listCountries.error}")
-        }
-        else -> {
-            Log.e("countries", "success -> ${listCountries.info}")
-        }
-    }
-
-    if(!goToTutorialContent){
-        IntroTutorialLayout(
-            goToTutorialContentOnChange = {
-                goToTutorialContent = it
-            }
-        )
     }else{
-        TutorialContentScreen(navHostController = navHostController, viewModel = viewmodel)
+        var goToTutorialContent by remember {
+            mutableStateOf(false)
+        }
+
+        if(!goToTutorialContent){
+            IntroTutorialLayout(
+                goToTutorialContentOnChange = {
+                    goToTutorialContent = it
+                }
+            )
+        }else{
+            TutorialContentScreen(navHostController = navHostController, viewModel = viewModel)
+        }
     }
 }
 

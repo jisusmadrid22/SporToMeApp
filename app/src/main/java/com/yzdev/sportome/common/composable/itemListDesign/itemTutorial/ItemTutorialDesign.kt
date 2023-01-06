@@ -24,6 +24,10 @@ import com.yzdev.sportome.common.Country
 import com.yzdev.sportome.common.League
 import com.yzdev.sportome.common.Sport
 import com.yzdev.sportome.common.Team
+import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
+import com.yzdev.sportome.domain.model.LocalCompetition
+import com.yzdev.sportome.domain.model.LocalCountry
+import com.yzdev.sportome.domain.model.LocalTeam
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 
@@ -54,7 +58,9 @@ fun ItemTutorialDesign(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -81,9 +87,9 @@ fun ItemTutorialDesign(
 
 @Composable
 fun ItemTutorialDesign(
-    item: Country,
+    item: LocalCountry,
     index: Int,
-    clickItem: (Country)-> Unit
+    clickItem: (LocalCountry)-> Unit
 ) {
 
     val modifierCustom = if ((index % 2) == 0){
@@ -106,7 +112,9 @@ fun ItemTutorialDesign(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -133,9 +141,9 @@ fun ItemTutorialDesign(
 
 @Composable
 fun ItemTutorialDesign(
-    item: League,
+    item: LocalCompetition,
     index: Int,
-    clickItem: (League)-> Unit
+    clickItem: (LocalCompetition)-> Unit
 ) {
 
     val modifierCustom = if ((index % 2) == 0){
@@ -158,7 +166,9 @@ fun ItemTutorialDesign(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -185,9 +195,9 @@ fun ItemTutorialDesign(
 
 @Composable
 fun ItemTutorialDesign(
-    item: Team,
+    item: LocalTeam,
     index: Int,
-    clickItem: (Team)-> Unit
+    clickItem: (LocalTeam)-> Unit
 ) {
 
     val modifierCustom = if ((index % 2) == 0){
@@ -210,7 +220,9 @@ fun ItemTutorialDesign(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -231,6 +243,39 @@ fun ItemTutorialDesign(
                 ),
                 textAlign = TextAlign.Center
             )
+        }
+    }
+}
+
+@Composable
+fun ItemShimmer(
+    item: Void?,
+    index: Int
+) {
+
+    val modifierCustom = if ((index % 2) == 0){
+        Modifier
+            .fillMaxWidth()
+            .padding(end = 12.dp, top = 18.dp)
+    }else{
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp, top = 18.dp)
+    }
+
+    Card(
+        modifier = modifierCustom,
+        backgroundColor = Color.White,
+        shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(128.dp)
+                .padding(12.dp)
+        ) {
+            AnimatedShimmerTwoLines()
         }
     }
 }

@@ -5,7 +5,7 @@ fun getAllSports(): List<Sport>{
         Sport(
             id = 0,
             name = "Football"
-        ),
+        ),/*
         Sport(
             id = 1,
             name = "Baseball"
@@ -17,7 +17,7 @@ fun getAllSports(): List<Sport>{
         Sport(
             id = 3,
             name = "Basketball"
-        )
+        )*/
     )
 }
 

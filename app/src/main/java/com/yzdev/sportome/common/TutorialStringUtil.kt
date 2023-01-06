@@ -25,3 +25,13 @@ fun labelTextFieldByStep(
         else -> ""
     }
 }
+
+fun labelTextFieldByStepSearch(
+    numberStep: Int
+): String{
+    return when(numberStep){
+        1-> AppResource.getString(R.string.searchCountry)
+        2-> AppResource.getString(R.string.searchCompetition)
+        else -> ""
+    }
+}

@@ -3,8 +3,6 @@ package com.yzdev.sportome.presentation.screens.today_match.composable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,16 +17,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.common.Competition
-import com.yzdev.sportome.common.TeamMatch
+import com.yzdev.sportome.domain.model.MatchLeagueResponse
+import com.yzdev.sportome.domain.model.MatchesResponseLocal
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun CompetitionList(
-    item: Competition,
+    item: MatchLeagueResponse,
     onClickShowMore: ()-> Unit,
-    onClickItemMatch: (TeamMatch)-> Unit
+    onClickItemMatch: (MatchesResponseLocal)-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -50,7 +48,7 @@ fun CompetitionList(
                 )
 
                 Text(
-                    text = " ${item.name}",
+                    text = " ${item.nameLeague}",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
@@ -74,10 +72,14 @@ fun CompetitionList(
 
         Spacer(modifier = Modifier.padding(top = 8.dp))
 
-        item.matches.take(3).forEach {
-            CompetitionItemDesign(item = it) {
-                onClickItemMatch(it)
+        if (item.listMatch.isNotEmpty()){
+            item.listMatch.take(3).forEach {
+                CompetitionItemDesign(item = it) {
+                    onClickItemMatch(it)
+                }
             }
+        }else{
+            CardErrorListSmall(message = AppResource.getString(R.string.notMatchesForThisCompetition))
         }
 
     }

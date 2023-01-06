@@ -4,10 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class LocalCountry(
+data class LocalMatch(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val idApi: Int,
-    val timeRequest: Long,
-    val name: String,
-    val code: String
+    val idMatch: Int,
+    val idLeague: Int,
+    val seasonYear: Int,
+    val timestamp: Long,
+    val matchDay: Int
 )

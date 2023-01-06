@@ -1,9 +1,10 @@
-@file:OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class,
+    ExperimentalMaterialApi::class
+)
 
 package com.yzdev.sportome.presentation.screens.tutorial
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +30,8 @@ import com.yzdev.sportome.common.composable.listDesign.animationList.ListLeague
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListSports
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListTeam
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
+import com.yzdev.sportome.domain.model.LocalCompetition
+import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.tutorial.composables.BottomSheetTutorialDesign
 import com.yzdev.sportome.presentation.screens.tutorial.composables.TextFieldTutorial
@@ -59,51 +62,22 @@ private fun TutorialContentLayout(
         mutableStateOf(1)
     }
 
-    val listSport = viewModel.filteredListSport
-    val listCountry = viewModel.filteredListCountry
-    val listLeague = viewModel.filteredListLeague
-    val listTeam = viewModel.filteredListTeam
-
     val sportSelected = viewModel.sportSelected.value
     val countrySelected = viewModel.countrySelected.value
     val leagueSelected = viewModel.leagueSelected.value
 
-    val listAllSport = produceState(initialValue = emptyList<Sport>(), producer = {
-        value = getAllSports()
-    })
-    var listAllCountryBySport: List<Country>? by remember {
-        mutableStateOf(null)
-    }
-    var listAllLeagueByCountry: List<League>? by remember {
-        mutableStateOf(null)
-    }
-
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
     )
-
-    val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(
         key1 = true,
         block = {
-            viewModel.filterListSport(listParent = listAllSport.value, query = "")  //set all sport from api
+            viewModel.querySport(listParent = getAllSports())  //set all sport from api
         }
     )
-
-    LaunchedEffect(key1 = sportSelected, block = {
-        if(sportSelected != null){
-            listAllCountryBySport = getCountryBySport(sportSelected.id)
-        }
-    })
-
-    LaunchedEffect(key1 = countrySelected, block = {
-        if(countrySelected != null){
-            listAllLeagueByCountry = getLeaguesByCountry(countrySelected.id)
-        }
-    })
 
     LaunchedEffect(key1 = numberStep, block = {
         when(numberStep){
@@ -180,11 +154,12 @@ private fun TutorialContentLayout(
                             number = numberStep,
                             query = it
                         )
+
                         when(numberStep){
-                            1-> viewModel.filterListSport(listParent = listAllSport.value, query = viewModel.querySport.value)
-                            2-> listAllCountryBySport?.let { it1 -> viewModel.filterListCountry(listParent = it1, query = viewModel.queryCountry.value) }
+                            1-> viewModel.querySport(listParent = getAllSports())
+                            /*2-> listAllCountryBySport?.let { it1 -> viewModel.filterListCountry(listParent = it1, query = viewModel.queryCountry.value) }
                             3-> listAllLeagueByCountry?.let { it1 -> viewModel.filterListLeague(listParent = it1, query = viewModel.queryLeague.value) }
-                            4-> leagueSelected?.let { it1 -> viewModel.filterListTeam(listParent = it1.teams, query = viewModel.queryTeam.value) }
+                            4-> leagueSelected?.let { it1 -> viewModel.filterListTeam(listParent = it1.teams, query = viewModel.queryTeam.value) }*/
                         }
                     }
                 )
@@ -221,25 +196,40 @@ private fun TutorialContentLayout(
                 Spacer(modifier = Modifier.padding(top = 4.dp))
 
                 /** Animation list*/
-
-                /** Animation list*/
                 AnimationList(
                     numberStep = numberStep,
                     viewModel = viewModel,
                     countrySelected = countrySelected,
                     sportSelected = sportSelected,
                     leagueSelected = leagueSelected,
-                    listLeague = listLeague,
-                    listCountry = listCountry,
-                    listSport = listSport,
-                    listTeam = listTeam,
                 ){
                     Log.e("bottomsheet", "click")
-                    if(numberStep < 4){
-                        numberStep++
-                    }else{
-                        navHostController.navigate(route = Destination.HOME.screenRoute){
-                            popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+                    when(numberStep){
+                        1->{
+                            scope.launch {
+                                viewModel.getAllCountries()
+                                numberStep++
+                            }
+                        }
+                        2->{
+                            scope.launch {
+                                viewModel.getAllCompetitionsRemote()
+                                numberStep++
+                            }
+                        }
+                        3->{
+                            scope.launch {
+                                viewModel.getAllTeamsRemote()
+                                numberStep++
+                            }
+                        }
+                        4->{
+                            scope.launch {
+                                viewModel.saveDataTutorial()
+                                navHostController.navigate(route = Destination.HOME.screenRoute){
+                                    popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+                                }
+                            }
                         }
                     }
                     /*scope.launch {
@@ -257,15 +247,22 @@ private fun TutorialContentLayout(
 private fun AnimationList(
     viewModel: TutorialViewModel,
     sportSelected: Sport?,
-    countrySelected: Country?,
-    leagueSelected: League?,
-    listSport: List<Sport>,
-    listCountry: List<Country>,
-    listLeague: List<League>,
-    listTeam: List<Team>,
+    countrySelected: LocalCountry?,
+    leagueSelected: LocalCompetition?,
     numberStep: Int,
     numberStepOnChange: ()-> Unit
 ) {
+
+    val listCountries = viewModel.stateListCountry.value
+    val listCompetition = viewModel.stateListCompetition.value
+    val listTeam = viewModel.stateListTeam.value
+
+    //filters
+    val listSportFiltered = viewModel.filteredSport
+    val listCountriesFiltered = viewModel.filteredCountries
+    val listCompetitionFiltered = viewModel.filteredCompetition
+    val listTeamFiltered = viewModel.filteredTeam
+
     AnimatedContent(
         targetState = numberStep,
         transitionSpec = {
@@ -282,17 +279,22 @@ private fun AnimationList(
     ) { targetCount ->
         Box(modifier = Modifier.fillMaxWidth()) {
             when(targetCount){
-                1-> ListSports(
-                    listSport = listSport
-                ){
-                    viewModel.changeSport(it)
-                    viewModel.clearQuery(numberStep)
-                    numberStepOnChange()
+                1-> {
+                    ListSports(
+                        listSport = listSportFiltered
+                    ) {
+                        viewModel.changeSport(it)
+                        viewModel.clearQuery(numberStep)
+                        numberStepOnChange()
+                    }
                 }
                 2-> sportSelected?.let {
                     ListCountry(
-                        sportId = it.id,
-                        listCountry = listCountry
+                        listCountry = listCountries,
+                        filteredList = listCountriesFiltered,
+                        onSuccess = {
+                            viewModel.queryCountries(listCountries.info ?: emptyList())
+                        }
                     ){country->
                         viewModel.changeCountry(country)
                         viewModel.clearQuery(numberStep)
@@ -301,7 +303,11 @@ private fun AnimationList(
                 }
                 3-> countrySelected?.let {
                     ListLeague(
-                        listLeague = listLeague
+                        listLeague = listCompetition,
+                        filteredList = listCompetitionFiltered,
+                        onSuccess = {
+                            viewModel.queryCompetition(listCompetition.info ?: emptyList())
+                        }
                     ){league->
                         viewModel.changeLeague(league)
                         viewModel.clearQuery(numberStep)
@@ -310,7 +316,11 @@ private fun AnimationList(
                 }
                 4-> leagueSelected?.let {
                     ListTeam(
-                        teamList = listTeam
+                        teamList = listTeam,
+                        filteredList = listTeamFiltered,
+                        onSuccess = {
+                            viewModel.queryTeam(listTeam.info ?: emptyList())
+                        }
                     ){team->
                         viewModel.changeTeam(team)
                         numberStepOnChange()

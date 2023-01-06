@@ -6,13 +6,18 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.yzdev.sportome.presentation.screens.favorites.FavoriteScreen
+import com.yzdev.sportome.presentation.screens.favorites.FavoriteViewModel
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
+import com.yzdev.sportome.presentation.screens.searcher.SearchViewModel
 import com.yzdev.sportome.presentation.screens.searcher.SearcherScreen
 import com.yzdev.sportome.presentation.screens.today_match.TodayMatchScreen
+import com.yzdev.sportome.presentation.screens.today_match.TodayMatchViewModel
+import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
 @Composable
 fun NavigationHome(
@@ -28,12 +33,12 @@ fun NavigationHome(
         composable(
             route = DestinationHome.TODAY_MATCH.screenRoute
         ){
-            //val viewmodel = hiltViewModel<HomeViewModel>()
+            val viewModel = hiltViewModel<TodayMatchViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
                 TodayMatchScreen(
                     scaffoldState = scaffoldState,
-                    homeViewModel = homeViewModel
+                    viewModel = viewModel
                 )
             }
         }
@@ -42,10 +47,10 @@ fun NavigationHome(
         composable(
             route = DestinationHome.FAVORITES.screenRoute
         ){
-            //val viewmodel = hiltViewModel<HomeViewModel>()
+            val viewModel = hiltViewModel<FavoriteViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                FavoriteScreen(navHostController = navHostController, scaffoldState = scaffoldState)
+                FavoriteScreen(navHostController = navHostController, scaffoldState = scaffoldState, viewModel = viewModel)
             }
         }
 
@@ -53,10 +58,10 @@ fun NavigationHome(
         composable(
             route = DestinationHome.SEARCH.screenRoute
         ){
-            //val viewmodel = hiltViewModel<HomeViewModel>()
+            val viewModel = hiltViewModel<SearchViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                SearcherScreen(navHostController = navHostController, scaffoldState = scaffoldState)
+                SearcherScreen(navHostController = navHostController, scaffoldState = scaffoldState, viewModel = viewModel)
             }
         }
     }
