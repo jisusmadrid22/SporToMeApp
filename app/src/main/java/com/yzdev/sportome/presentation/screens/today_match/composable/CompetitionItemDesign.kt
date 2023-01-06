@@ -15,11 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yzdev.sportome.common.get12HourFormatBy24HourFormat
+import com.yzdev.sportome.common.getHourByDateUnix
+import com.yzdev.sportome.common.getHourNumberByUnix
 import com.yzdev.sportome.domain.model.MatchesResponseLocal
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
@@ -50,22 +54,28 @@ fun CompetitionItemDesign(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = item.teams.home.name,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    fontFamily = QuickSandFont,
-                ),
-                textAlign = TextAlign.End
-            )
+            Row(
+                modifier = Modifier.width(LocalConfiguration.current.screenWidthDp.dp * 0.3f),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = item.teams.home.name,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 8.sp,
+                        fontFamily = QuickSandFont,
+                    ),
+                    textAlign = TextAlign.End
+                )
 
-            Spacer(modifier = Modifier.padding(spacer))
+                Spacer(modifier = Modifier.padding(spacer))
 
-            Box(modifier = Modifier
-                .size(24.dp)
-                .clip(CircleShape)
-                .background(gray))
+                Box(modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(gray))
+            }
 
             Spacer(modifier = Modifier.padding(spacer))
 
@@ -78,37 +88,57 @@ fun CompetitionItemDesign(
                     .background(Color.Transparent)
             ) {
 
-                Text(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                    text = "${item.fixture.status.elapsed}'",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 8.sp,
-                        fontFamily = QuickSandFont,
-                        color = greenSuccess
-                    ),
-                    textAlign = TextAlign.Center
-                )
+                if (item.fixture.status.elapsed != null){
+                    Text(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                        text = "${item.fixture.status.elapsed}'",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 8.sp,
+                            fontFamily = QuickSandFont,
+                            color = greenSuccess
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }else{
+                    Text(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                        text = "${get12HourFormatBy24HourFormat(getHourByDateUnix(item.fixture.timestamp), hour = getHourNumberByUnix(item.fixture.timestamp).toInt())}",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 8.sp,
+                            fontFamily = QuickSandFont,
+                            color = greenSuccess
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.padding(spacer))
 
-            Box(modifier = Modifier
-                .size(24.dp)
-                .clip(CircleShape)
-                .background(gray))
+            Row(
+                modifier = Modifier.width(LocalConfiguration.current.screenWidthDp.dp * 0.3f),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(gray))
 
-            Spacer(modifier = Modifier.padding(spacer))
+                Spacer(modifier = Modifier.padding(spacer))
 
-            Text(
-                text = item.teams.away.name,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    fontFamily = QuickSandFont
-                ),
-                textAlign = TextAlign.Start
-            )
+                Text(
+                    text = item.teams.away.name,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 8.sp,
+                        fontFamily = QuickSandFont
+                    ),
+                    textAlign = TextAlign.Start
+                )
+            }
         }
     }
 }

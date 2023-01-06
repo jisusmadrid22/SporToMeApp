@@ -2,10 +2,9 @@ package com.yzdev.sportome.common
 
 import android.util.Log
 import com.yzdev.sportome.R
-import java.sql.Timestamp
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -102,4 +101,28 @@ fun unixToDayWeek(unix: Long): String{
 
     Log.e("ee", "day ${sdf.format(netDate)}")
     return sdf.format(netDate)
+}
+
+fun getHourByDateUnix(unix: Long): String{
+    val sdf = SimpleDateFormat("HH:mm")
+    val netDate = Date(unix * 1000)
+
+    return sdf.format(netDate)
+}
+
+fun getHourNumberByUnix(unix: Long): String{
+    val sdf = SimpleDateFormat("HH")
+    val netDate = Date(unix * 1000)
+
+    return sdf.format(netDate)
+}
+
+fun get12HourFormatBy24HourFormat(time: String, hour: Int): String?{
+    try {
+        val sdf = SimpleDateFormat("H:mm")
+        val dateObj = sdf.parse(time)
+        return "${SimpleDateFormat("K:mm").format(dateObj)} ${if ((hour >= 0) and (hour < 12)) "AM" else {"PM"}}"
+    } catch (e: ParseException) {
+        return time
+    }
 }
