@@ -47,4 +47,5 @@
     <string name="notMatchesCompetitionEmpty">No se encontraron competiciones favoritas, para obtener los partidos de las competiciones, sigue a tus competiciones favoritas</string>
     <string name="notMatchesForThisCompetition">Hoy no hay partidos para esta competicion</string>
     <string name="competitionsList">Competiciones Favoritas</string>
+    <string name="about_us">Sobre nosotros</string>
 </resources>

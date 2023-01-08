@@ -1,6 +1,7 @@
 package com.yzdev.sportome.presentation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,8 +54,20 @@ fun Navigation(
 
             Box(modifier = Modifier.fillMaxSize()){
                 HomeScreen(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    navHostControllerParent = navigation
                 )
+            }
+        }
+
+        /** ABOUT US SCREEN*/
+        composable(
+            route = Destination.ABOUT_US.screenRoute
+        ){
+            //val viewModel: TutorialViewModel = hiltViewModel<TutorialViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                Text(text = "About us")
             }
         }
     }
