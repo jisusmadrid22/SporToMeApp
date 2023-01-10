@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.yzdev.sportome.presentation.screens.detail_match.DetailMatch
 import com.yzdev.sportome.presentation.screens.home.HomeScreen
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
@@ -68,6 +69,17 @@ fun Navigation(
 
             Box(modifier = Modifier.fillMaxSize()){
                 Text(text = "About us")
+            }
+        }
+
+        /** DETAIL MATCH SCREEN*/
+        composable(
+            route = Destination.DETAIL_MATCH.screenRoute
+        ){
+            //val viewModel: TutorialViewModel = hiltViewModel<TutorialViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                DetailMatch()
             }
         }
     }

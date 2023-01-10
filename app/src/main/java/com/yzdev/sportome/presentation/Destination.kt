@@ -33,5 +33,10 @@ enum class Destination(val screenRoute: String, val title: String, val iconRes: 
         screenRoute = "SPTM_SCREEN:LOGOUT_1",
         title = AppResource.getString(R.string.closeApp),
         iconRes = R.drawable.ic_logout
+    ),
+    DETAIL_MATCH(
+        screenRoute = "SPTM_SCREEN:DETAIL_MATCH_1",
+        title = AppResource.getString(R.string.detailMatch),
+        iconRes = R.drawable.ic_info
     )
 }

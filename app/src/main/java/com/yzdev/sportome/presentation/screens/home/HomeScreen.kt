@@ -2,7 +2,6 @@ package com.yzdev.sportome.presentation.screens.home
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -41,6 +40,11 @@ fun HomeScreen(
         drawerBackgroundColor = grayBackground,
         backgroundColor = grayBackground
     ) {
-        NavigationHome(navHostController = navHostController, scaffoldState = scaffoldState, homeViewModel = viewModel)
+        NavigationHome(
+            navHostController = navHostController,
+            scaffoldState = scaffoldState,
+            homeViewModel = viewModel,
+            navHostControllerParent = navHostControllerParent
+        )
     }
 }
