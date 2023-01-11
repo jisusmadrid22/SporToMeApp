@@ -22,10 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
 import com.yzdev.sportome.domain.model.MatchesResponseLocal
-import com.yzdev.sportome.presentation.screens.detail_match.composable.InfoTeams
-import com.yzdev.sportome.presentation.screens.detail_match.composable.MatchInfoCard
-import com.yzdev.sportome.presentation.screens.detail_match.composable.SelectorInfo
-import com.yzdev.sportome.presentation.screens.detail_match.composable.StatsLayout
+import com.yzdev.sportome.presentation.screens.detail_match.composable.*
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
@@ -142,7 +139,7 @@ fun AnimationSelector(
                 StatsLayout()
             }
             2-> {
-
+                LineupLayout()
             }
             3-> {
 
