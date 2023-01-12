@@ -53,4 +53,5 @@
     <string name="lineupsTitle">Alineaciones</string>
     <string name="h2hTitle">Cara a cara</string>
     <string name="eventTitle">Evento</string>
+    <string name="matchTitle">Partidos Jugados</string>
 </resources>

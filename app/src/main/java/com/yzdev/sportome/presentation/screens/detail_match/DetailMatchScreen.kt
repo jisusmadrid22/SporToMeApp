@@ -142,10 +142,10 @@ fun AnimationSelector(
                 LineupLayout()
             }
             3-> {
-
+                H2hLayout()
             }
             4-> {
-
+                EventLayout()
             }
         }
     }
