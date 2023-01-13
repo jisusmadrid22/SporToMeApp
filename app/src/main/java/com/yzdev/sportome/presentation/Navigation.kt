@@ -6,10 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.yzdev.sportome.common.Constant
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatch
+import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchViewModel
 import com.yzdev.sportome.presentation.screens.home.HomeScreen
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
@@ -74,12 +78,15 @@ fun Navigation(
 
         /** DETAIL MATCH SCREEN*/
         composable(
-            route = Destination.DETAIL_MATCH.screenRoute
+            route = Destination.DETAIL_MATCH.screenRoute + "/{${Constant.MATCH_ID_KEY}}",
+            arguments = listOf(
+                navArgument(name = Constant.MATCH_ID_KEY) { type = NavType.LongType }
+            )
         ){
-            //val viewModel: TutorialViewModel = hiltViewModel<TutorialViewModel>()
+            val viewModel: DetailMatchViewModel = hiltViewModel<DetailMatchViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                DetailMatch()
+                DetailMatch(viewModel = viewModel, idMatch = it.arguments?.getLong(Constant.MATCH_ID_KEY))
             }
         }
     }

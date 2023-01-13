@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,20 +29,38 @@ import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 @Composable
 fun DetailMatch(
+    idMatch: Long?,
+    viewModel: DetailMatchViewModel
 ) {
     Scaffold(
         backgroundColor = grayBackground
     ) {
-        DetailMatchLayout()
+        DetailMatchLayout(
+            idMatch, viewModel
+        )
     }
 }
 
 @Composable
-private fun DetailMatchLayout(){
+private fun DetailMatchLayout(
+    idMatch: Long?,
+    viewModel: DetailMatchViewModel
+){
 
     var numberSelector by remember {
         mutableStateOf(1)
     }
+
+    val stateDetail = viewModel.stateListDetail.value
+
+    /** init get details remote*/
+    LaunchedEffect(key1 = true, block = {
+        if (idMatch != null){
+            viewModel.getDetailMatchByID(idMatch)
+        }else{
+            viewModel.setErrorId()
+        }
+    })
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -72,18 +91,19 @@ private fun DetailMatchLayout(){
                     }
                 ) {
                     Text(
-                        text = "Nombre competicion",
+                        text = stateDetail.info?.league?.name ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            fontFamily = QuickSandFont
+                            fontFamily = QuickSandFont,
+                            color = Color.White
                         ),
                         textAlign = TextAlign.Center
                     )
                 }
 
                 MatchInfoCard(
-                    item = null,
+                    item = stateDetail,
                 )
             }
         }
@@ -102,23 +122,31 @@ private fun DetailMatchLayout(){
             Spacer(modifier = Modifier.padding(bottom = 4.dp))
 
             InfoTeams(
-                homeTeam = "Inter de Madrid",
-                awayTeam = "Paris saint germany",
-                formationHome = if (numberSelector != 2) null else {"4-4-2"},
-                formationAway = if (numberSelector != 2) null else {"4-3-2-1"}
+                homeTeam = stateDetail.info?.teams?.home?.name ?: "",
+                awayTeam = stateDetail.info?.teams?.away?.name ?: "",
+                formationHome = if (numberSelector != 2) null else {
+                    stateDetail.info?.lineups?.first()?.formation ?: ""
+                },
+                formationAway = if (numberSelector != 2) null else {
+                    stateDetail.info?.lineups?.last()?.formation ?: ""
+                }
             )
         }
 
         Spacer(modifier = Modifier.padding(bottom = 4.dp))
 
-        AnimationSelector(numberSelector = numberSelector)
+        AnimationSelector(
+            numberSelector = numberSelector,
+            stateDetail = stateDetail
+        )
 
     }
 }
 
 @Composable
 fun AnimationSelector(
-    numberSelector: Int
+    numberSelector: Int,
+    stateDetail: DetailMatchState
 ) {
     AnimatedContent(
         targetState = numberSelector,
@@ -136,10 +164,14 @@ fun AnimationSelector(
     ) { targetCount ->
         when (targetCount){
             1-> {
-                StatsLayout()
+                StatsLayout(
+                    stateDetail
+                )
             }
             2-> {
-                LineupLayout()
+                LineupLayout(
+                    stateDetail
+                )
             }
             3-> {
                 H2hLayout()

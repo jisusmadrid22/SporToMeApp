@@ -25,7 +25,9 @@ import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
+import com.yzdev.sportome.domain.model.DetailMatchResponse
 import com.yzdev.sportome.domain.model.MatchesResponseLocal
+import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
@@ -33,7 +35,7 @@ import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
 @Composable
 fun MatchInfoCard(
-    item: MatchesResponseLocal?,
+    item: DetailMatchState?,
 ) {
 
     Card(
@@ -45,7 +47,7 @@ fun MatchInfoCard(
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White
     ) {
-        if (item != null){
+        if (item?.info != null){
             MatchInfoLayout(item = item)
         }else{
             AnimatedShimmerTwoLines()
@@ -55,7 +57,7 @@ fun MatchInfoCard(
 
 @Composable
 fun MatchInfoLayout(
-    item: MatchesResponseLocal
+    item: DetailMatchState
 ) {
     Column(
         modifier = Modifier
@@ -64,7 +66,7 @@ fun MatchInfoLayout(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = item.fixture.venue.name,
+            text = item.info?.fixture?.venue?.name ?: "",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
@@ -82,13 +84,13 @@ fun MatchInfoLayout(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TeamInfoMatchDesign(item = item.teams.home)
+            TeamInfoMatchDesign(item = item.info?.teams?.home)
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "${item.goals.home ?: 0}:${item.goals.away ?: 0}",
+                    text = "${item.info?.goals?.home ?: 0}:${item.info?.goals?.away ?: 0}",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
@@ -113,7 +115,7 @@ fun MatchInfoLayout(
                 ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                        text = "${item.fixture.status.elapsed}'",
+                        text = "${item.info?.fixture?.status?.elapsed ?: ""}'",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
@@ -125,7 +127,7 @@ fun MatchInfoLayout(
                 }
             }
 
-            TeamInfoMatchDesign(item = item.teams.away)
+            TeamInfoMatchDesign(item = item.info?.teams?.away)
         }
 
         Spacer(modifier = Modifier.padding(top = 6.dp))
@@ -134,7 +136,7 @@ fun MatchInfoLayout(
 
 @Composable
 private fun TeamInfoMatchDesign(
-    item: MatchesResponseLocal.Teams.Home
+    item: DetailMatchResponse.Teams.Home?
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -148,7 +150,7 @@ private fun TeamInfoMatchDesign(
         Spacer(modifier = Modifier.padding(top = 4.dp))
 
         Text(
-            text = item.name,
+            text = item?.name ?: "",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
@@ -172,7 +174,7 @@ private fun TeamInfoMatchDesign(
 
 @Composable
 private fun TeamInfoMatchDesign(
-    item: MatchesResponseLocal.Teams.Away
+    item: DetailMatchResponse.Teams.Away?
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -186,7 +188,7 @@ private fun TeamInfoMatchDesign(
         Spacer(modifier = Modifier.padding(top = 4.dp))
 
         Text(
-            text = item.name,
+            text = item?.name ?: "",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,

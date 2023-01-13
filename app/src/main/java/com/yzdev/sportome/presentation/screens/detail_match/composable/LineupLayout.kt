@@ -17,11 +17,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.getFirstAndLastName
+import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 
 @Composable
 fun LineupLayout(
-
+    stateDetail: DetailMatchState
 ) {
     Column(
         modifier = Modifier

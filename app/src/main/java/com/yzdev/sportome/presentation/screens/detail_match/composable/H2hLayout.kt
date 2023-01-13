@@ -32,11 +32,11 @@ fun H2hLayout() {
             .verticalScroll(rememberScrollState())
     ) {
 
-        LinearProgressStat(valueParent = 30f, valueHome = 15f)
+        /*LinearProgressStat(valueParent = 30f, valueHome = 15f)
         LinearProgressStat(valueParent = 3f, valueHome = 1f)
         LinearProgressStat(valueParent = 5f, valueHome = 2f)
         LinearProgressStat(valueParent = 16f, valueHome = 8f)
-        LinearProgressStat(valueParent = 1f, valueHome = 0f)
+        LinearProgressStat(valueParent = 1f, valueHome = 0f)*/
 
         Spacer(modifier = Modifier.height(12.dp))
 
