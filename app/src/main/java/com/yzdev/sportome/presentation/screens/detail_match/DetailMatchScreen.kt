@@ -52,6 +52,7 @@ private fun DetailMatchLayout(
     }
 
     val stateDetail = viewModel.stateListDetail.value
+    val h2hState = viewModel.stateH2h.value
 
     /** init get details remote*/
     LaunchedEffect(key1 = true, block = {
@@ -137,7 +138,8 @@ private fun DetailMatchLayout(
 
         AnimationSelector(
             numberSelector = numberSelector,
-            stateDetail = stateDetail
+            stateDetail = stateDetail,
+            stateH2h = h2hState
         )
 
     }
@@ -146,7 +148,8 @@ private fun DetailMatchLayout(
 @Composable
 fun AnimationSelector(
     numberSelector: Int,
-    stateDetail: DetailMatchState
+    stateDetail: DetailMatchState,
+    stateH2h: H2hMatchState
 ) {
     AnimatedContent(
         targetState = numberSelector,
@@ -174,7 +177,9 @@ fun AnimationSelector(
                 )
             }
             3-> {
-                H2hLayout()
+                H2hLayout(
+                    stateH2h
+                )
             }
             4-> {
                 EventLayout()

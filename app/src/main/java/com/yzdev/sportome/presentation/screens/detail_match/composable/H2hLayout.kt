@@ -2,17 +2,21 @@ package com.yzdev.sportome.presentation.screens.detail_match.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -20,56 +24,144 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.data.remote.dto.match.MatchesForThisWeekDtoResponse
+import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
+import com.yzdev.sportome.common.unixToDateTime
+import com.yzdev.sportome.common.unixToDateTimeSA
+import com.yzdev.sportome.domain.model.H2hResponse
+import com.yzdev.sportome.presentation.screens.detail_match.H2hMatchState
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
-fun H2hLayout() {
-    Column(
+fun H2hLayout(
+    h2hState: H2hMatchState
+) {
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
     ) {
 
         /*LinearProgressStat(valueParent = 30f, valueHome = 15f)
         LinearProgressStat(valueParent = 3f, valueHome = 1f)
         LinearProgressStat(valueParent = 5f, valueHome = 2f)
         LinearProgressStat(valueParent = 16f, valueHome = 8f)
-        LinearProgressStat(valueParent = 1f, valueHome = 0f)*/
+        LinearProgressStat(valueParent = 1f, valueHome = 0f)*//*
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(12.dp))*/
 
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            text = AppResource.getString(R.string.matchTitle),
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 12.sp,
-                fontFamily = QuickSandFont,
-                color = Color.Black
-            ),
-            textAlign = TextAlign.Start
-        )
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            when{
+                h2hState.isLoading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LazyColumn{
+                            items(List<String?>(5){null}){response->
+                                H2hItemMatch(null)
+                            }
 
-        Spacer(modifier = Modifier.height(6.dp))
+                            item {
+                                Spacer(modifier = Modifier.height(48.dp))
+                            }
+                        }
+                    }
+                }
+                h2hState.error.isNotEmpty()->{
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = "Error")
+                        }
+                    }
+                }
+                else->{
 
-        H2hItemMatch()
-        H2hItemMatch()
-        H2hItemMatch()
-        H2hItemMatch()
-        H2hItemMatch()
-        H2hItemMatch()
+                    if (h2hState.info.isNotEmpty()){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LazyColumn{
+                                item {
+                                    Column {
+                                        Text(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 24.dp),
+                                            text = AppResource.getString(R.string.matchTitle),
+                                            style = TextStyle(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 12.sp,
+                                                fontFamily = QuickSandFont,
+                                                color = Color.Black
+                                            ),
+                                            textAlign = TextAlign.Start
+                                        )
 
-        Spacer(modifier = Modifier.height(48.dp))
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                    }
+                                }
+
+                                items(h2hState.info){response->
+                                    H2hItemMatch(response)
+                                }
+
+                                item {
+                                    Spacer(modifier = Modifier.height(48.dp))
+                                }
+                            }
+                        }
+                    }else{
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(text = "Error")
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
 @Composable
 private fun H2hItemMatch(
+    response: H2hResponse?
+) {
+    if (response != null){
+        H2hCardItem(response)
+    }else{
+        H2hCardLoading()
+    }
+}
 
+@Composable
+private fun H2hCardItem(
+    response: H2hResponse
 ) {
     Card(
         modifier = Modifier
@@ -92,7 +184,7 @@ private fun H2hItemMatch(
                         .padding(vertical = 4.dp, horizontal = 18.dp)
                 ) {
                     Text(
-                        text = "Date Match",
+                        text = unixToDateTimeSA(response.fixture.timestamp.toLong()) ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
@@ -108,7 +200,7 @@ private fun H2hItemMatch(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Venue",
+                            text = response.fixture.venue.name,
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
@@ -119,7 +211,7 @@ private fun H2hItemMatch(
                         )
 
                         Text(
-                            text = "Name Competition",
+                            text = response.league.name,
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp,
@@ -161,7 +253,7 @@ private fun H2hItemMatch(
                                 horizontalAlignment = Alignment.Start
                             ) {
                                 Text(
-                                    text = "Team 1",
+                                    text = response.teams.home.name,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
@@ -185,7 +277,7 @@ private fun H2hItemMatch(
                     }
 
                     Text(
-                        text = "0:0",
+                        text = "${response.goals.home}:${response.goals.home}",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -205,7 +297,7 @@ private fun H2hItemMatch(
                                 horizontalAlignment = Alignment.End
                             ) {
                                 Text(
-                                    text = "Team 2",
+                                    text = response.teams.away.name,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
@@ -239,5 +331,20 @@ private fun H2hItemMatch(
             }
 
         }
+    }
+}
+
+@Composable
+private fun H2hCardLoading() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(LocalConfiguration.current.screenWidthDp.dp * 0.3f)
+            .padding(horizontal = 24.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(24.dp),
+        elevation = 0.dp,
+        backgroundColor = Color.White
+    ) {
+        AnimatedShimmerTwoLines()
     }
 }

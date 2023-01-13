@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.Resource
+import com.yzdev.sportome.domain.use_case.getH2hMatch.GetH2hMatchUseCase
 import com.yzdev.sportome.domain.use_case.getMatchDetailRemote.GetMatchDetailRemoteUseCase
 import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,15 +20,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailMatchViewModel @Inject constructor(
-    private val getMatchDetailRemoteUseCase: GetMatchDetailRemoteUseCase
+    private val getMatchDetailRemoteUseCase: GetMatchDetailRemoteUseCase,
+    private val getH2hMatchUseCase: GetH2hMatchUseCase
 ): ViewModel() {
 
     private val _stateDetail = mutableStateOf(DetailMatchState())
     val stateListDetail: State<DetailMatchState> = _stateDetail
 
+    private val _stateH2h = mutableStateOf(H2hMatchState())
+    val stateH2h: State<H2hMatchState> = _stateH2h
+
     /** get detail match by id*/
     suspend fun getDetailMatchByID(id: Long){
-        delay(10000)
         getMatchDetailRemoteUseCase(id).onEach { result->
             when(result){
                 is Resource.Error -> {
@@ -38,6 +42,26 @@ class DetailMatchViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     _stateDetail.value = DetailMatchState(info = result.data)
+
+                    result.data?.let {
+                        getH2hMatch("${it.teams.home.id}-${it.teams.away.id}")
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private suspend fun getH2hMatch(ids: String){
+        getH2hMatchUseCase(ids).onEach { result->
+            when(result){
+                is Resource.Error -> {
+                    _stateH2h.value = H2hMatchState(error = result.message ?: AppResource.getString(R.string.erroGeneric))
+                }
+                is Resource.Loading -> {
+                    _stateH2h.value = H2hMatchState(isLoading = true)
+                }
+                is Resource.Success -> {
+                    _stateH2h.value = H2hMatchState(info = result.data ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)
