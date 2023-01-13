@@ -35,7 +35,7 @@ fun StatsLayout(
     ) {
         when{
             stateDetail.isLoading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
@@ -81,6 +81,8 @@ fun StatsLayout(
                                     isPercent = stateDetail.info.statistics.first().statistics[i].value?.contains("%") ?: false
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(48.dp))
                         }
                     }
                 }else{

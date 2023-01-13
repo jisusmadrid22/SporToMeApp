@@ -3,11 +3,13 @@ package com.yzdev.sportome.presentation.screens.detail_match.composable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -16,12 +18,71 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yzdev.sportome.R
 import com.yzdev.sportome.common.getFirstAndLastName
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 
 @Composable
 fun LineupLayout(
+    stateDetail: DetailMatchState
+) {
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        when{
+            stateDetail.isLoading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+            stateDetail.error.isNotEmpty() -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "Error")
+                    }
+                }
+            }
+            else -> {
+                if (stateDetail.info?.statistics != null){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LineupLayoutDesign(stateDetail = stateDetail)
+                    }
+                }else{
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = "Error")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LineupLayoutDesign(
     stateDetail: DetailMatchState
 ) {
     Column(
@@ -40,7 +101,7 @@ fun LineupLayout(
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
-            text = "Manager",
+            text = stringResource(R.string.managerTitle),
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
@@ -58,7 +119,7 @@ fun LineupLayout(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Manager 1",
+                text = stateDetail.info?.lineups?.first()?.coach?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
@@ -69,7 +130,7 @@ fun LineupLayout(
             )
 
             Text(
-                text = "Manager 2",
+                text = stateDetail.info?.lineups?.last()?.coach?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
@@ -83,7 +144,7 @@ fun LineupLayout(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Lineups",
+            text = stringResource(R.string.lineupTitle),
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
@@ -102,9 +163,9 @@ fun LineupLayout(
         ) {
 
             Column(modifier = Modifier.fillMaxWidth(0.5f), horizontalAlignment = Alignment.Start) {
-                setLineup().forEach {
+                (stateDetail.info?.lineups?.first()?.startXI ?: emptyList()).forEach {
 
-                    val names = getFirstAndLastName(it.name)
+                    val names = getFirstAndLastName(it.player.name)
 
                     Text(
                         buildAnnotatedString {
@@ -116,7 +177,7 @@ fun LineupLayout(
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
-                                append("${it.number}. ${names.first}")
+                                append("${it.player.number}. ${names.first}")
                             }
                             if (names.second.isNotEmpty()){
                                 append("\n")
@@ -140,9 +201,9 @@ fun LineupLayout(
             }
 
             Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
-                setLineup().forEach {
+                (stateDetail.info?.lineups?.last()?.startXI ?: emptyList()).forEach {
 
-                    val names = getFirstAndLastName(it.name)
+                    val names = getFirstAndLastName(it.player.name)
 
                     Text(
                         buildAnnotatedString {
@@ -154,7 +215,7 @@ fun LineupLayout(
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
-                                append("${it.number}. ${names.first}")
+                                append("${it.player.number}. ${names.first}")
                             }
                             if (names.second.isNotEmpty()){
                                 append("\n")
@@ -181,7 +242,7 @@ fun LineupLayout(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Substitutes",
+            text = stringResource(R.string.substituteTitle),
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
@@ -200,9 +261,9 @@ fun LineupLayout(
         ) {
 
             Column(modifier = Modifier.fillMaxWidth(0.5f), horizontalAlignment = Alignment.Start) {
-                setLineup().forEach {
+                (stateDetail.info?.lineups?.first()?.substitutes ?: emptyList()).forEach {
 
-                    val names = getFirstAndLastName(it.name)
+                    val names = getFirstAndLastName(it.player.name)
 
                     Text(
                         buildAnnotatedString {
@@ -214,7 +275,7 @@ fun LineupLayout(
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
-                                append("${it.number}. ${names.first}")
+                                append("${it.player.number}. ${names.first}")
                             }
                             if (names.second.isNotEmpty()){
                                 append("\n")
@@ -238,9 +299,9 @@ fun LineupLayout(
             }
 
             Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
-                setLineup().forEach {
+                (stateDetail.info?.lineups?.last()?.substitutes ?: emptyList()).forEach {
 
-                    val names = getFirstAndLastName(it.name)
+                    val names = getFirstAndLastName(it.player.name)
 
                     Text(
                         buildAnnotatedString {
@@ -252,7 +313,7 @@ fun LineupLayout(
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
-                                append("${it.number}. ${names.first}")
+                                append("${it.player.number}. ${names.first}")
                             }
                             if (names.second.isNotEmpty()){
                                 append("\n")
@@ -280,57 +341,3 @@ fun LineupLayout(
 
     }
 }
-
-private fun setLineup(): List<Lineup>{
-    return listOf(
-        Lineup(
-            "Iker Casillas",
-            1
-        ),
-        Lineup(
-            "Pepe",
-            4
-        ),
-        Lineup(
-            "Di Maria",
-            22
-        ),
-        Lineup(
-            "Lionel Messi",
-            10
-        ),
-        Lineup(
-            "Cristiano Ronaldo",
-            7
-        ),
-        Lineup(
-            "Tony Kross",
-            11
-        ),
-        Lineup(
-            "Karim Benzema",
-            9
-        ),
-        Lineup(
-            "Iker Casillas",
-            1
-        ),
-        Lineup(
-            "Pepe",
-            4
-        ),
-        Lineup(
-            "Di Maria",
-            22
-        ),
-        Lineup(
-            "Lionel Messi",
-            10
-        ),
-    )
-}
-
-data class Lineup(
-    val name: String,
-    val number: Int
-)

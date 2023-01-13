@@ -54,4 +54,7 @@
     <string name="h2hTitle">Cara a cara</string>
     <string name="eventTitle">Evento</string>
     <string name="matchTitle">Partidos Jugados</string>
+    <string name="managerTitle">Director Tecnico</string>
+    <string name="lineupTitle">Alineaciones</string>
+    <string name="substituteTitle">Suplentes</string>
 </resources>
