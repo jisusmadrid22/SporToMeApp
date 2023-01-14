@@ -1,5 +1,6 @@
 package com.yzdev.sportome.domain.model
 
+import com.yzdev.sportome.common.timeToUnix
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.*
 
 data class H2hResponse(
@@ -13,7 +14,7 @@ data class H2hResponse(
 /** mapper*/
 
 fun H2hResponseDto.toListH2hResponse(): List<H2hResponse>{
-    return this.response.sortedBy { it.fixture.timestamp }.reversed().map {
+    return this.response.filter { it.fixture.timestamp <= timeToUnix() }.sortedBy { it.fixture.timestamp }.reversed().map {
         H2hResponse(
             fixture = it.fixture,
             goals = it.goals,

@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -17,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,22 +24,204 @@ import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
-import com.yzdev.sportome.common.unixToDateTime
 import com.yzdev.sportome.common.unixToDateTimeSA
 import com.yzdev.sportome.domain.model.H2hResponse
 import com.yzdev.sportome.presentation.screens.detail_match.H2hMatchState
+import com.yzdev.sportome.presentation.screens.detail_match.PredictionMatchState
 import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun H2hLayout(
-    h2hState: H2hMatchState
+    h2hState: H2hMatchState,
+    statePrediction: PredictionMatchState
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
 
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            LazyColumn{
+                when{
+                    statePrediction.isLoading -> {
+                        item {
+                            CircularProgressIndicator()
+                        }
+
+                        item {
+                            Spacer(modifier = Modifier.height(48.dp))
+                        }
+                    }
+                    statePrediction.error.isNotEmpty()->{
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = "Error")
+                                }
+                            }
+                        }
+                    }
+                    else->{
+
+                        if (statePrediction.info.isNotEmpty()){
+                            items(statePrediction.info){response->
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToInt(response?.comparison?.form?.home),
+                                    nameState = stringResource(id = R.string.formTitle),
+                                    isPercent = true
+                                )
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToInt(response?.comparison?.att?.home),
+                                    nameState = stringResource(id = R.string.attTitle),
+                                    isPercent = true
+                                )
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToInt(response?.comparison?.def?.home),
+                                    nameState = stringResource(id = R.string.defTitle),
+                                    isPercent = true
+                                )
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToInt(response?.comparison?.poisson_distribution?.home),
+                                    nameState = stringResource(id = R.string.poissonDistribution),
+                                    isPercent = true
+                                )
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToInt(response?.comparison?.h2h?.home),
+                                    nameState = stringResource(id = R.string.h2hTitle),
+                                    isPercent = true
+                                )
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToInt(response?.comparison?.goals?.home),
+                                    nameState = stringResource(id = R.string.goalsTitle),
+                                    isPercent = true
+                                )
+                                LinearProgressStat(
+                                    valueParent = 100,
+                                    valueHome = getValueToFloat(response?.comparison?.total?.home),
+                                    nameState = stringResource(id = R.string.totalTitle),
+                                    isPercent = true
+                                )
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(24.dp))
+                            }
+                        }else{
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(text = "Error")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                /** h2h*/
+                when{
+                    h2hState.isLoading -> {
+                        items(List<String?>(5){null}){response->
+                            H2hItemMatch(null)
+                        }
+
+                        item {
+                            Spacer(modifier = Modifier.height(48.dp))
+                        }
+                    }
+                    h2hState.error.isNotEmpty()->{
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(text = "Error")
+                                }
+                            }
+                        }
+                    }
+                    else->{
+
+                        if (h2hState.info.isNotEmpty()){
+                            item {
+                                Column {
+                                    Text(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 24.dp),
+                                        text = AppResource.getString(R.string.matchTitle),
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 12.sp,
+                                            fontFamily = QuickSandFont,
+                                            color = Color.Black
+                                        ),
+                                        textAlign = TextAlign.Start
+                                    )
+
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                }
+                            }
+
+                            items(h2hState.info){response->
+                                H2hItemMatch(response)
+                            }
+
+                            item {
+                                Spacer(modifier = Modifier.height(48.dp))
+                            }
+                        }else{
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(text = "Error")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /*LinearProgressStat(valueParent = 30f, valueHome = 15f)
         LinearProgressStat(valueParent = 3f, valueHome = 1f)
         LinearProgressStat(valueParent = 5f, valueHome = 2f)
@@ -49,7 +230,7 @@ fun H2hLayout(
 
         Spacer(modifier = Modifier.height(12.dp))*/
 
-        Box(
+        /*Box(
             modifier = Modifier.fillMaxSize()
         ) {
             when{
@@ -144,7 +325,7 @@ fun H2hLayout(
                     }
                 }
             }
-        }
+        }*/
     }
 }
 

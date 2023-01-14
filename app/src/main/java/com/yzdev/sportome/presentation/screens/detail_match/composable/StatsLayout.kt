@@ -76,7 +76,7 @@ fun StatsLayout(
                                         valueHome = stateDetail.info.statistics.first().statistics[i].value,
                                         valueAway = stateDetail.info.statistics.last().statistics[i].value
                                 ),
-                                    valueHome = getValueToFloat(stateDetail.info.statistics.first().statistics[i].value),
+                                    valueHome = getValueToInt(stateDetail.info.statistics.first().statistics[i].value),
                                     nameState = stateDetail.info.statistics.first().statistics[i].type,
                                     isPercent = stateDetail.info.statistics.first().statistics[i].value?.contains("%") ?: false
                                 )
@@ -103,6 +103,125 @@ fun StatsLayout(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun LinearProgressStat(
+    valueParent: Int,
+    valueHome: Float,
+    nameState: String,
+    isPercent: Boolean
+) {
+
+
+    val percentHome = (((valueHome.toFloat() * 100) / valueParent.toFloat()) / 100)
+    val percentAway = (1 - percentHome)
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 2.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = nameState,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 10.sp,
+                fontFamily = QuickSandFont,
+                color = Color.Black
+            ),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(12.dp)
+                .clip(CircleShape)
+                .background(gray)
+        ){
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                Box(modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5f),
+                    contentAlignment = Alignment.CenterEnd
+                ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(percentHome)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(topStart = 128.dp, bottomStart = 128.dp))
+                            .background(MaterialTheme.colors.primary)
+                    )
+                }
+
+                Box(modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                    contentAlignment = Alignment.CenterStart
+                ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(percentAway)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(bottomEnd = 128.dp, topEnd = 128.dp))
+                            .background(MaterialTheme.colors.primary)
+                    )
+                }
+
+            }
+
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(modifier = Modifier
+                    .fillMaxHeight()
+                    .width(1.dp)
+                    .background(Color.White))
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = if (!isPercent) valueHome.toInt().toString() else "${valueHome.toInt().toString()}%",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 10.sp,
+                    fontFamily = QuickSandFont,
+                    color = Color.Black.copy(alpha = 0.25f)
+                ),
+                textAlign = TextAlign.Start
+            )
+
+            Text(
+                text = if (!isPercent) (valueParent - valueHome).toInt().toString() else "${(valueParent - valueHome).toInt().toString()}%",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 10.sp,
+                    fontFamily = QuickSandFont,
+                    color = Color.Black.copy(alpha = 0.25f)
+                ),
+                textAlign = TextAlign.End
+            )
+        }
+
     }
 }
 
@@ -225,7 +344,7 @@ fun LinearProgressStat(
     }
 }
 
-private fun getParentValue(valueHome: String?, valueAway: String?): Int{
+fun getParentValue(valueHome: String?, valueAway: String?): Int{
     Log.e("value", "value $valueAway $valueHome")
     var home = 0
     var away = 0
@@ -253,7 +372,7 @@ private fun getParentValue(valueHome: String?, valueAway: String?): Int{
     return home + away
 }
 
-private fun getValueToFloat(valueHome: String?): Int{
+fun getValueToInt(valueHome: String?): Int{
     var home = 0
 
     home = if (((valueHome != null) and (valueHome != "null"))){
@@ -264,6 +383,22 @@ private fun getValueToFloat(valueHome: String?): Int{
         }
     }else{
         0
+    }
+
+    return home
+}
+
+fun getValueToFloat(valueHome: String?): Float{
+    var home = 0f
+
+    home = if (((valueHome != null) and (valueHome != "null"))){
+        if (valueHome!!.contains("%")){
+            valueHome.dropLast(1).toFloat()
+        }else{
+            valueHome.dropLast(2).toFloat()
+        }
+    }else{
+        0f
     }
 
     return home

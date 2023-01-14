@@ -57,4 +57,10 @@
     <string name="managerTitle">Director Tecnico</string>
     <string name="lineupTitle">Alineaciones</string>
     <string name="substituteTitle">Suplentes</string>
+    <string name="formTitle">Forma</string>
+    <string name="attTitle">Atributos</string>
+    <string name="defTitle">Defensa</string>
+    <string name="poissonDistribution">Distribución de veneno</string>
+    <string name="goalsTitle">Goles</string>
+    <string name="totalTitle">Total</string>
 </resources>

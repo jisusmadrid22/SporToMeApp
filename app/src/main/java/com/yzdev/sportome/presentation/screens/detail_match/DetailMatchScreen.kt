@@ -53,6 +53,7 @@ private fun DetailMatchLayout(
 
     val stateDetail = viewModel.stateListDetail.value
     val h2hState = viewModel.stateH2h.value
+    val statePrediction = viewModel.statePrediction.value
 
     /** init get details remote*/
     LaunchedEffect(key1 = true, block = {
@@ -139,7 +140,8 @@ private fun DetailMatchLayout(
         AnimationSelector(
             numberSelector = numberSelector,
             stateDetail = stateDetail,
-            stateH2h = h2hState
+            stateH2h = h2hState,
+            statePrediction = statePrediction
         )
 
     }
@@ -149,7 +151,8 @@ private fun DetailMatchLayout(
 fun AnimationSelector(
     numberSelector: Int,
     stateDetail: DetailMatchState,
-    stateH2h: H2hMatchState
+    stateH2h: H2hMatchState,
+    statePrediction: PredictionMatchState
 ) {
     AnimatedContent(
         targetState = numberSelector,
@@ -178,7 +181,8 @@ fun AnimationSelector(
             }
             3-> {
                 H2hLayout(
-                    stateH2h
+                    stateH2h,
+                    statePrediction
                 )
             }
             4-> {
