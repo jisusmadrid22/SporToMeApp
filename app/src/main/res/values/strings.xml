@@ -63,4 +63,13 @@
     <string name="poissonDistribution">Distribución de veneno</string>
     <string name="goalsTitle">Goles</string>
     <string name="totalTitle">Total</string>
+    <string name="goalTitle">Gol</string>
+    <string name="subsTitle">Substitución</string>
+    <string name="secondCardYellow">Segunda tarjeta amarilla</string>
+    <string name="yellowCard">Tarjeta amarilla</string>
+    <string name="redCard">Tarjeta roja</string>
+    <string name="varTitle">Var</string>
+    <string name="penaltyConfirmed">Penalti confirmado</string>
+    <string name="penaltyCancelled">Penalti cancelado</string>
+    <string name="goalCancelled">Gol cancelado</string>
 </resources>

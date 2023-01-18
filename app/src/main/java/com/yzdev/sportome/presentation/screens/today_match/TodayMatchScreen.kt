@@ -184,7 +184,7 @@ fun TodayMatchLayout(
                             CompetitionList(
                                 item = item,
                                 onClickShowMore = {
-                                    navHostController.navigate(Destination.DETAIL_MATCH.screenRoute)
+                                    navHostController.navigate(route = Destination.DETAIL_MATCH.screenRoute + "/${868009}")
                                 }
                             ) {
 

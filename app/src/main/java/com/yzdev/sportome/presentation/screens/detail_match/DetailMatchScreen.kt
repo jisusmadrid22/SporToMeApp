@@ -186,7 +186,9 @@ fun AnimationSelector(
                 )
             }
             4-> {
-                EventLayout()
+                EventLayout(
+                    stateDetail
+                )
             }
         }
     }
