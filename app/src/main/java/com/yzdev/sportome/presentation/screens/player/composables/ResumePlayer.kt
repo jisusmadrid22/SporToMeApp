@@ -39,6 +39,115 @@ fun ResumePlayer(
         item {
             ResumePlayerTeam()
         }
+
+        item{
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        item{
+            ResumeInfoPlayer()
+        }
+    }
+}
+
+@Composable
+private fun ResumeInfoPlayer(
+
+) {
+    val paddingHeight = 4.dp
+
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        shape = RoundedCornerShape(16.dp),
+        backgroundColor = Color.White,
+        elevation = 0.dp,
+    ) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp, horizontal = 14.dp)
+        ) {
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.dateBirth),
+                valueInfo = "DD/MM/YYYY"
+            )
+
+            Spacer(modifier = Modifier.height(paddingHeight))
+
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.city),
+                valueInfo = "Nombre ciudad"
+            )
+
+            Spacer(modifier = Modifier.height(paddingHeight))
+
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.age),
+                valueInfo = "Edad"
+            )
+
+            Spacer(modifier = Modifier.height(paddingHeight))
+
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.weight),
+                valueInfo = "Peso"
+            )
+
+            Spacer(modifier = Modifier.height(paddingHeight))
+
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.height),
+                valueInfo = "Altura"
+            )
+
+            Spacer(modifier = Modifier.height(paddingHeight))
+
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.injure),
+                valueInfo = "No"
+            )
+
+            Spacer(modifier = Modifier.height(paddingHeight))
+
+            InfoPlayer(
+                titleInfo = stringResource(id = R.string.captain),
+                valueInfo = "No"
+            )
+        }
+    }
+}
+
+@Composable
+private fun InfoPlayer(
+    titleInfo: String,
+    valueInfo: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = titleInfo,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 10.sp,
+                fontFamily = QuickSandFont,
+                color = Color.Black.copy(alpha = 0.25f)
+            )
+        )
+
+        Text(
+            text = valueInfo,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 10.sp,
+                fontFamily = QuickSandFont,
+                color = Color.Black
+            )
+        )
     }
 }
 
@@ -50,7 +159,7 @@ private fun ResumePlayerTeam(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White,
         elevation = 0.dp,
         onClick = {

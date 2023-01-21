@@ -77,4 +77,11 @@
     <string name="carrer">Carrera</string>
     <string name="trophies">Trofeos</string>
     <string name="information">Mas información</string>
+    <string name="dateBirth">Fecha de nacimiento:</string>
+    <string name="city">Ciudad:</string>
+    <string name="age">Edad:</string>
+    <string name="weight">Peso:</string>
+    <string name="height">Altura:</string>
+    <string name="injure">Lesion:</string>
+    <string name="captain">Capitan:</string>
 </resources>

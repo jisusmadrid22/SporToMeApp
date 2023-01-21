@@ -30,7 +30,7 @@ fun IntroTutorialScreen(
 ) {
 
     if (isNotTutorial){
-        navHostController.navigate(route = Destination.DETAIL_PLAYER.screenRoute + "/${234444}"){
+        navHostController.navigate(route = Destination.HOME.screenRoute){
             popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
         }
     }else{
