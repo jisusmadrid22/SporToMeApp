@@ -184,10 +184,10 @@ fun TodayMatchLayout(
                             CompetitionList(
                                 item = item,
                                 onClickShowMore = {
-                                    navHostController.navigate(route = Destination.DETAIL_MATCH.screenRoute + "/${868009}")
+
                                 }
                             ) {
-
+                                navHostController.navigate(route = Destination.DETAIL_MATCH.screenRoute + "/${it.fixture.id}")
                             }
                         }
                     }else{

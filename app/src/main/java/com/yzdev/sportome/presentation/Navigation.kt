@@ -16,6 +16,7 @@ import com.yzdev.sportome.presentation.screens.detail_match.DetailMatch
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchViewModel
 import com.yzdev.sportome.presentation.screens.home.HomeScreen
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
+import com.yzdev.sportome.presentation.screens.player.PlayerInfoScreen
 import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
@@ -87,6 +88,20 @@ fun Navigation(
 
             Box(modifier = Modifier.fillMaxSize()){
                 DetailMatch(viewModel = viewModel, idMatch = it.arguments?.getLong(Constant.MATCH_ID_KEY))
+            }
+        }
+
+        /** DETAIL PLAYER SCREEN*/
+        composable(
+            route = Destination.DETAIL_PLAYER.screenRoute + "/{${Constant.PLAYER_ID_KEY}}",
+            arguments = listOf(
+                navArgument(name = Constant.PLAYER_ID_KEY) { type = NavType.LongType }
+            )
+        ){
+            //val viewModel: DetailMatchViewModel = hiltViewModel<DetailMatchViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                PlayerInfoScreen()
             }
         }
     }
