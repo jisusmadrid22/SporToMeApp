@@ -19,6 +19,7 @@ import com.yzdev.sportome.presentation.screens.detail_match.composable.H2hLayout
 import com.yzdev.sportome.presentation.screens.detail_match.composable.LineupLayout
 import com.yzdev.sportome.presentation.screens.detail_match.composable.StatsLayout
 import com.yzdev.sportome.presentation.screens.player.composables.HeaderPlayer
+import com.yzdev.sportome.presentation.screens.player.composables.ResumePlayer
 import com.yzdev.sportome.presentation.screens.player.composables.SelectorInfoPlayer
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
@@ -75,7 +76,7 @@ private fun AnimationSelector(
     ) { targetCount ->
         when (targetCount){
             1-> {
-                Text(text = "resume")
+                ResumePlayer()
             }
             2-> {
                 Text(text = "Stats")

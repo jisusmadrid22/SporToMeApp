@@ -37,7 +37,7 @@ fun HeaderPlayer(
             .height(height * 0.3f)
             .padding(8.dp),
         backgroundColor = MaterialTheme.colors.primary,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(12.dp),
         elevation = 0.dp
     ) {
         Column(
