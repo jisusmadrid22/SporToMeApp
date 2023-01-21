@@ -148,7 +148,7 @@ private fun DetailMatchLayout(
 }
 
 @Composable
-fun AnimationSelector(
+private fun AnimationSelector(
     numberSelector: Int,
     stateDetail: DetailMatchState,
     stateH2h: H2hMatchState,

@@ -73,4 +73,7 @@
     <string name="penaltyCancelled">Penalti cancelado</string>
     <string name="goalCancelled">Gol cancelado</string>
     <string name="detailPlayer">Detalle del jugador</string>
+    <string name="resume">Resumen</string>
+    <string name="carrer">Carrera</string>
+    <string name="trophies">Trofeos</string>
 </resources>
