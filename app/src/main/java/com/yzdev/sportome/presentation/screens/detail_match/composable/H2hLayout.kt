@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
+import com.yzdev.sportome.common.AutoResizedText
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
 import com.yzdev.sportome.common.unixToDateTimeSA
 import com.yzdev.sportome.domain.model.H2hResponse
@@ -276,27 +277,29 @@ private fun H2hCardItem(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = response.fixture.venue.name,
-                            style = TextStyle(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 10.sp,
-                                fontFamily = QuickSandFont,
-                                color = Color.Black.copy(alpha = 0.25f)
-                            ),
-                            textAlign = TextAlign.Start
-                        )
+                        Box(modifier = Modifier.fillMaxWidth(0.65f), contentAlignment = Alignment.BottomStart) {
+                            AutoResizedText(
+                                text = response.fixture.venue.name,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 10.sp,
+                                    fontFamily = QuickSandFont,
+                                    color = Color.Black.copy(alpha = 0.25f)
+                                )
+                            )
+                        }
 
-                        Text(
-                            text = response.league.name,
-                            style = TextStyle(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 10.sp,
-                                fontFamily = QuickSandFont,
-                                color = Color.Black.copy(alpha = 0.25f)
-                            ),
-                            textAlign = TextAlign.End
-                        )
+                        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd) {
+                            AutoResizedText(
+                                text = response.league.name,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 10.sp,
+                                    fontFamily = QuickSandFont,
+                                    color = Color.Black.copy(alpha = 0.25f)
+                                )
+                            )
+                        }
                     }
                 }
             }

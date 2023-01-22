@@ -278,7 +278,7 @@ fun LinearProgressStat(
                 ){
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(percentHome)
+                            .fillMaxWidth(if (percentHome.isNaN()) 0f else percentHome)
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(topStart = 128.dp, bottomStart = 128.dp))
                             .background(MaterialTheme.colors.primary)
@@ -292,7 +292,7 @@ fun LinearProgressStat(
                 ){
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(percentAway)
+                            .fillMaxWidth(if (percentAway.isNaN()) 0f else percentAway)
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(bottomEnd = 128.dp, topEnd = 128.dp))
                             .background(MaterialTheme.colors.primary)
