@@ -44,7 +44,7 @@ fun CompetitionItemDesign(
         elevation = 0.dp,
         shape = RoundedCornerShape(12.dp),
         onClick = {
-
+            onClick()
         }
     ) {
         Row(

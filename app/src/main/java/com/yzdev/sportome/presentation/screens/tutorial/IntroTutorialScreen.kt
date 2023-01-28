@@ -25,29 +25,22 @@ import com.yzdev.sportome.presentation.screens.tutorial.composables.TopHeaderTut
 @Composable
 fun IntroTutorialScreen(
     navHostController: NavHostController,
-    viewModel: TutorialViewModel,
-    isNotTutorial: Boolean
+    viewModel: TutorialViewModel
 ) {
-
-    if (isNotTutorial){
-        navHostController.navigate(route = Destination.HOME.screenRoute){
-            popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
-        }
-    }else{
-        var goToTutorialContent by remember {
-            mutableStateOf(false)
-        }
-
-        if(!goToTutorialContent){
-            IntroTutorialLayout(
-                goToTutorialContentOnChange = {
-                    goToTutorialContent = it
-                }
-            )
-        }else{
-            TutorialContentScreen(navHostController = navHostController, viewModel = viewModel)
-        }
+    var goToTutorialContent by remember {
+        mutableStateOf(false)
     }
+
+    if(!goToTutorialContent){
+        IntroTutorialLayout(
+            goToTutorialContentOnChange = {
+                goToTutorialContent = it
+            }
+        )
+    }else{
+        TutorialContentScreen(navHostController = navHostController, viewModel = viewModel)
+    }
+
 }
 
 @Composable

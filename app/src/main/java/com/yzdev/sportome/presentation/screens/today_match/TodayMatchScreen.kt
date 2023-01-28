@@ -17,10 +17,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.common.composable.itemListDesign.CardLoadingFullWidth
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
+import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.today_match.composable.CalendarWeek
 import com.yzdev.sportome.presentation.screens.today_match.composable.CardErrorList
 import com.yzdev.sportome.presentation.screens.today_match.composable.CompetitionList
@@ -31,18 +33,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun TodayMatchScreen(
     scaffoldState: ScaffoldState,
-    viewModel: TodayMatchViewModel
+    viewModel: TodayMatchViewModel,
+    navHostController: NavHostController
 ) {
     TodayMatchLayout(
         scaffoldState = scaffoldState,
-        viewModel = viewModel
+        viewModel = viewModel,
+        navHostController = navHostController
     )
 }
 
 @Composable
 fun TodayMatchLayout(
     scaffoldState: ScaffoldState,
-    viewModel: TodayMatchViewModel
+    viewModel: TodayMatchViewModel,
+    navHostController: NavHostController
 ) {
     val scope = rememberCoroutineScope()
     val stateList = rememberLazyListState()
@@ -182,7 +187,7 @@ fun TodayMatchLayout(
 
                                 }
                             ) {
-
+                                navHostController.navigate(route = Destination.DETAIL_MATCH.screenRoute + "/${it.fixture.id}")
                             }
                         }
                     }else{

@@ -159,7 +159,6 @@ class TutorialViewModel @Inject constructor(
     /** get all seasons year from api or db*/
     private suspend fun getAllSeasonsYear(){
         Log.e("countries", "init")
-        delay(15000)
         getAllSeasonsYearUseCase().onEach { result->
             when(result){
                 is Resource.Error -> {

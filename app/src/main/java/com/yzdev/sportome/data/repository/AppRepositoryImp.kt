@@ -6,6 +6,9 @@ import com.yzdev.sportome.common.*
 import com.yzdev.sportome.data.data_source.AppDao
 import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
+import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
+import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
@@ -33,6 +36,24 @@ class AppRepositoryImp @Inject constructor(
      * */
     override suspend fun getAllTeamsRemoteQuery(leagueId: Int, yearSeason: Int): TeamsDtoResponse {
         return api.getAllTeamByLeagueId(league = leagueId, season = yearSeason)
+    }
+
+    /** get all detail (stats, lineup, event, h2h) for match
+     * @param id id of match
+     * */
+    override suspend fun getDetailMatch(id: Long): DetailMatchDtoResponse {
+        return api.getMatchDetail(id)
+    }
+
+    /** get all h2h for match
+     * @param h2h id string of id team home an id team away
+     * */
+    override suspend fun getH2hMatch(h2h: String): H2hResponseDto {
+        return api.getH2hMatchDetail(h2h)
+    }
+
+    override suspend fun getPredictionMatch(idMatch: Int): PredictionsResponseDto {
+        return api.getPredictionMatch(idMatch)
     }
 
     //-------------------------------------------------------------------------------------
