@@ -84,4 +84,12 @@
     <string name="height">Altura:</string>
     <string name="injure">Lesion:</string>
     <string name="captain">Capitan:</string>
+    <string name="stepOneBoarding">Resultados en vivo es</string>
+    <string name="stepOneBoardingTwo">lo que nos caracteriza\na nosotros</string>
+    <string name="stepTwoBoardingOne">Un gran catalogo</string>
+    <string name="stepTwoBoardingTwo">para elegir tus deportes, equipos\ny competiciones favoritas</string>
+    <string name="stepThreeBoardingOne">Un entorno personalizado</string>
+    <string name="stepThreeBoardingTwo">donde podras organizar\ntus eventos favoritos</string>
+    <string name="finishStepTitle">¡Todo listo!</string>
+    <string name="finishStepHint">Para comenzar, dinos cual\nes tu deporte y equipo favorito</string>
 </resources>

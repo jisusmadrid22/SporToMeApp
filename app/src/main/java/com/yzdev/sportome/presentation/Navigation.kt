@@ -16,8 +16,10 @@ import com.yzdev.sportome.presentation.screens.detail_match.DetailMatch
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchViewModel
 import com.yzdev.sportome.presentation.screens.home.HomeScreen
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
+import com.yzdev.sportome.presentation.screens.on_boarding.OnBoardingScreen
 import com.yzdev.sportome.presentation.screens.player.PlayerInfoScreen
 import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
+import com.yzdev.sportome.presentation.screens.tutorial.TutorialContentScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
 @Composable
@@ -28,7 +30,7 @@ fun Navigation(
 
     NavHost(
         navController = navigation,
-        startDestination = Destination.TUTORIAL.screenRoute
+        startDestination = Destination.ON_BOARDING.screenRoute
     ){
         /** ON BOARDING SCREEN*/
         composable(
@@ -37,7 +39,10 @@ fun Navigation(
             //val viewmodel = hiltViewModel<HomeViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-
+                OnBoardingScreen(
+                    navHostController = navigation,
+                    isNotBoarding = isNotTutorial
+                )
             }
         }
 
@@ -48,7 +53,8 @@ fun Navigation(
             val viewModel: TutorialViewModel = hiltViewModel<TutorialViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                IntroTutorialScreen(navHostController = navigation, viewModel = viewModel, isNotTutorial = isNotTutorial)
+                TutorialContentScreen(navHostController = navigation, viewModel = viewModel)
+                //IntroTutorialScreen(navHostController = navigation, viewModel = viewModel)
             }
         }
 
