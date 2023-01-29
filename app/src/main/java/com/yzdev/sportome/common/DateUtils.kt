@@ -67,6 +67,12 @@ fun unixToDateTime(unix: Long): String? {
     return sdf.format(netDate)
 }
 
+fun unixToDateTimeSA(unix: Long): String? {
+    val sdf = SimpleDateFormat("dd/MM/yyyy")
+    val netDate = Date(unix * 1000)
+    return sdf.format(netDate)
+}
+
 fun getCurrentDay(): Int {
     val cal = Calendar.getInstance()
 

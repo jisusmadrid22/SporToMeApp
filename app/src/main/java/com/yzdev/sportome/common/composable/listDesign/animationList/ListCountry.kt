@@ -15,7 +15,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.yzdev.sportome.R
+import com.yzdev.sportome.common.AutoResizedText
 import com.yzdev.sportome.common.Country
 import com.yzdev.sportome.common.Sport
 import com.yzdev.sportome.common.composable.itemListDesign.itemTutorial.ItemShimmer
@@ -23,6 +30,8 @@ import com.yzdev.sportome.common.composable.itemListDesign.itemTutorial.ItemTuto
 import com.yzdev.sportome.common.getCountryBySport
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.presentation.screens.tutorial.CountryState
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 
 @Composable
 fun ListCountry(
@@ -64,7 +73,22 @@ fun ListCountry(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Error")
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = listCountry.error,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 24.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = Color.White
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }

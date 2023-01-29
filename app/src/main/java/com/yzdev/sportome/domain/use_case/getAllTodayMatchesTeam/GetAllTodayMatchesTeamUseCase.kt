@@ -24,16 +24,16 @@ class GetAllTodayMatchesTeamUseCase @Inject constructor(
             emit(Resource.Success(data))
 
         } catch (e: HttpException){
-            emit(Resource.Error(message = e.localizedMessage ?: AppResource.getString(R.string.erroGeneric)))
+            emit(Resource.Error(message = AppResource.getString(R.string.erroGeneric)))
 
         } catch (e: IOException){
-            emit(Resource.Error(message =  e.localizedMessage ?: AppResource.getString(R.string.apiServerError)))
+            emit(Resource.Error(message =  AppResource.getString(R.string.apiServerError)))
 
         } catch (e: InvalidException){
-            emit(Resource.Error(message =  e.message ?: AppResource.getString(R.string.erroGeneric)))
+            emit(Resource.Error(message =  AppResource.getString(R.string.erroGeneric)))
 
         } catch (e: Exception){
-            emit(Resource.Error(message =  e.localizedMessage ?: AppResource.getString(R.string.erroGeneric)))
+            emit(Resource.Error(message =  AppResource.getString(R.string.erroGeneric)))
 
         }
     }

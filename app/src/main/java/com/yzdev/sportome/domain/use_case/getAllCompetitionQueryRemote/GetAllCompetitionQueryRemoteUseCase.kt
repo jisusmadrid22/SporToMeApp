@@ -22,13 +22,13 @@ class GetAllCompetitionQueryRemoteUseCase @Inject constructor(
             emit(Resource.Success(data.toListLocalCompetition().sortedBy { it.name.lowercase() }))
 
         } catch (e: HttpException){
-            emit(Resource.Error(message = e.localizedMessage ?: AppResource.getString(R.string.erroGeneric)))
+            emit(Resource.Error(message = AppResource.getString(R.string.erroGeneric)))
 
         } catch (e: IOException){
-            emit(Resource.Error(message =  e.localizedMessage ?: AppResource.getString(R.string.apiServerError)))
+            emit(Resource.Error(message =  AppResource.getString(R.string.apiServerError)))
 
         } catch (e: Exception){
-            emit(Resource.Error(message =  e.localizedMessage ?: AppResource.getString(R.string.erroGeneric)))
+            emit(Resource.Error(message =  AppResource.getString(R.string.erroGeneric)))
 
         }
     }

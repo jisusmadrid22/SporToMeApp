@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yzdev.sportome.R
 import com.yzdev.sportome.TutorialDs
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.domain.model.LocalCompetition
@@ -59,7 +60,7 @@ class TutorialViewModel @Inject constructor(
         getAllCountriesUseCase().onEach { result->
             when(result){
                 is Resource.Error -> {
-                    _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
+                    _stateListCountry.value = CountryState(error = result.message ?: AppResource.getString(R.string.erroGeneric))
                 }
                 is Resource.Loading -> {
                     _stateListCountry.value = CountryState(isLoading = true)
@@ -159,7 +160,6 @@ class TutorialViewModel @Inject constructor(
     /** get all seasons year from api or db*/
     private suspend fun getAllSeasonsYear(){
         Log.e("countries", "init")
-        delay(15000)
         getAllSeasonsYearUseCase().onEach { result->
             when(result){
                 is Resource.Error -> {

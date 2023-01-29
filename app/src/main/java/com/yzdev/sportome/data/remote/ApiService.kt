@@ -3,7 +3,10 @@ package com.yzdev.sportome.data.remote
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.competition.SeasonsDtoResponse
 import com.yzdev.sportome.data.remote.dto.countries.CountriesDtoResponse
+import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.MatchesForThisWeekDtoResponse
+import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
+import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -43,4 +46,16 @@ interface ApiService {
 
     @GET("fixtures")
     suspend fun getAllMatchesTodayTeam(@Query("team") team: Int, @Query("live") live: String = "all"): MatchesForThisWeekDtoResponse
+
+    @GET("fixtures")
+    suspend fun getMatchDetail(@Query("id") id: Long): DetailMatchDtoResponse
+
+    @GET("fixtures/headtohead")
+    suspend fun getH2hMatchDetail(@Query("h2h") h2h: String): H2hResponseDto
+
+    @GET("predictions")
+    suspend fun getPredictionMatch(@Query("fixture") fixture: Int): PredictionsResponseDto
+
+    @GET("fixtures")
+    suspend fun getAllMatchesFavoriteTeam(@Query("ids") ids: String): Any
 }

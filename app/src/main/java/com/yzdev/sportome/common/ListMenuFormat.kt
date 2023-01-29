@@ -18,9 +18,9 @@ fun listOptionMenu(): List<List<Triple<Int, String, String?>>> {
         ),
         listOf(
             Triple(
-                first = Destination.SPORT_SELECTOR.iconRes,
-                second = Destination.SPORT_SELECTOR.title,
-                third = Destination.SPORT_SELECTOR.screenRoute
+                first = Destination.ABOUT_US.iconRes,
+                second = Destination.ABOUT_US.title,
+                third = Destination.ABOUT_US.screenRoute
             )
         ),
         listOf(
