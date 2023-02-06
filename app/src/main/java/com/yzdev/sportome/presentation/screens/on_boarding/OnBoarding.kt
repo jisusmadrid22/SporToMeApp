@@ -54,6 +54,7 @@ private fun OnBoardingLayout(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = grayBackground
     ) {
+        Log.e("e", it.toString())
         Box(
             modifier = Modifier.fillMaxSize()
         ) {

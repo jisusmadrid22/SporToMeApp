@@ -119,7 +119,7 @@ private fun ResumeInfoPlayer(
 }
 
 @Composable
-private fun InfoPlayer(
+fun InfoPlayer(
     titleInfo: String,
     valueInfo: String
 ) {
@@ -203,7 +203,8 @@ private fun ResumePlayerTeam(
 
                             },
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_heart),
-                        contentDescription = ""
+                        contentDescription = "",
+                        tint = MaterialTheme.colors.secondary
                     )
                 }
 

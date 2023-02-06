@@ -1,5 +1,6 @@
 package com.yzdev.sportome.presentation.screens.player
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import com.yzdev.sportome.presentation.screens.detail_match.composable.StatsLayo
 import com.yzdev.sportome.presentation.screens.player.composables.HeaderPlayer
 import com.yzdev.sportome.presentation.screens.player.composables.ResumePlayer
 import com.yzdev.sportome.presentation.screens.player.composables.SelectorInfoPlayer
+import com.yzdev.sportome.presentation.screens.player.composables.StatsPlayer
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 @Composable
@@ -36,6 +38,7 @@ private fun PlayerInfoLayout() {
     }
 
     Scaffold(modifier = Modifier.fillMaxSize(), backgroundColor = grayBackground) {
+        Log.e("padd", it.toString())
         Column(modifier = Modifier.fillMaxSize()) {
             HeaderPlayer()
 
@@ -79,7 +82,7 @@ private fun AnimationSelector(
                 ResumePlayer()
             }
             2-> {
-                Text(text = "Stats")
+                StatsPlayer()
             }
             3-> {
                 Text(text = "carrer")

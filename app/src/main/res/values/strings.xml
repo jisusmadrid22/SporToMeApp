@@ -99,4 +99,8 @@
     <string name="predictionEmpty">No se han encontrado predicciones para este partido, intente mas tarde</string>
     <string name="missedPenalty">Penalti errado</string>
     <string name="notMatchesLiveToday">No hay partidos en vivo, en estos momentos</string>
+    <string name="gamesPlayed">Partidos jugados</string>
+    <string name="minutesPlayed">Minutos jugados</string>
+    <string name="positionGame">Posición</string>
+    <string name="rating">Valoración</string>
 </resources>

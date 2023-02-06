@@ -30,7 +30,7 @@ fun Navigation(
 
     NavHost(
         navController = navigation,
-        startDestination = Destination.ON_BOARDING.screenRoute
+        startDestination = Destination.DETAIL_PLAYER.screenRoute
     ){
         /** ON BOARDING SCREEN*/
         composable(
@@ -99,10 +99,10 @@ fun Navigation(
 
         /** DETAIL PLAYER SCREEN*/
         composable(
-            route = Destination.DETAIL_PLAYER.screenRoute + "/{${Constant.PLAYER_ID_KEY}}",
+            route = Destination.DETAIL_PLAYER.screenRoute /*+ "/{${Constant.PLAYER_ID_KEY}}",
             arguments = listOf(
                 navArgument(name = Constant.PLAYER_ID_KEY) { type = NavType.LongType }
-            )
+            )*/
         ){
             //val viewModel: DetailMatchViewModel = hiltViewModel<DetailMatchViewModel>()
 
