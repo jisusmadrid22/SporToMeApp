@@ -36,7 +36,7 @@
     <string name="teamFavorite">Equipo favorito</string>
     <string name="searcher">Buscador</string>
     <string name="erroGeneric">An unexpected error occurred</string>
-    <string name="apiServerError">Couldn\'t reach server. Check your internet connection</string>
+    <string name="apiServerError">Couldn\'t reach server.\nCheck your internet connection</string>
     <string name="selectCountry">Seleccione un pais</string>
     <string name="notTeamFavoriteForQueryWeek">No se encontraron equipos favoritos, para obtener los partidos de la semana, sigue a un equipo para obtener su calendario semanal</string>
     <string name="notLeagueFavoriteForQueryWeek">No se encontraron competiciones favoritas, para obtener los partidos de la semana, sigue a una competicion para obtener el calendario semanal de tu equipo favorito en esa competicion</string>
@@ -92,4 +92,11 @@
     <string name="stepThreeBoardingTwo">donde podras organizar\ntus eventos favoritos</string>
     <string name="finishStepTitle">¡Todo listo!</string>
     <string name="finishStepHint">Para comenzar, dinos cual\nes tu deporte y equipo favorito</string>
+    <string name="statsEmpty">No se han encontrado estadisticas para este partido, intente mas tarde</string>
+    <string name="eventEmpty">No se han encontrado eventos para este partido, intente mas tarde</string>
+    <string name="lineupEmpty">No se han encontrado alineaciones para este partido, intente mas tarde</string>
+    <string name="h2hEmpty">No se han encontrado los partidos anteriores, intente mas tarde</string>
+    <string name="predictionEmpty">No se han encontrado predicciones para este partido, intente mas tarde</string>
+    <string name="missedPenalty">Penalti errado</string>
+    <string name="notMatchesLiveToday">No hay partidos en vivo, en estos momentos</string>
 </resources>

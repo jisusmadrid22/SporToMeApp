@@ -18,12 +18,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.R
-import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
@@ -60,7 +57,7 @@ fun HeaderPlayer(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.White
                 ),
                 textAlign = TextAlign.Center
@@ -71,7 +68,7 @@ fun HeaderPlayer(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.White.copy(alpha = 0.5f)
                 ),
                 textAlign = TextAlign.Center
@@ -82,7 +79,7 @@ fun HeaderPlayer(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.White.copy(alpha = 0.5f)
                 ),
                 textAlign = TextAlign.Center
@@ -110,7 +107,7 @@ fun HeaderPlayer(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 10.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.White.copy(alpha = 0.5f)
                         ),
                         textAlign = TextAlign.End
@@ -128,7 +125,7 @@ fun HeaderPlayer(
                                     text = label,
                                     style = TextStyle(
                                         fontSize = 14.sp,
-                                        fontFamily = QuickSandFont
+                                        fontFamily = RobotoCondensed
                                     ),
                                     textAlign = TextAlign.Center
                                 )

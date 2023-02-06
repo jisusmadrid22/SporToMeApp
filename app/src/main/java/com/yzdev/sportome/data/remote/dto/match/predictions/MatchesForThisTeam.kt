@@ -1,13 +1,13 @@
-package com.yzdev.sportome.data.remote.dto.match
+package com.yzdev.sportome.data.remote.dto.match.predictions
 
 import com.google.gson.annotations.SerializedName
 
-data class MatchesForThisWeekDtoResponse(
+data class MatchesForThisTeam(
     val errors: List<Any>,
     @SerializedName("get") val get: String,
     val paging: Paging,
     val parameters: Parameters,
-    val response: List<Response>,
+    val response: Response,
     val results: Int
 ) {
     data class Paging(

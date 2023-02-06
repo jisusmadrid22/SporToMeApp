@@ -29,7 +29,8 @@ import com.yzdev.sportome.common.unixToDateTimeSA
 import com.yzdev.sportome.domain.model.H2hResponse
 import com.yzdev.sportome.presentation.screens.detail_match.H2hMatchState
 import com.yzdev.sportome.presentation.screens.detail_match.PredictionMatchState
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
@@ -68,7 +69,22 @@ fun H2hLayout(
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Text(text = "Error")
+                                    Box(modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 24.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = statePrediction.error,
+                                            style = TextStyle(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 20.sp,
+                                                fontFamily = RobotoCondensed,
+                                                color = blackLight
+                                            ),
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -136,7 +152,22 @@ fun H2hLayout(
                                         verticalArrangement = Arrangement.Center,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        Text(text = "Error")
+                                        Box(modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 24.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = R.string.predictionEmpty),
+                                                style = TextStyle(
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 20.sp,
+                                                    fontFamily = RobotoCondensed,
+                                                    color = blackLight
+                                                ),
+                                                textAlign = TextAlign.Center
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -167,7 +198,22 @@ fun H2hLayout(
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                    Text(text = "Error")
+                                    Box(modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 20.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = h2hState.error,
+                                            style = TextStyle(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 20.sp,
+                                                fontFamily = RobotoCondensed,
+                                                color = blackLight
+                                            ),
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -185,7 +231,7 @@ fun H2hLayout(
                                         style = TextStyle(
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 12.sp,
-                                            fontFamily = QuickSandFont,
+                                            fontFamily = RobotoCondensed,
                                             color = Color.Black
                                         ),
                                         textAlign = TextAlign.Start
@@ -214,7 +260,22 @@ fun H2hLayout(
                                         verticalArrangement = Arrangement.Center,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        Text(text = "Error")
+                                        Box(modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 24.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = stringResource(id = R.string.h2hEmpty),
+                                                style = TextStyle(
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 20.sp,
+                                                    fontFamily = RobotoCondensed,
+                                                    color = blackLight
+                                                ),
+                                                textAlign = TextAlign.Center
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -266,7 +327,7 @@ private fun H2hCardItem(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black
                         ),
                         textAlign = TextAlign.Start
@@ -283,7 +344,7 @@ private fun H2hCardItem(
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 10.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f)
                                 )
                             )
@@ -295,7 +356,7 @@ private fun H2hCardItem(
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 10.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f)
                                 )
                             )
@@ -337,7 +398,7 @@ private fun H2hCardItem(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black
                                     ),
                                     textAlign = TextAlign.Start
@@ -347,7 +408,7 @@ private fun H2hCardItem(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 8.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black.copy(alpha = 0.25f)
                                     ),
                                     textAlign = TextAlign.Start
@@ -361,7 +422,7 @@ private fun H2hCardItem(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black
                         ),
                         textAlign = TextAlign.Center
@@ -381,7 +442,7 @@ private fun H2hCardItem(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black
                                     ),
                                     textAlign = TextAlign.End
@@ -391,7 +452,7 @@ private fun H2hCardItem(
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 8.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black.copy(alpha = 0.25f)
                                     ),
                                     textAlign = TextAlign.End

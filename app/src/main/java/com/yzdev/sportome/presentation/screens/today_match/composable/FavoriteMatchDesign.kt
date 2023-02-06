@@ -24,11 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.common.TeamInfo
-import com.yzdev.sportome.common.TeamMatch
-import com.yzdev.sportome.domain.model.MatchLeagueResponse
 import com.yzdev.sportome.domain.model.MatchesResponseLocal
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
@@ -63,7 +60,7 @@ fun FavoriteMatchDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 ),
                 textAlign = TextAlign.Center
             )
@@ -87,7 +84,7 @@ fun FavoriteMatchDesign(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 28.sp,
-                            fontFamily = QuickSandFont
+                            fontFamily = RobotoCondensed
                         ),
                         textAlign = TextAlign.Center
                     )
@@ -103,7 +100,7 @@ fun FavoriteMatchDesign(
                             style = TextStyle(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 8.sp,
-                                fontFamily = QuickSandFont,
+                                fontFamily = RobotoCondensed,
                                 color = greenSuccess
                             ),
                             textAlign = TextAlign.Center
@@ -139,7 +136,7 @@ fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
@@ -149,7 +146,7 @@ fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 6.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.White.copy(alpha = 0.5f)
             ),
             textAlign = TextAlign.Center
@@ -177,7 +174,7 @@ fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
@@ -187,7 +184,7 @@ fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 6.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.White.copy(alpha = 0.5f)
             ),
             textAlign = TextAlign.Center

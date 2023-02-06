@@ -9,14 +9,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,11 +24,9 @@ import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
 import com.yzdev.sportome.domain.model.DetailMatchResponse
-import com.yzdev.sportome.domain.model.MatchesResponseLocal
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
-import com.yzdev.sportome.presentation.ui.theme.grayBackground
 import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
 @Composable
@@ -70,7 +66,7 @@ fun MatchInfoLayout(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
@@ -94,7 +90,7 @@ fun MatchInfoLayout(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp,
-                        fontFamily = QuickSandFont
+                        fontFamily = RobotoCondensed
                     ),
                     textAlign = TextAlign.Center
                 )
@@ -119,7 +115,7 @@ fun MatchInfoLayout(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = greenSuccess
                         ),
                         textAlign = TextAlign.Center
@@ -154,7 +150,7 @@ private fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
@@ -164,7 +160,7 @@ private fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 6.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.White.copy(alpha = 0.5f)
             ),
             textAlign = TextAlign.Center
@@ -192,7 +188,7 @@ private fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 8.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
@@ -202,7 +198,7 @@ private fun TeamInfoMatchDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 6.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.White.copy(alpha = 0.5f)
             ),
             textAlign = TextAlign.Center

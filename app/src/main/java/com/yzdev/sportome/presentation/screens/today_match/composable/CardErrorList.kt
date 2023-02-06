@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.composable.canvasUtils.BorderPath
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 
 @Composable
 fun CardErrorList(
@@ -42,7 +41,7 @@ fun CardErrorList(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
@@ -72,7 +71,7 @@ fun CardErrorListSmall(
             style = TextStyle(
                 fontWeight = FontWeight.Normal,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )

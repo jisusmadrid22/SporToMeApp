@@ -22,9 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
-import com.yzdev.sportome.domain.model.MatchesResponseLocal
 import com.yzdev.sportome.presentation.screens.detail_match.composable.*
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 @Composable
@@ -97,7 +96,7 @@ private fun DetailMatchLayout(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.White
                         ),
                         textAlign = TextAlign.Center
@@ -126,10 +125,10 @@ private fun DetailMatchLayout(
             InfoTeams(
                 homeTeam = stateDetail.info?.teams?.home?.name ?: "",
                 awayTeam = stateDetail.info?.teams?.away?.name ?: "",
-                formationHome = if (numberSelector != 2) null else {
+                formationHome = if (stateDetail.info?.lineups.isNullOrEmpty()) null else if (numberSelector != 2) null else {
                     stateDetail.info?.lineups?.first()?.formation ?: ""
                 },
-                formationAway = if (numberSelector != 2) null else {
+                formationAway = if (stateDetail.info?.lineups.isNullOrEmpty()) null else if (numberSelector != 2) null else {
                     stateDetail.info?.lineups?.last()?.formation ?: ""
                 }
             )

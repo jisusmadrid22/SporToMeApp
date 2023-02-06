@@ -19,7 +19,7 @@ import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.domain.model.MatchLeagueResponse
 import com.yzdev.sportome.domain.model.MatchesResponseLocal
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
@@ -52,7 +52,7 @@ fun CompetitionList(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        fontFamily = QuickSandFont
+                        fontFamily = RobotoCondensed
                     )
                 )
             }
@@ -63,7 +63,7 @@ fun CompetitionList(
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.5f)
                 ),
                 textAlign = TextAlign.End

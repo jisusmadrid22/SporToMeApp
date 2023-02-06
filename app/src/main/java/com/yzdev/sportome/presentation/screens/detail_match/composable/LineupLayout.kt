@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.getFirstAndLastName
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 
 @Composable
 fun LineupLayout(
@@ -46,19 +47,66 @@ fun LineupLayout(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Error")
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stateDetail.error,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = blackLight
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
             else -> {
                 if (stateDetail.info?.statistics != null){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LineupLayoutDesign(stateDetail = stateDetail)
+                    if (stateDetail.info.statistics.isNotEmpty()){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LineupLayoutDesign(stateDetail = stateDetail)
+                        }
+                    }else{
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.lineupEmpty),
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 20.sp,
+                                            fontFamily = RobotoCondensed,
+                                            color = blackLight
+                                        ),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
                     }
                 }else{
                     Box(
@@ -72,7 +120,22 @@ fun LineupLayout(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "Error")
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.erroGeneric),
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        fontFamily = RobotoCondensed,
+                                        color = blackLight
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }
@@ -105,7 +168,7 @@ private fun LineupLayoutDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -123,7 +186,7 @@ private fun LineupLayoutDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.Start
@@ -134,7 +197,7 @@ private fun LineupLayoutDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.End
@@ -148,7 +211,7 @@ private fun LineupLayoutDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -173,7 +236,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -185,7 +248,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -211,7 +274,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -223,7 +286,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -246,7 +309,7 @@ private fun LineupLayoutDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -271,7 +334,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -283,7 +346,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -309,7 +372,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -321,7 +384,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){

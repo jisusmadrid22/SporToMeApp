@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yzdev.sportome.common.Resource
+import com.yzdev.sportome.common.timeToUnix
+import com.yzdev.sportome.common.unixToDateTime
 import com.yzdev.sportome.domain.use_case.getAllMatchesTodayCompetition.GetAllMatchesTodayUseCase
 import com.yzdev.sportome.domain.use_case.getAllMatchesWeek.GetAllMatchesWeekUseCase
 import com.yzdev.sportome.domain.use_case.getAllTodayMatchesTeam.GetAllTodayMatchesTeamUseCase
@@ -16,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +41,7 @@ class TodayMatchViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getAllMatchesWeek()
             getAllMatchesCompetitionToday()
-            getAllMatchesTeamToday()
+            unixToDateTime(timeToUnix())?.let { getAllMatchesTeamToday(it) }
         }
     }
 
@@ -80,19 +83,19 @@ class TodayMatchViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    suspend fun getAllMatchesTeamToday(){
-        getAllTodayMatchesTeamUseCase().onEach { result->
+    suspend fun getAllMatchesTeamToday(currentDay: String){
+        getAllTodayMatchesTeamUseCase(currentDay).onEach { result->
             when(result){
                 is Resource.Error -> {
-                    Log.e("week", "error week ${result.message}")
+                    Log.e("favorite match", "match ${result.message}")
                     _stateListMatchesTeam.value = MatchesTeamState(error = result.message ?: "An unexpected error occurred")
                 }
                 is Resource.Loading -> {
-                    Log.e("week", "loading")
+                    Log.e("favorite match", "loading")
                     _stateListMatchesTeam.value = MatchesTeamState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    Log.e("week", "success ${result.data}")
+                    Log.e("favorite match", "success ${result.data}")
                     _stateListMatchesTeam.value = MatchesTeamState(info = result.data)
                 }
             }

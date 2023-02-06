@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -25,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.R
 
@@ -134,7 +133,7 @@ private fun InfoPlayer(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black.copy(alpha = 0.25f)
             )
         )
@@ -144,7 +143,7 @@ private fun InfoPlayer(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             )
         )
@@ -192,7 +191,7 @@ private fun ResumePlayerTeam(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black
                         )
                     )
@@ -213,7 +212,7 @@ private fun ResumePlayerTeam(
                     style = TextStyle(
                         fontWeight = FontWeight.Light,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     )
                 )
@@ -223,7 +222,7 @@ private fun ResumePlayerTeam(
                     style = TextStyle(
                         fontWeight = FontWeight.Light,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     )
                 )
@@ -237,7 +236,7 @@ private fun ResumePlayerTeam(
                 ) {
                     Text(
                         text = stringResource(id = R.string.information),
-                        style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light, fontFamily = QuickSandFont, fontSize = 8.sp),
+                        style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light, fontFamily = RobotoCondensed, fontSize = 8.sp),
                         textAlign = TextAlign.End
                     )
                     Icon(modifier = Modifier.size(14.dp), imageVector = Icons.Rounded.KeyboardArrowRight, contentDescription = "", tint = Color.Black.copy(alpha = 0.25f))

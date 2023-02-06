@@ -12,6 +12,7 @@ import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseD
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -187,6 +188,7 @@ class AppRepositoryImp @Inject constructor(
                             data.forEach {response->
                                 dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix(), matchDay = unixToDayWeek(response.fixture.timestamp).toInt()))
                             }
+                            delay(1000)
                         }
                     }
                 }else{
@@ -212,6 +214,7 @@ class AppRepositoryImp @Inject constructor(
                             data.forEach {response->
                                 dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix(), matchDay = unixToDayWeek(response.fixture.timestamp).toInt()))
                             }
+                            delay(1000)
                         }
                     }
                 }else{
@@ -249,6 +252,7 @@ class AppRepositoryImp @Inject constructor(
                         )
                     )
                 }
+                delay(1000)
             }
 
         }else{
@@ -270,6 +274,7 @@ class AppRepositoryImp @Inject constructor(
                 )
 
                 listMatches.addAll(data.toListMatchesResponseLocal())
+                delay(1000)
             }
         }
 

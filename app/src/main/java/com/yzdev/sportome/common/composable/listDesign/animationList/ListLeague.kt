@@ -5,8 +5,10 @@ package com.yzdev.sportome.common.composable.listDesign.animationList
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,12 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.common.Country
-import com.yzdev.sportome.common.League
+import com.yzdev.sportome.common.*
 import com.yzdev.sportome.common.composable.itemListDesign.itemTutorial.ItemShimmer
 import com.yzdev.sportome.common.composable.itemListDesign.itemTutorial.ItemTutorialDesign
-import com.yzdev.sportome.common.getCountryBySport
-import com.yzdev.sportome.common.getLeaguesByCountry
 import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
@@ -49,7 +48,7 @@ fun ListLeague(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    cells = GridCells.Fixed(count = 2),
+                    columns = GridCells.Fixed(count = 2),
                     content = {
                         itemsIndexed(List<String?>(20){null}){ index, item->
                             ItemShimmer(item = null, index = index)
@@ -59,23 +58,18 @@ fun ListLeague(
             }
             listLeague.error.isNotEmpty() -> {
                 Log.e("countries", "error ${listLeague.error}")
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    contentAlignment = Alignment.Center
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
+                    item {
                         Box(modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
+                            AutoResizedText(
                                 text = listLeague.error,
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
@@ -96,7 +90,7 @@ fun ListLeague(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    cells = GridCells.Fixed(count = 2),
+                    columns = GridCells.Fixed(count = 2),
                     content = {
                         itemsIndexed(filteredList){ index, item->
                             ItemTutorialDesign(

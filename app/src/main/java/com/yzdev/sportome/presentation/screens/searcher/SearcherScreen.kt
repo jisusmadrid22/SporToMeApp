@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -23,20 +22,12 @@ import com.yzdev.sportome.R
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListCountry
 import com.yzdev.sportome.common.composable.listDesign.animationList.ListLeague
-import com.yzdev.sportome.common.composable.listDesign.animationList.ListSports
-import com.yzdev.sportome.common.composable.listDesign.animationList.ListTeam
-import com.yzdev.sportome.common.composable.switchDesign.SwitchTypeWithContainer
 import com.yzdev.sportome.common.composable.topBarDesign.BarSecondary
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarModern
 import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
-import com.yzdev.sportome.presentation.Destination
-import com.yzdev.sportome.presentation.screens.searcher.composable.SearcherField
-import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
-import com.yzdev.sportome.presentation.screens.tutorial.TeamState
-import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 import com.yzdev.sportome.presentation.screens.tutorial.composables.TextFieldTutorial
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 import kotlinx.coroutines.launch
 
@@ -134,7 +125,7 @@ private fun SearcherLayout(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        fontFamily = QuickSandFont
+                        fontFamily = RobotoCondensed
                     )
                 )
             }

@@ -12,12 +12,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
@@ -38,7 +37,7 @@ fun ContentCenterTutorialOne(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
-                fontFamily = QuickSandFont
+                fontFamily = RobotoCondensed
             ),
             textAlign = TextAlign.Center
         )
