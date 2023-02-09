@@ -42,13 +42,6 @@ fun InfoPlayerByLeague(
             Spacer(modifier = androidx.compose.ui.Modifier.height(paddingHeight))
 
             InfoPlayer(
-                titleInfo = stringResource(id = R.string.city),
-                valueInfo = "Nombre ciudad"
-            )
-
-            Spacer(modifier = androidx.compose.ui.Modifier.height(paddingHeight))
-
-            InfoPlayer(
                 titleInfo = stringResource(id = R.string.minutesPlayed),
                 valueInfo = "1304 Min"
             )

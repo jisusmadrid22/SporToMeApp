@@ -19,10 +19,7 @@ import com.yzdev.sportome.presentation.screens.detail_match.composable.EventLayo
 import com.yzdev.sportome.presentation.screens.detail_match.composable.H2hLayout
 import com.yzdev.sportome.presentation.screens.detail_match.composable.LineupLayout
 import com.yzdev.sportome.presentation.screens.detail_match.composable.StatsLayout
-import com.yzdev.sportome.presentation.screens.player.composables.HeaderPlayer
-import com.yzdev.sportome.presentation.screens.player.composables.ResumePlayer
-import com.yzdev.sportome.presentation.screens.player.composables.SelectorInfoPlayer
-import com.yzdev.sportome.presentation.screens.player.composables.StatsPlayer
+import com.yzdev.sportome.presentation.screens.player.composables.*
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 @Composable
@@ -85,7 +82,7 @@ private fun AnimationSelector(
                 StatsPlayer()
             }
             3-> {
-                Text(text = "carrer")
+                CareerPlayer()
             }
             4-> {
                 Text(text = "trofeos")

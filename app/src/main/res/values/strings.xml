@@ -103,4 +103,6 @@
     <string name="minutesPlayed">Minutos jugados</string>
     <string name="positionGame">Posición</string>
     <string name="rating">Valoración</string>
+    <string name="out">Salida</string>
+    <string name="inTeam">Entrada</string>
 </resources>
