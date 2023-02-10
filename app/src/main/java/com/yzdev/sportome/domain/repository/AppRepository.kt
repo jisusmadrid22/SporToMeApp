@@ -60,6 +60,12 @@ interface AppRepository {
     /** delete favorite team*/
     suspend fun deleteFavoriteTeam(localTeam: LocalTeam)
 
+    /*************** PLAYER ****************************************************/
+    /** get all seasons year from db*/
+    suspend fun getAllSeasonPlayer(): List<LocalSeasonPlayer>
+
+    /***************************************************************************/
+
     //-------------------------------------------------------------------------------------
 
     //HYBRID

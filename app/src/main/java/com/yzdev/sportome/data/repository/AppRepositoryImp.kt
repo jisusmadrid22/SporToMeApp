@@ -168,6 +168,31 @@ class AppRepositoryImp @Inject constructor(
         return dao.deleteFavoriteTeam(localTeam)
     }
 
+    override suspend fun getAllSeasonPlayer(): List<LocalSeasonPlayer> {
+        Log.e("seasonPlayer", "init fun")
+        var seasons = dao.getAllSeasonPlayerWithoutFlow()
+        if(seasons.isEmpty()){
+            //from api
+            Log.e("seasonPlayer", "from api")
+            val apiSeasons = api.getAllSeasonsPlayer()
+
+            dao.insertSeasonPlayer(apiSeasons.toLocalSeasonPlayer())
+
+            seasons = dao.getAllSeasonPlayerWithoutFlow()
+
+        }else if(getHourDifference(timeToUnix() - seasons.first().timeRequest) >= 72){    //if hours is 72hr
+            Log.e("seasonPlayer", "from api seasons update ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
+            val apiSeasons = api.getAllSeasonsPlayer()
+
+            dao.insertSeasonPlayer(apiSeasons.toLocalSeasonPlayer())
+
+            seasons = dao.getAllSeasonPlayerWithoutFlow()
+        }
+
+        Log.e("seasonPlayer", "hours difference ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
+        return seasons
+    }
+
     override suspend fun getWeekMatchesTeam(): List<LocalMatch> {
         val competitionFav = dao.getAllLocalCompetitionWithOutFlow()
         val teamsFav = dao.getAllLocalTeamWithoutFlow()
