@@ -9,6 +9,7 @@ import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
+import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
@@ -55,6 +56,10 @@ class AppRepositoryImp @Inject constructor(
 
     override suspend fun getPredictionMatch(idMatch: Int): PredictionsResponseDto {
         return api.getPredictionMatch(idMatch)
+    }
+
+    override suspend fun getPlayerInfo(playerId: Int, season: Int): InfoPlayerDto {
+        return api.getPlayerInfoRemote(id = playerId, season = season)
     }
 
     //-------------------------------------------------------------------------------------

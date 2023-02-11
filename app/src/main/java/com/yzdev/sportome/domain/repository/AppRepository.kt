@@ -4,6 +4,7 @@ import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
+import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,8 @@ interface AppRepository {
     suspend fun getH2hMatch(h2h: String): H2hResponseDto
 
     suspend fun getPredictionMatch(idMatch: Int): PredictionsResponseDto
+
+    suspend fun getPlayerInfo(playerId: Int, season: Int): InfoPlayerDto
 
     //-------------------------------------------------------------------------------------
 
