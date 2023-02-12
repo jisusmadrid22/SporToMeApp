@@ -9,6 +9,7 @@ import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
 import com.yzdev.sportome.data.remote.dto.player.AllSeasonPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
+import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import retrofit2.http.GET
@@ -67,4 +68,7 @@ interface ApiService {
 
     @GET("transfers")
     suspend fun getTransferPlayer(@Query("player") player: Int): TransferPlayerDto
+
+    @GET("trophies")
+    suspend fun getTrophiesPlayer(@Query("player") player: Int): PlayerTrophiesDto
 }

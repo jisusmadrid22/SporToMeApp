@@ -5,6 +5,7 @@ import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
 import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
+import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
@@ -27,6 +28,8 @@ interface AppRepository {
     suspend fun getPlayerInfo(playerId: Int, season: Int): InfoPlayerDto
 
     suspend fun getTransferPlayerRemote(playerId: Int): TransferPlayerDto
+
+    suspend fun getTrophiesPlayer(playerId: Int): PlayerTrophiesDto
 
     //-------------------------------------------------------------------------------------
 
