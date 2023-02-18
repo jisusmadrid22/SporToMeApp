@@ -2,6 +2,7 @@ package com.yzdev.sportome.domain.repository
 
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.competition.RankedCompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.TopScoresLeagueDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
@@ -33,6 +34,8 @@ interface AppRepository {
     suspend fun getTrophiesPlayer(playerId: Int): PlayerTrophiesDto
 
     suspend fun getRankedLeague(leagueId: Int, season: Int): RankedCompetitionDtoResponse
+
+    suspend fun getTopScoreForLeague(leagueId: Int, season: Int): TopScoresLeagueDtoResponse
 
     //-------------------------------------------------------------------------------------
 

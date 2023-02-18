@@ -3,6 +3,7 @@ package com.yzdev.sportome.data.remote
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.competition.RankedCompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.competition.SeasonsDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.TopScoresLeagueDtoResponse
 import com.yzdev.sportome.data.remote.dto.countries.CountriesDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.MatchesForThisWeekDtoResponse
@@ -75,4 +76,7 @@ interface ApiService {
 
     @GET("standings")
     suspend fun getRankedLeague(@Query("league") league: Int, @Query("season") season: Int): RankedCompetitionDtoResponse
+
+    @GET("standings")
+    suspend fun getTopScoresForLeague(@Query("league") league: Int, @Query("season") season: Int): TopScoresLeagueDtoResponse
 }
