@@ -14,6 +14,7 @@ import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseD
 import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
+import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
@@ -80,6 +81,10 @@ class AppRepositoryImp @Inject constructor(
 
     override suspend fun getTopScoreForLeague(leagueId: Int, season: Int): TopScoresLeagueDtoResponse {
         return api.getTopScoresForLeague(league = leagueId, season = season)
+    }
+
+    override suspend fun getTeamInfo(id: Int): TeamInfoDtoResponse {
+        return api.getTeamInfo(id)
     }
 
     //-------------------------------------------------------------------------------------
