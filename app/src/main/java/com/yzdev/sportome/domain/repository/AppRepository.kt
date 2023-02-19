@@ -10,6 +10,7 @@ import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
 import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import kotlinx.coroutines.flow.Flow
@@ -39,6 +40,8 @@ interface AppRepository {
     suspend fun getTopScoreForLeague(leagueId: Int, season: Int): TopScoresLeagueDtoResponse
 
     suspend fun getTeamInfo(id: Int): TeamInfoDtoResponse
+
+    suspend fun getTeamStats(leagueId: Int, teamId: Int, season: Int): TeamStatsDtoResponse
 
     //-------------------------------------------------------------------------------------
 
