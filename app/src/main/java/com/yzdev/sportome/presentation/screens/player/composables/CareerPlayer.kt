@@ -3,6 +3,7 @@ package com.yzdev.sportome.presentation.screens.player.composables
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -21,22 +22,104 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
-import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.common.AutoResizedText
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
+import com.yzdev.sportome.common.dateToUnix
 import com.yzdev.sportome.common.unixToDateTimeSA
-import com.yzdev.sportome.domain.model.H2hResponse
+import com.yzdev.sportome.domain.model.TransferPlayerResponse
+import com.yzdev.sportome.presentation.screens.player.CareerPlayerState
 import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
-fun CareerPlayer(
-
-) {
+fun CareerPlayer(careerPlayer: CareerPlayerState) {
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(){
-            items(10){
-                CareerPlayerCard(item = "team")
+
+        when{
+            careerPlayer.isLoading ->{
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ){
+                    items(List<String?>(20){null}){
+                        CareerPlayerCard(item = null)
+                    }
+                }
+            }
+            careerPlayer.error.isNotEmpty() ->{
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = careerPlayer.error,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = blackLight
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+            }
+            else ->{
+                if (careerPlayer.info != null){
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                    ){
+                        items(careerPlayer.info.response.first().transfers){item->
+                            CareerPlayerCard(item = item)
+                        }
+                    }
+                }else{
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.careerPlayerError),
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        fontFamily = RobotoCondensed,
+                                        color = blackLight
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -44,19 +127,19 @@ fun CareerPlayer(
 
 @Composable
 private fun CareerPlayerCard(
-    item: String?
+    item: TransferPlayerResponse.Response.Transfer?
 ) {
     if (item != null){
-        CareerItem()
+        CareerItem(
+            item = item
+        )
     }else{
         CareerLoading()
     }
 }
 
 @Composable
-private fun CareerItem(
-
-) {
+private fun CareerItem(item: TransferPlayerResponse.Response.Transfer) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,7 +161,7 @@ private fun CareerItem(
                         .padding(vertical = 8.dp, horizontal = 18.dp)
                 ) {
                     Text(
-                        text = "Date",
+                        text = unixToDateTimeSA(dateToUnix(item.date)) ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
@@ -129,7 +212,7 @@ private fun CareerItem(
                                     textAlign = TextAlign.Start
                                 )
                                 Text(
-                                    text = "Team",
+                                    text = item.teams.outTeam.name,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,
@@ -143,7 +226,7 @@ private fun CareerItem(
                     }
 
                     Text(
-                        text = "Precio",
+                        text = item.type,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 10.sp,
@@ -173,7 +256,7 @@ private fun CareerItem(
                                     textAlign = TextAlign.Start
                                 )
                                 Text(
-                                    text = "Team",
+                                    text = item.teams.inTeam.name,
                                     style = TextStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 10.sp,

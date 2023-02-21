@@ -15,11 +15,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
+import com.yzdev.sportome.domain.model.InfoPlayerResponse
 import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 
 @Composable
 fun InfoPlayerByLeague(
-
+    infoLeague: InfoPlayerResponse.Response.Statistic?
 ) {
     val paddingHeight = 4.dp
 
@@ -36,35 +37,35 @@ fun InfoPlayerByLeague(
         ) {
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.gamesPlayed),
-                valueInfo = "15 Partidos"
+                valueInfo = "${infoLeague?.games?.appearences ?: 0} ${stringResource(id = R.string.matchsTitle)}"
             )
 
-            Spacer(modifier = androidx.compose.ui.Modifier.height(paddingHeight))
+            Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.minutesPlayed),
-                valueInfo = "1304 Min"
+                valueInfo = "${infoLeague?.games?.minutes ?: 0} ${stringResource(id = R.string.minAbrev)}"
             )
 
-            Spacer(modifier = androidx.compose.ui.Modifier.height(paddingHeight))
+            Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.positionGame),
-                valueInfo = "Delantero"
+                valueInfo = infoLeague?.games?.position ?: ""
             )
 
-            Spacer(modifier = androidx.compose.ui.Modifier.height(paddingHeight))
+            Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.captain),
-                valueInfo = "No"
+                valueInfo = if (infoLeague?.games?.captain == true) stringResource(id = R.string.yesTitle) else stringResource(id = R.string.noTitle)
             )
 
-            Spacer(modifier = androidx.compose.ui.Modifier.height(paddingHeight))
+            Spacer(modifier = Modifier.height(paddingHeight))
 
             RatingPlayer(
                 titleInfo = stringResource(id = R.string.rating),
-                valueInfo = "8.567"
+                valueInfo = infoLeague?.games?.rating ?: ""
             )
         }
     }

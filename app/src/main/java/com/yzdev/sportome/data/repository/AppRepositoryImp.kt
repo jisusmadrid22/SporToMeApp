@@ -208,6 +208,14 @@ class AppRepositoryImp @Inject constructor(
         return dao.deleteFavoriteTeam(localTeam)
     }
 
+    override suspend fun getAllSeasonPlayerUnFormat(): Flow<List<LocalSeasonPlayer>> {
+        return dao.getAllSeasonPlayer()
+    }
+
+    override suspend fun getAllSeasonPlayerUnFormatWithOutFlow(): List<LocalSeasonPlayer> {
+        return dao.getAllSeasonPlayerWithoutFlow()
+    }
+
     override suspend fun getAllSeasonPlayer(): List<LocalSeasonPlayer> {
         Log.e("seasonPlayer", "init fun")
         var seasons = dao.getAllSeasonPlayerWithoutFlow()

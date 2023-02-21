@@ -10,34 +10,44 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
-import com.yzdev.sportome.presentation.screens.detail_match.H2hMatchState
-import com.yzdev.sportome.presentation.screens.detail_match.PredictionMatchState
-import com.yzdev.sportome.presentation.screens.detail_match.composable.EventLayout
-import com.yzdev.sportome.presentation.screens.detail_match.composable.H2hLayout
-import com.yzdev.sportome.presentation.screens.detail_match.composable.LineupLayout
-import com.yzdev.sportome.presentation.screens.detail_match.composable.StatsLayout
 import com.yzdev.sportome.presentation.screens.player.composables.*
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 @Composable
-fun PlayerInfoScreen() {
-    PlayerInfoLayout()
+fun PlayerInfoScreen(
+    viewModel: PlayerInfoViewModel,
+    playerId: Int = 276
+) {
+
+    LaunchedEffect(key1 = true, block = {
+        viewModel.initRequest(playerId)
+    })
+
+    PlayerInfoLayout(viewModel)
 }
 
 @Composable
-private fun PlayerInfoLayout() {
+private fun PlayerInfoLayout(viewModel: PlayerInfoViewModel) {
 
     var numberSelector by remember {
         mutableStateOf(1)
     }
 
+    val playerInfo = viewModel.stateResumePlayer.value
+    val careerPlayer = viewModel.stateCareerPlayer.value
+    val trophiesPlayer = viewModel.stateTrophiesPlayer.value
+    val seasonsPlayer = viewModel.stateSeasonPlayer.value
+
     Scaffold(modifier = Modifier.fillMaxSize(), backgroundColor = grayBackground) {
-        Log.e("padd", it.toString())
+        LaunchedEffect(key1 = true, block = {
+            Log.e("padd", it.toString())
+        })
+
         Column(modifier = Modifier.fillMaxSize()) {
-            HeaderPlayer()
+            HeaderPlayer(
+                seasonsPlayer = seasonsPlayer
+            )
 
             SelectorInfoPlayer(
                 numberSelector = numberSelector,
@@ -49,7 +59,10 @@ private fun PlayerInfoLayout() {
             Spacer(modifier = Modifier.padding(bottom = 4.dp))
 
             AnimationSelector(
-                numberSelector = numberSelector
+                numberSelector = numberSelector,
+                playerInfo = playerInfo,
+                careerPlayer = careerPlayer,
+                trophiesPlayer = trophiesPlayer
             )
         }
     }
@@ -58,7 +71,10 @@ private fun PlayerInfoLayout() {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun AnimationSelector(
-    numberSelector: Int
+    numberSelector: Int,
+    playerInfo: PlayerResumeState,
+    careerPlayer: CareerPlayerState,
+    trophiesPlayer: TrophiesPlayerState
 ) {
     AnimatedContent(
         targetState = numberSelector,
@@ -76,13 +92,23 @@ private fun AnimationSelector(
     ) { targetCount ->
         when (targetCount){
             1-> {
-                ResumePlayer()
+                ResumePlayer(
+                    playerInfo = playerInfo,
+                    navigateToInfoTeam = {
+
+                    },
+                    careerPlayer = careerPlayer
+                )
             }
             2-> {
-                StatsPlayer()
+                StatsPlayer(
+                    playerInfo = playerInfo
+                )
             }
             3-> {
-                CareerPlayer()
+                CareerPlayer(
+                    careerPlayer = careerPlayer
+                )
             }
             4-> {
                 Text(text = "trofeos")

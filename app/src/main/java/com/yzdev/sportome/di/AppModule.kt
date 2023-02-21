@@ -3,7 +3,6 @@ package com.yzdev.sportome.di
 import android.app.Application
 import androidx.room.Room
 import com.yzdev.sportome.common.Constant
-import com.yzdev.sportome.data.data_source.AppDao
 import com.yzdev.sportome.data.data_source.AppDatabase
 import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.InterceptorClient
@@ -19,6 +18,9 @@ import com.yzdev.sportome.domain.use_case.favoriteTeam.deleteFavoriteTeam.Delete
 import com.yzdev.sportome.domain.use_case.favoriteTeam.getAllFavoriteTeam.GetAllLocalFavoriteTeamUseCase
 import com.yzdev.sportome.domain.use_case.favoriteTeam.getLocalFavoriteTeamById.GetFavoriteTeamUseCase
 import com.yzdev.sportome.domain.use_case.favoriteTeam.insertFavoriteTeam.InsertFavoriteTeamUseCase
+import com.yzdev.sportome.domain.use_case.seasonPlayer.SeasonPlayerUseCase
+import com.yzdev.sportome.domain.use_case.seasonPlayer.fetAllSeasonPlayerWithOutFlowDb.GetAllSeasonPlayerWithOutFlowDbUseCase
+import com.yzdev.sportome.domain.use_case.seasonPlayer.getAllSeasonPlayer.GetAllSeasonPlayerDbUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -95,6 +97,15 @@ object AppModule {
             getAllLocalFavoriteTeamUseCase = GetAllLocalFavoriteTeamUseCase(repository),
             getFavoriteTeamUseCase = GetFavoriteTeamUseCase(repository),
             deleteFavoriteTeamUseCase = DeleteFavoriteTeamUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSeasonPlayer(repository: AppRepository): SeasonPlayerUseCase {
+        return SeasonPlayerUseCase(
+            getAllSeasonPlayerUseCase = GetAllSeasonPlayerDbUseCase(repository),
+            getAllSeasonPlayerWithOutFlow = GetAllSeasonPlayerWithOutFlowDbUseCase(repository)
         )
     }
 

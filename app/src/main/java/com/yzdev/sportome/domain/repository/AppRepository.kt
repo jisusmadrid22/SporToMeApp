@@ -84,6 +84,10 @@ interface AppRepository {
     /** delete favorite team*/
     suspend fun deleteFavoriteTeam(localTeam: LocalTeam)
 
+    suspend fun getAllSeasonPlayerUnFormat(): Flow<List<LocalSeasonPlayer>>
+
+    suspend fun getAllSeasonPlayerUnFormatWithOutFlow(): List<LocalSeasonPlayer>
+
     /*************** PLAYER ****************************************************/
     /** get all seasons year from db*/
     suspend fun getAllSeasonPlayer(): List<LocalSeasonPlayer>

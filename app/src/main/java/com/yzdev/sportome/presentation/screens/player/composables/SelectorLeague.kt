@@ -21,20 +21,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.AutoResizedText
+import com.yzdev.sportome.domain.model.InfoPlayerResponse
 import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun SelectorLeague(
-    listLeague: List<String>
+    listLeague: List<InfoPlayerResponse.Response.Statistic>,
+    selectedLeague : InfoPlayerResponse.Response.Statistic.League,
+    selectedLeagueOnChange: (InfoPlayerResponse.Response.Statistic.League)-> Unit
 ) {
 
     var expandedCard by remember {
         mutableStateOf(false)
-    }
-
-    var selectedLeague by remember {
-        mutableStateOf(listLeague.first())
     }
 
     Card(
@@ -69,7 +68,7 @@ fun SelectorLeague(
                     .fillMaxWidth(0.75f)
                 ) {
                     AutoResizedText(
-                        text = selectedLeague,
+                        text = selectedLeague.name ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
@@ -92,7 +91,7 @@ fun SelectorLeague(
                 DropdownMenuItem(
                     onClick = {
                         expandedCard = false
-                        selectedLeague = label
+                        selectedLeagueOnChange(label.league)
                     }
                 ) {
                     Row(
@@ -111,7 +110,7 @@ fun SelectorLeague(
                             .fillMaxWidth()
                         ) {
                             AutoResizedText(
-                                text = label,
+                                text = label.league.name ?: "",
                                 style = TextStyle(
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 14.sp,

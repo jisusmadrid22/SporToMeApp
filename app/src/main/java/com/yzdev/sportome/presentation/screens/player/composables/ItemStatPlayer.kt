@@ -27,11 +27,12 @@ import com.yzdev.sportome.presentation.ui.theme.gray
 @Composable
 fun ItemStatPlayer(
     index: Int,
-    item: ListStats
+    title: String,
+    content: List<Pair<String, String>>
 ) {
     val modifierCustom = if ((index % 2) == 0){
         Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(0.5f)
             .heightIn(min = LocalConfiguration.current.screenWidthDp.dp * 0.25f)
             .padding(end = 12.dp, bottom = 10.dp)
     }else{
@@ -58,7 +59,7 @@ fun ItemStatPlayer(
                 .fillMaxWidth()
             ) {
                 AutoResizedText(
-                    text = item.name,
+                    text = title,
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
@@ -68,16 +69,18 @@ fun ItemStatPlayer(
                 )
             }
 
-            item.stats.forEach {
-                AutoResizedText(
-                    text = it,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 8.sp,
-                        fontFamily = RobotoCondensed,
-                        color = Color.Black.copy(alpha = 0.5f)
+            content.forEach {
+                if (it.second != "-1"){
+                    AutoResizedText(
+                        text = "${it.first} ${it.second}",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 8.sp,
+                            fontFamily = RobotoCondensed,
+                            color = Color.Black.copy(alpha = 0.5f)
+                        )
                     )
-                )
+                }
             }
         }
     }

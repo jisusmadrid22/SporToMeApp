@@ -8,7 +8,7 @@ data class InfoPlayerResponse(
 ) {
     data class Response(
         val player: Player?,
-        val statistics: List<Statistic?>?
+        val statistics: List<Statistic>
     ) {
         data class Player(
             val age: Int,

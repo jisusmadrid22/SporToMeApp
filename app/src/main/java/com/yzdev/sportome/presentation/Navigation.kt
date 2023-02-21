@@ -18,7 +18,7 @@ import com.yzdev.sportome.presentation.screens.home.HomeScreen
 import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.on_boarding.OnBoardingScreen
 import com.yzdev.sportome.presentation.screens.player.PlayerInfoScreen
-import com.yzdev.sportome.presentation.screens.tutorial.IntroTutorialScreen
+import com.yzdev.sportome.presentation.screens.player.PlayerInfoViewModel
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialContentScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
@@ -104,10 +104,10 @@ fun Navigation(
                 navArgument(name = Constant.PLAYER_ID_KEY) { type = NavType.LongType }
             )*/
         ){
-            //val viewModel: DetailMatchViewModel = hiltViewModel<DetailMatchViewModel>()
+            val viewModel: PlayerInfoViewModel = hiltViewModel<PlayerInfoViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                PlayerInfoScreen()
+                PlayerInfoScreen(viewModel = viewModel)
             }
         }
     }
