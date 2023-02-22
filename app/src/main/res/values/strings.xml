@@ -146,4 +146,6 @@
     <string name="savedTitle">Salvados</string>
     <string name="priceTitle">Precio</string>
     <string name="careerPlayerError">Ha ocurrido un error obteniendo la carrera del jugador</string>
+    <string name="seasonTitle">Temporada</string>
+    <string name="trophiePlayerError">Ha ocurrido un error obteniendo los trofeos del jugador</string>
 </resources>
