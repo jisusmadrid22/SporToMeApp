@@ -282,7 +282,7 @@ private fun ResumePlayerTeam(
 ) {
 
     val teamInfo = playerInfo.info?.response?.first()?.statistics?.first { it?.league?.country != Constant.COUNTRY_WORLD }
-    val teamCareer = careerPlayer.info?.response?.first()?.transfers?.find { it.teams.inTeam.name == teamInfo?.team?.name }
+    val teamCareer = if (!careerPlayer.info?.response.isNullOrEmpty()) if (!careerPlayer.info?.response?.first()?.transfers.isNullOrEmpty()) careerPlayer.info?.response?.first()?.transfers?.find { it.teams.inTeam.name == teamInfo?.team?.name } else null else null
 
     Card(
         modifier = Modifier

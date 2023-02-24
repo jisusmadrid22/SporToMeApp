@@ -30,7 +30,7 @@ fun Navigation(
 
     NavHost(
         navController = navigation,
-        startDestination = Destination.DETAIL_PLAYER.screenRoute
+        startDestination = Destination.ON_BOARDING.screenRoute
     ){
         /** ON BOARDING SCREEN*/
         composable(
@@ -93,21 +93,21 @@ fun Navigation(
             val viewModel: DetailMatchViewModel = hiltViewModel<DetailMatchViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                DetailMatch(viewModel = viewModel, idMatch = it.arguments?.getLong(Constant.MATCH_ID_KEY))
+                DetailMatch(viewModel = viewModel, idMatch = it.arguments?.getLong(Constant.MATCH_ID_KEY), navHostController = navigation)
             }
         }
 
         /** DETAIL PLAYER SCREEN*/
         composable(
-            route = Destination.DETAIL_PLAYER.screenRoute /*+ "/{${Constant.PLAYER_ID_KEY}}",
+            route = Destination.DETAIL_PLAYER.screenRoute + "/{${Constant.PLAYER_ID_KEY}}",
             arguments = listOf(
                 navArgument(name = Constant.PLAYER_ID_KEY) { type = NavType.LongType }
-            )*/
+            )
         ){
             val viewModel: PlayerInfoViewModel = hiltViewModel<PlayerInfoViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                PlayerInfoScreen(viewModel = viewModel, playerId = 276)
+                PlayerInfoScreen(viewModel = viewModel, playerId = it.arguments?.getLong(Constant.PLAYER_ID_KEY))
             }
         }
     }

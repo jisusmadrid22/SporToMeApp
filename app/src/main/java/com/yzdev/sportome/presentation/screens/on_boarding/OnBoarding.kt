@@ -27,7 +27,7 @@ fun OnBoardingScreen(
 
     if (isNotBoarding){
         navHostController.navigate(route = Destination.HOME.screenRoute){
-            popUpTo(Destination.TUTORIAL.screenRoute){inclusive = true}
+            popUpTo(Destination.ON_BOARDING.screenRoute){inclusive = true}
         }
     }else{
         OnBoardingLayout(

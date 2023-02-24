@@ -85,7 +85,7 @@ fun CareerPlayer(careerPlayer: CareerPlayerState) {
                             .fillMaxWidth()
                             .fillMaxHeight()
                     ){
-                        items(careerPlayer.info.response.first().transfers){item->
+                        items(if(careerPlayer.info.response.isNotEmpty()) careerPlayer.info.response.first().transfers else emptyList()){ item->
                             CareerPlayerCard(item = item)
                         }
                     }

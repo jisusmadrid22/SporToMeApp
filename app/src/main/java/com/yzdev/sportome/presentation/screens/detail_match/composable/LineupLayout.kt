@@ -1,5 +1,6 @@
 package com.yzdev.sportome.presentation.screens.detail_match.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +27,9 @@ import com.yzdev.sportome.presentation.ui.theme.blackLight
 
 @Composable
 fun LineupLayout(
-    stateDetail: DetailMatchState
+    stateDetail: DetailMatchState,
+    navigateToCoach: (Int)-> Unit,
+    navigateToPlayer: (Int)-> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         when{
@@ -75,7 +78,15 @@ fun LineupLayout(
                                 .fillMaxHeight(),
                             contentAlignment = Alignment.Center
                         ) {
-                            LineupLayoutDesign(stateDetail = stateDetail)
+                            LineupLayoutDesign(
+                                stateDetail = stateDetail,
+                                navigateToCoach = {
+                                    navigateToCoach(it)
+                                },
+                                navigateToPlayer = {
+                                    navigateToPlayer(it)
+                                }
+                            )
                         }
                     }else{
                         Box(
@@ -146,7 +157,9 @@ fun LineupLayout(
 
 @Composable
 private fun LineupLayoutDesign(
-    stateDetail: DetailMatchState
+    stateDetail: DetailMatchState,
+    navigateToCoach: (Int)-> Unit,
+    navigateToPlayer: (Int)-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -182,6 +195,11 @@ private fun LineupLayoutDesign(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
+                modifier = Modifier.clickable {
+                    stateDetail.info?.lineups?.first()?.coach?.let {
+                        navigateToCoach(it.id)
+                    }
+                },
                 text = stateDetail.info?.lineups?.first()?.coach?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -193,6 +211,11 @@ private fun LineupLayoutDesign(
             )
 
             Text(
+                modifier = Modifier.clickable {
+                    stateDetail.info?.lineups?.first()?.coach?.let {
+                        navigateToCoach(it.id)
+                    }
+                },
                 text = stateDetail.info?.lineups?.last()?.coach?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -256,7 +279,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -294,7 +322,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -354,7 +387,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -392,7 +430,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))

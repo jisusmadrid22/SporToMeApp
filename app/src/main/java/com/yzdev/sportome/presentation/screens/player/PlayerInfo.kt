@@ -17,11 +17,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun PlayerInfoScreen(
     viewModel: PlayerInfoViewModel,
-    playerId: Int
+    playerId: Long?
 ) {
 
     LaunchedEffect(key1 = true, block = {
-        viewModel.initRequest(playerId)
+        playerId?.let {
+            viewModel.initRequest(it.toInt())
+        }
     })
 
     PlayerInfoLayout(
@@ -33,7 +35,7 @@ fun PlayerInfoScreen(
 @Composable
 private fun PlayerInfoLayout(
     viewModel: PlayerInfoViewModel,
-    playerId: Int
+    playerId: Long?
 ) {
 
     var numberSelector by remember {
@@ -57,11 +59,13 @@ private fun PlayerInfoLayout(
                 seasonsPlayer = seasonsPlayer,
                 playerInfo = playerInfo,
                 onChangeSeason = {
-                    scope.launch {
-                        viewModel.getPlayerResume(
-                            playerId = playerId,
-                            season = it
-                        )
+                    playerId?.let { id->
+                        scope.launch {
+                            viewModel.getPlayerResume(
+                                playerId = id.toInt(),
+                                season = it
+                            )
+                        }
                     }
                 }
             )
