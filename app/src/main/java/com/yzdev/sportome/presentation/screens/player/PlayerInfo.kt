@@ -12,22 +12,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.yzdev.sportome.presentation.screens.player.composables.*
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
+import kotlinx.coroutines.launch
 
 @Composable
 fun PlayerInfoScreen(
     viewModel: PlayerInfoViewModel,
-    playerId: Int = 276
+    playerId: Int
 ) {
 
     LaunchedEffect(key1 = true, block = {
         viewModel.initRequest(playerId)
     })
 
-    PlayerInfoLayout(viewModel)
+    PlayerInfoLayout(
+        viewModel = viewModel,
+        playerId = playerId
+    )
 }
 
 @Composable
-private fun PlayerInfoLayout(viewModel: PlayerInfoViewModel) {
+private fun PlayerInfoLayout(
+    viewModel: PlayerInfoViewModel,
+    playerId: Int
+) {
 
     var numberSelector by remember {
         mutableStateOf(1)
@@ -38,6 +45,8 @@ private fun PlayerInfoLayout(viewModel: PlayerInfoViewModel) {
     val trophiesPlayer = viewModel.stateTrophiesPlayer.value
     val seasonsPlayer = viewModel.stateSeasonPlayer.value
 
+    val scope = rememberCoroutineScope()
+
     Scaffold(modifier = Modifier.fillMaxSize(), backgroundColor = grayBackground) {
         LaunchedEffect(key1 = true, block = {
             Log.e("padd", it.toString())
@@ -45,7 +54,16 @@ private fun PlayerInfoLayout(viewModel: PlayerInfoViewModel) {
 
         Column(modifier = Modifier.fillMaxSize()) {
             HeaderPlayer(
-                seasonsPlayer = seasonsPlayer
+                seasonsPlayer = seasonsPlayer,
+                playerInfo = playerInfo,
+                onChangeSeason = {
+                    scope.launch {
+                        viewModel.getPlayerResume(
+                            playerId = playerId,
+                            season = it
+                        )
+                    }
+                }
             )
 
             SelectorInfoPlayer(

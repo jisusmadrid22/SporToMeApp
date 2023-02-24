@@ -21,13 +21,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.domain.model.LocalSeasonPlayer
+import com.yzdev.sportome.presentation.screens.player.PlayerResumeState
 import com.yzdev.sportome.presentation.screens.player.SeasonPlayerState
 import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun HeaderPlayer(
-    seasonsPlayer: SeasonPlayerState
+    seasonsPlayer: SeasonPlayerState,
+    playerInfo: PlayerResumeState,
+    onChangeSeason: (Int)-> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var listSeasonPlayer: List<LocalSeasonPlayer> by remember {
@@ -58,7 +61,7 @@ fun HeaderPlayer(
             )
 
             Text(
-                text = "Neymar\nda silva santos Junior",
+                text = playerInfo.info?.response?.first()?.player?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
@@ -69,7 +72,7 @@ fun HeaderPlayer(
             )
 
             Text(
-                text = "Brasil",
+                text = playerInfo.info?.response?.first()?.player?.nationality ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
@@ -80,7 +83,7 @@ fun HeaderPlayer(
             )
 
             Text(
-                text = "Delantero",
+                text = playerInfo.info?.response?.first()?.statistics?.first()?.games?.position ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
@@ -93,8 +96,10 @@ fun HeaderPlayer(
 
         when{
             seasonsPlayer.info != null -> {
-                listSeasonPlayer = seasonsPlayer.info
-                selectedText = seasonsPlayer.info.last().year.toString()
+                LaunchedEffect(key1 = true, block = {
+                    listSeasonPlayer = seasonsPlayer.info.reversed()
+                    selectedText = seasonsPlayer.info.last().year.toString()
+                })
 
                 Box(
                     modifier = Modifier
@@ -132,6 +137,7 @@ fun HeaderPlayer(
                                     DropdownMenuItem(onClick = {
                                         expanded = false
                                         selectedText = label.year.toString()
+                                        onChangeSeason(label.year.toInt())
                                     }) {
                                         Text(
                                             text = label.year.toString(),

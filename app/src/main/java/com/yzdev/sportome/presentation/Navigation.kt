@@ -107,7 +107,7 @@ fun Navigation(
             val viewModel: PlayerInfoViewModel = hiltViewModel<PlayerInfoViewModel>()
 
             Box(modifier = Modifier.fillMaxSize()){
-                PlayerInfoScreen(viewModel = viewModel)
+                PlayerInfoScreen(viewModel = viewModel, playerId = 276)
             }
         }
     }

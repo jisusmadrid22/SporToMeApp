@@ -60,17 +60,17 @@ class PlayerInfoViewModel @Inject constructor(
     }
 
     private suspend fun getAllSeasonsPlayer(playerId: Int){
-        Log.e("countries", "init")
+        Log.e("seaosnPlayerInit", "init")
         getAllSeasonPlayerUseCase(null).onEach { result->
             when(result){
                 is Resource.Error -> {
-                    Log.e("seasons", "error -> ${result.message}")
+                    Log.e("seaosnPlayerInit", "error -> ${result.message}")
                 }
                 is Resource.Loading -> {
-                    Log.e("countries", "loading")
+                    Log.e("seaosnPlayerInit", "loading")
                 }
                 is Resource.Success -> {
-                    Log.e("countries", "success")
+                    Log.e("seaosnPlayerInit", "success")
 
                     getCareerPlayer(playerId = playerId)    //only first request
 
@@ -83,8 +83,6 @@ class PlayerInfoViewModel @Inject constructor(
     }
 
     suspend fun initRequest(playerId: Int){
-        delay(20000)
-
         getAllSeasonsPlayer(playerId)
     }
 

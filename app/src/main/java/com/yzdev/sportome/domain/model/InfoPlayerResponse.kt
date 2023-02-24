@@ -90,7 +90,7 @@ data class InfoPlayerResponse(
                 val id: Int?,
                 val logo: String?,
                 val name: String?,
-                val season: Int?
+                val season: String?
             )
 
             data class Passes(
