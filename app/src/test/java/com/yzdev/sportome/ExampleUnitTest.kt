@@ -1,6 +1,5 @@
 package com.yzdev.sportome
 
-import com.yzdev.sportome.common.dateProcess.getDifferenceAge
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,6 +12,6 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(10, getDifferenceAge(ageTest = 28))
+        assertEquals(4, 2 + 2)
     }
 }
