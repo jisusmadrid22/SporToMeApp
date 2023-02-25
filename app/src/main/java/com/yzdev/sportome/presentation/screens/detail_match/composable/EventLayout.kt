@@ -12,33 +12,24 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.AppResource
 import com.yzdev.sportome.domain.model.DetailMatchResponse
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
 import com.yzdev.sportome.R
-import com.yzdev.sportome.common.getFirstAndLastName
-import com.yzdev.sportome.presentation.ui.theme.greenSuccess
-import com.yzdev.sportome.presentation.ui.theme.redMain
-import com.yzdev.sportome.presentation.ui.theme.yellowCard
+import com.yzdev.sportome.presentation.ui.theme.*
 
 @Composable
 fun EventLayout(
@@ -77,30 +68,77 @@ fun EventLayout(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Error")
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stateDetail.error,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = blackLight
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
             else ->{
                 if (stateDetail.info != null){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.Center
-                    ) {
-
-                        LazyColumn(
+                    if (stateDetail.info.events.isNotEmpty()){
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(horizontal = 24.dp, vertical = 16.dp)
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            items(stateDetail.info.events.reversed()){event->
-                                EventItem(
-                                    event = event,
-                                    isHome = event.team.name == stateDetail.info.teams.home.name
-                                )
+
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .padding(horizontal = 24.dp, vertical = 16.dp)
+                            ) {
+                                items(stateDetail.info.events.reversed()){event->
+                                    EventItem(
+                                        event = event,
+                                        isHome = event.team.name == stateDetail.info.teams.home.name
+                                    )
+                                }
+                            }
+                        }
+                    }else{
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.eventEmpty),
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 20.sp,
+                                            fontFamily = RobotoCondensed,
+                                            color = blackLight
+                                        ),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
                             }
                         }
                     }
@@ -116,7 +154,22 @@ fun EventLayout(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "Error")
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.erroGeneric),
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        fontFamily = RobotoCondensed,
+                                        color = blackLight
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }
@@ -191,7 +244,7 @@ fun EventItem(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
-                        fontFamily = QuickSandFont
+                        fontFamily = RobotoCondensed
                     ),
                     textAlign = TextAlign.Center
                 )
@@ -253,7 +306,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.End
@@ -264,7 +317,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.End
@@ -276,7 +329,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.End
@@ -287,7 +340,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = greenSuccess.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.End
@@ -298,7 +351,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = redMain.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.End
@@ -310,7 +363,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.End
@@ -321,7 +374,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.End
@@ -333,7 +386,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.End
@@ -344,7 +397,7 @@ fun HomeEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.End
@@ -372,7 +425,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Start
@@ -383,7 +436,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.Start
@@ -395,7 +448,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Start
@@ -406,7 +459,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = greenSuccess.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.Start
@@ -417,7 +470,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = redMain.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.Start
@@ -429,7 +482,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Start
@@ -440,7 +493,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.Start
@@ -452,7 +505,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Start
@@ -463,7 +516,7 @@ fun AwayEventInfo(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black.copy(alpha = 0.5f)
                     ),
                     textAlign = TextAlign.Start
@@ -492,7 +545,11 @@ private fun setList(): List<String>{
 private fun getTitleEvent(type: String, detail: String): String{
     return when(type.lowercase()){
         "goal"->{
-            AppResource.getString(R.string.goalTitle)
+            if (detail.lowercase() == "missed penalty"){
+                AppResource.getString(R.string.missedPenalty)
+            }else{
+                AppResource.getString(R.string.goalTitle)
+            }
         }
         "subst"->{
             "${AppResource.getString(R.string.subsTitle)} N°${getSubstitutionNumber(detail)}"
@@ -573,7 +630,11 @@ private fun getSubstitutionNumber(detail: String): Int{
 private fun getIconPath(type: String, detail: String): Int{
     return when(type.lowercase()){
         "goal"->{
-            R.drawable.ic_football
+            if (detail.lowercase() == "missed penalty"){
+                R.drawable.ic_cancel
+            }else{
+                R.drawable.ic_football
+            }
         }
         "subst"->{
             R.drawable.ic_swap_subs
@@ -605,7 +666,11 @@ private fun getIconPath(type: String, detail: String): Int{
 private fun getIconColor(type: String, detail: String): Color{
     return when(type.lowercase()){
         "goal"->{
-            MaterialTheme.colors.primary
+            if (detail.lowercase() == "missed penalty"){
+                redMain
+            }else{
+                MaterialTheme.colors.primary
+            }
         }
         "subst"->{
             MaterialTheme.colors.primary

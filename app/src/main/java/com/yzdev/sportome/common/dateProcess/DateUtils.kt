@@ -109,6 +109,13 @@ fun unixToDayWeek(unix: Long): String{
     return sdf.format(netDate)
 }
 
+fun unixToMonthYear(unix: Long): Int{
+    val sdf = SimpleDateFormat("MM")
+    val netDate = Date(unix * 1000)
+
+    return sdf.format(netDate).toInt()
+}
+
 fun getHourByDateUnix(unix: Long): String{
     val sdf = SimpleDateFormat("HH:mm")
     val netDate = Date(unix * 1000)

@@ -7,8 +7,9 @@ package com.yzdev.sportome.common.composable.listDesign.animationList
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun ListSports(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalArrangement = Arrangement.SpaceBetween,
-            cells = GridCells.Fixed(count = 2),
+            columns = GridCells.Fixed(count = 2),
             content = {
                 itemsIndexed(listSport){ index, item->
                     ItemTutorialDesign(

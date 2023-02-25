@@ -113,4 +113,23 @@ interface AppDao {
     suspend fun deleteMatch(match: LocalMatch)
 
     /************************************************************************/
+
+    /*** PLAYER *************************************************************/
+
+    /** get all season player from db*/
+    @Query("SELECT * FROM localseasonplayer")
+    fun getAllSeasonPlayer(): Flow<List<LocalSeasonPlayer>>
+
+    /** get all season player from db without flow*/
+    @Query("SELECT * FROM localseasonplayer")
+    suspend fun getAllSeasonPlayerWithoutFlow(): List<LocalSeasonPlayer>
+
+    /** insert list season player into db*/
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSeasonPlayer(listSeasons: List<LocalSeasonPlayer>)
+
+    /** delete season player from db*/
+    @Delete
+    suspend fun deleteSeasonPlayer(season: LocalSeasonPlayer)
+    /************************************************************************/
 }

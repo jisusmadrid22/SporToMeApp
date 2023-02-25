@@ -14,21 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.common.Country
-import com.yzdev.sportome.common.League
 import com.yzdev.sportome.common.Sport
-import com.yzdev.sportome.common.Team
 import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
 import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.domain.model.LocalCountry
 import com.yzdev.sportome.domain.model.LocalTeam
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
@@ -77,7 +73,7 @@ fun ItemTutorialDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 ),
                 textAlign = TextAlign.Center
             )
@@ -131,7 +127,7 @@ fun ItemTutorialDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 ),
                 textAlign = TextAlign.Center
             )
@@ -185,7 +181,7 @@ fun ItemTutorialDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 ),
                 textAlign = TextAlign.Center
             )
@@ -239,7 +235,7 @@ fun ItemTutorialDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 ),
                 textAlign = TextAlign.Center
             )

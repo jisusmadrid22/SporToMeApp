@@ -18,20 +18,25 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.R
-import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.domain.model.LocalSeasonPlayer
+import com.yzdev.sportome.presentation.screens.player.PlayerResumeState
+import com.yzdev.sportome.presentation.screens.player.SeasonPlayerState
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
 fun HeaderPlayer(
-    listSeasons: List<String> = listOf("2000-2001", "2012-2013", "2013-2014", "2015-2016", "2016-2017", "2017-2018")
+    seasonsPlayer: SeasonPlayerState,
+    playerInfo: PlayerResumeState,
+    onChangeSeason: (Int)-> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(listSeasons.last())}
+    var listSeasonPlayer: List<LocalSeasonPlayer> by remember {
+        mutableStateOf(emptyList())
+    }
+    var selectedText by remember { mutableStateOf("")}
     val height = LocalConfiguration.current.screenHeightDp.dp
     val width = LocalConfiguration.current.screenWidthDp.dp
 
@@ -56,92 +61,107 @@ fun HeaderPlayer(
             )
 
             Text(
-                text = "Neymar\nda silva santos Junior",
+                text = playerInfo.info?.response?.first()?.player?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.White
                 ),
                 textAlign = TextAlign.Center
             )
 
             Text(
-                text = "Brasil",
+                text = playerInfo.info?.response?.first()?.player?.nationality ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.White.copy(alpha = 0.5f)
                 ),
                 textAlign = TextAlign.Center
             )
 
             Text(
-                text = "Delantero",
+                text = playerInfo.info?.response?.first()?.statistics?.first()?.games?.position ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.White.copy(alpha = 0.5f)
                 ),
                 textAlign = TextAlign.Center
             )
         }
 
-        Box(
-            modifier = Modifier.fillMaxSize().padding(end = 8.dp),
-            contentAlignment = Alignment.TopEnd
-        ) {
-            Card(
-                shape = RoundedCornerShape(8.dp),
-                backgroundColor = MaterialTheme.colors.primary,
-                elevation = 0.dp,
-                onClick = {
-                    expanded = true
-                }
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
+        when{
+            seasonsPlayer.info != null -> {
+                LaunchedEffect(key1 = true, block = {
+                    listSeasonPlayer = seasonsPlayer.info.reversed()
+                    selectedText = seasonsPlayer.info.last().year.toString()
+                })
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(end = 8.dp),
+                    contentAlignment = Alignment.TopEnd
                 ) {
-                    Text(
-                        text = selectedText,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp,
-                            fontFamily = QuickSandFont,
-                            color = Color.White.copy(alpha = 0.5f)
-                        ),
-                        textAlign = TextAlign.End
-                    )
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        backgroundColor = MaterialTheme.colors.primary,
+                        elevation = 0.dp,
+                        onClick = {
+                            expanded = true
+                        }
                     ) {
-                        listSeasons.forEach {label->
-                            DropdownMenuItem(onClick = {
-                                expanded = false
-                                selectedText = label
-                            }) {
-                                Text(
-                                    text = label,
-                                    style = TextStyle(
-                                        fontSize = 14.sp,
-                                        fontFamily = QuickSandFont
-                                    ),
-                                    textAlign = TextAlign.Center
-                                )
+                        Row(
+                            modifier = Modifier.padding(horizontal = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = selectedText,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 10.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = Color.White.copy(alpha = 0.5f)
+                                ),
+                                textAlign = TextAlign.End
+                            )
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false }
+                            ) {
+                                listSeasonPlayer.forEach {label->
+                                    DropdownMenuItem(onClick = {
+                                        expanded = false
+                                        selectedText = label.year.toString()
+                                        onChangeSeason(label.year.toInt())
+                                    }) {
+                                        Text(
+                                            text = label.year.toString(),
+                                            style = TextStyle(
+                                                fontSize = 14.sp,
+                                                fontFamily = RobotoCondensed
+                                            ),
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
+                                }
                             }
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                imageVector = Icons.Rounded.ArrowDropDown,
+                                contentDescription = "",
+                                tint = Color.White.copy(alpha = 0.5f)
+                            )
                         }
                     }
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        imageVector = Icons.Rounded.ArrowDropDown,
-                        contentDescription = "",
-                        tint = Color.White.copy(alpha = 0.5f)
-                    )
                 }
+            }
+            else -> {
+
             }
         }
     }

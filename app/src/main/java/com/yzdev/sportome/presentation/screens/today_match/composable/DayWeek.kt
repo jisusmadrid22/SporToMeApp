@@ -16,7 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
 @Composable
@@ -48,7 +48,7 @@ fun DayWeekDesign(
                     style = TextStyle(
                         fontWeight = FontWeight.Medium,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = colorName
                     )
                 )
@@ -60,7 +60,7 @@ fun DayWeekDesign(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = colorDay
                     )
                 )

@@ -27,7 +27,7 @@ import com.yzdev.sportome.presentation.screens.today_match.composable.CalendarWe
 import com.yzdev.sportome.presentation.screens.today_match.composable.CardErrorList
 import com.yzdev.sportome.presentation.screens.today_match.composable.CompetitionList
 import com.yzdev.sportome.presentation.screens.today_match.composable.FavoriteMatchDesign
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import kotlinx.coroutines.launch
 
 @Composable
@@ -93,7 +93,7 @@ fun TodayMatchLayout(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            fontFamily = QuickSandFont
+                            fontFamily = RobotoCondensed
                         )
                     )
                 }
@@ -135,7 +135,7 @@ fun TodayMatchLayout(
                                 }
                             }
                         }else{
-                            CardErrorList(message = AppResource.getString(R.string.notMatchesTodayTeam))
+                            CardErrorList(message = AppResource.getString(R.string.notMatchesLiveToday))
                         }
                     }
                 }
@@ -157,7 +157,7 @@ fun TodayMatchLayout(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            fontFamily = QuickSandFont
+                            fontFamily = RobotoCondensed
                         )
                     )
                 }

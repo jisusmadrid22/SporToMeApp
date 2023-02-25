@@ -1,9 +1,17 @@
 package com.yzdev.sportome.domain.repository
 
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.RankedCompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.TopScoresLeagueDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
+import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
+import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
+import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
+import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamSquadDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +29,22 @@ interface AppRepository {
     suspend fun getH2hMatch(h2h: String): H2hResponseDto
 
     suspend fun getPredictionMatch(idMatch: Int): PredictionsResponseDto
+
+    suspend fun getPlayerInfo(playerId: Int, season: Int): InfoPlayerDto
+
+    suspend fun getTransferPlayerRemote(playerId: Int): TransferPlayerDto
+
+    suspend fun getTrophiesPlayer(playerId: Int): PlayerTrophiesDto
+
+    suspend fun getRankedLeague(leagueId: Int, season: Int): RankedCompetitionDtoResponse
+
+    suspend fun getTopScoreForLeague(leagueId: Int, season: Int): TopScoresLeagueDtoResponse
+
+    suspend fun getTeamInfo(id: Int): TeamInfoDtoResponse
+
+    suspend fun getTeamStats(leagueId: Int, teamId: Int, season: Int): TeamStatsDtoResponse
+
+    suspend fun getTeamSquad(teamId: Int): TeamSquadDtoResponse
 
     //-------------------------------------------------------------------------------------
 
@@ -59,6 +83,16 @@ interface AppRepository {
 
     /** delete favorite team*/
     suspend fun deleteFavoriteTeam(localTeam: LocalTeam)
+
+    suspend fun getAllSeasonPlayerUnFormat(): Flow<List<LocalSeasonPlayer>>
+
+    suspend fun getAllSeasonPlayerUnFormatWithOutFlow(): List<LocalSeasonPlayer>
+
+    /*************** PLAYER ****************************************************/
+    /** get all seasons year from db*/
+    suspend fun getAllSeasonPlayer(): List<LocalSeasonPlayer>
+
+    /***************************************************************************/
 
     //-------------------------------------------------------------------------------------
 

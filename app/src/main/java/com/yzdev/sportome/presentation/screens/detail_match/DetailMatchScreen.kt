@@ -2,6 +2,7 @@
 
 package com.yzdev.sportome.presentation.screens.detail_match
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,22 +22,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.yzdev.sportome.common.composable.topBarDesign.TopBarCustomApp
-import com.yzdev.sportome.domain.model.MatchesResponseLocal
+import com.yzdev.sportome.presentation.Destination
 import com.yzdev.sportome.presentation.screens.detail_match.composable.*
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 @Composable
 fun DetailMatch(
     idMatch: Long?,
-    viewModel: DetailMatchViewModel
+    viewModel: DetailMatchViewModel,
+    navHostController: NavHostController
 ) {
     Scaffold(
         backgroundColor = grayBackground
     ) {
+        LaunchedEffect(key1 = true, block = {
+            Log.e("padd", it.toString())
+        })
         DetailMatchLayout(
-            idMatch, viewModel
+            idMatch, viewModel, navHostController
         )
     }
 }
@@ -44,7 +50,8 @@ fun DetailMatch(
 @Composable
 private fun DetailMatchLayout(
     idMatch: Long?,
-    viewModel: DetailMatchViewModel
+    viewModel: DetailMatchViewModel,
+    navHostController: NavHostController
 ){
 
     var numberSelector by remember {
@@ -97,7 +104,7 @@ private fun DetailMatchLayout(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.White
                         ),
                         textAlign = TextAlign.Center
@@ -126,10 +133,10 @@ private fun DetailMatchLayout(
             InfoTeams(
                 homeTeam = stateDetail.info?.teams?.home?.name ?: "",
                 awayTeam = stateDetail.info?.teams?.away?.name ?: "",
-                formationHome = if (numberSelector != 2) null else {
+                formationHome = if (stateDetail.info?.lineups.isNullOrEmpty()) null else if (numberSelector != 2) null else {
                     stateDetail.info?.lineups?.first()?.formation ?: ""
                 },
-                formationAway = if (numberSelector != 2) null else {
+                formationAway = if (stateDetail.info?.lineups.isNullOrEmpty()) null else if (numberSelector != 2) null else {
                     stateDetail.info?.lineups?.last()?.formation ?: ""
                 }
             )
@@ -141,7 +148,13 @@ private fun DetailMatchLayout(
             numberSelector = numberSelector,
             stateDetail = stateDetail,
             stateH2h = h2hState,
-            statePrediction = statePrediction
+            statePrediction = statePrediction,
+            navigateToPlayer = {
+                navHostController.navigate(Destination.DETAIL_PLAYER.screenRoute + "/$it")
+            },
+            navigateToCoach = {
+
+            }
         )
 
     }
@@ -152,7 +165,9 @@ private fun AnimationSelector(
     numberSelector: Int,
     stateDetail: DetailMatchState,
     stateH2h: H2hMatchState,
-    statePrediction: PredictionMatchState
+    statePrediction: PredictionMatchState,
+    navigateToCoach: (Int)-> Unit,
+    navigateToPlayer: (Int)-> Unit
 ) {
     AnimatedContent(
         targetState = numberSelector,
@@ -176,7 +191,13 @@ private fun AnimationSelector(
             }
             2-> {
                 LineupLayout(
-                    stateDetail
+                    stateDetail = stateDetail,
+                    navigateToPlayer = {
+                        navigateToPlayer(it)
+                    },
+                    navigateToCoach = {
+                        navigateToCoach(it)
+                    }
                 )
             }
             3-> {

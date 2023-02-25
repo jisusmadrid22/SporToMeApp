@@ -25,7 +25,7 @@ import com.yzdev.sportome.common.get12HourFormatBy24HourFormat
 import com.yzdev.sportome.common.getHourByDateUnix
 import com.yzdev.sportome.common.getHourNumberByUnix
 import com.yzdev.sportome.domain.model.MatchesResponseLocal
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.presentation.ui.theme.greenSuccess
 
@@ -64,7 +64,7 @@ fun CompetitionItemDesign(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                     ),
                     textAlign = TextAlign.End
                 )
@@ -95,7 +95,7 @@ fun CompetitionItemDesign(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = greenSuccess
                         ),
                         textAlign = TextAlign.Center
@@ -107,7 +107,7 @@ fun CompetitionItemDesign(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = greenSuccess
                         ),
                         textAlign = TextAlign.Center
@@ -134,7 +134,7 @@ fun CompetitionItemDesign(
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 8.sp,
-                        fontFamily = QuickSandFont
+                        fontFamily = RobotoCondensed
                     ),
                     textAlign = TextAlign.Start
                 )

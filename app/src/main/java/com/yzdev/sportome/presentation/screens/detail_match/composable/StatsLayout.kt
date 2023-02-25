@@ -15,14 +15,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
+import com.yzdev.sportome.R
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 
 @Composable
 fun StatsLayout(
@@ -51,38 +54,85 @@ fun StatsLayout(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Error")
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stateDetail.error,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = blackLight
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
             else -> {
                 if (stateDetail.info?.statistics != null){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
+                    if (stateDetail.info.statistics.isNotEmpty()){
+                        Box(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState()),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            for (i in 0 until stateDetail.info.statistics.first().statistics.size){
-                                LinearProgressStat(
-                                    valueParent = getParentValue(
-                                        valueHome = stateDetail.info.statistics.first().statistics[i].value,
-                                        valueAway = stateDetail.info.statistics.last().statistics[i].value
-                                ),
-                                    valueHome = getValueToInt(stateDetail.info.statistics.first().statistics[i].value),
-                                    nameState = stateDetail.info.statistics.first().statistics[i].type,
-                                    isPercent = stateDetail.info.statistics.first().statistics[i].value?.contains("%") ?: false
-                                )
-                            }
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .verticalScroll(rememberScrollState()),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                for (i in 0 until stateDetail.info.statistics.first().statistics.size){
+                                    LinearProgressStat(
+                                        valueParent = getParentValue(
+                                            valueHome = stateDetail.info.statistics.first().statistics[i].value,
+                                            valueAway = stateDetail.info.statistics.last().statistics[i].value
+                                        ),
+                                        valueHome = getValueToInt(stateDetail.info.statistics.first().statistics[i].value),
+                                        nameState = stateDetail.info.statistics.first().statistics[i].type,
+                                        isPercent = stateDetail.info.statistics.first().statistics[i].value?.contains("%") ?: false
+                                    )
+                                }
 
-                            Spacer(modifier = Modifier.height(48.dp))
+                                Spacer(modifier = Modifier.height(48.dp))
+                            }
+                        }
+                    }else{
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.statsEmpty),
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 20.sp,
+                                            fontFamily = RobotoCondensed,
+                                            color = blackLight
+                                        ),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
                         }
                     }
                 }else{
@@ -97,7 +147,22 @@ fun StatsLayout(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "Error")
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.erroGeneric),
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        fontFamily = RobotoCondensed,
+                                        color = blackLight
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }
@@ -130,7 +195,7 @@ fun LinearProgressStat(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -204,7 +269,7 @@ fun LinearProgressStat(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.Start
@@ -215,7 +280,7 @@ fun LinearProgressStat(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.End
@@ -249,7 +314,7 @@ fun LinearProgressStat(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -323,7 +388,7 @@ fun LinearProgressStat(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.Start
@@ -334,7 +399,7 @@ fun LinearProgressStat(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.End
@@ -353,7 +418,8 @@ fun getParentValue(valueHome: String?, valueAway: String?): Int{
         if (valueHome!!.contains("%")){
             valueHome.dropLast(1).toInt()
         }else{
-            valueHome.dropLast(2).toInt()
+            val f = String.format("%.2f", valueHome.toFloat())
+            f.dropLast(3).toInt()
         }
     }else{
         0
@@ -363,7 +429,8 @@ fun getParentValue(valueHome: String?, valueAway: String?): Int{
         if (valueAway!!.contains("%")){
             valueAway.dropLast(1).toInt()
         }else{
-            valueAway.dropLast(2).toInt()
+            val f = String.format("%.2f", valueAway.toFloat())
+            f.dropLast(3).toInt()
         }
     }else{
         0
@@ -379,7 +446,8 @@ fun getValueToInt(valueHome: String?): Int{
         if (valueHome!!.contains("%")){
             valueHome.dropLast(1).toInt()
         }else{
-            valueHome.dropLast(2).toInt()
+            val f = String.format("%.2f", valueHome.toFloat())
+            f.dropLast(3).toInt()
         }
     }else{
         0
@@ -395,7 +463,8 @@ fun getValueToFloat(valueHome: String?): Float{
         if (valueHome!!.contains("%")){
             valueHome.dropLast(1).toFloat()
         }else{
-            valueHome.dropLast(2).toFloat()
+            val f = String.format("%.2f", valueHome.toFloat())
+            f.dropLast(3).toFloat()
         }
     }else{
         0f

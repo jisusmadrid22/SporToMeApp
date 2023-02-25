@@ -3,7 +3,6 @@ package com.yzdev.sportome.presentation.screens.detail_match.composable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.R
 
@@ -55,7 +54,7 @@ fun InfoTeams(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 10.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black
                         ),
                         textAlign = TextAlign.Start
@@ -65,7 +64,7 @@ fun InfoTeams(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black.copy(alpha = 0.25f)
                         ),
                         textAlign = TextAlign.Start
@@ -88,7 +87,7 @@ fun InfoTeams(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 10.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black
                         ),
                         textAlign = TextAlign.End
@@ -98,7 +97,7 @@ fun InfoTeams(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 8.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black.copy(alpha = 0.25f)
                         ),
                         textAlign = TextAlign.End

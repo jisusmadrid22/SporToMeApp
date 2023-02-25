@@ -1,12 +1,21 @@
 package com.yzdev.sportome.data.remote
 
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.RankedCompetitionDtoResponse
 import com.yzdev.sportome.data.remote.dto.competition.SeasonsDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.TopScoresLeagueDtoResponse
 import com.yzdev.sportome.data.remote.dto.countries.CountriesDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.MatchesForThisWeekDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
+import com.yzdev.sportome.data.remote.dto.player.AllSeasonPlayerDto
+import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
+import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
+import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
+import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamSquadDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -56,6 +65,30 @@ interface ApiService {
     @GET("predictions")
     suspend fun getPredictionMatch(@Query("fixture") fixture: Int): PredictionsResponseDto
 
-    @GET("fixtures")
-    suspend fun getAllMatchesFavoriteTeam(@Query("ids") ids: String): Any
+    @GET("players/seasons")
+    suspend fun getAllSeasonsPlayer(): AllSeasonPlayerDto
+
+    @GET("players")
+    suspend fun getPlayerInfoRemote(@Query("id") id: Int, @Query("season") season: Int): InfoPlayerDto
+
+    @GET("transfers")
+    suspend fun getTransferPlayer(@Query("player") player: Int): TransferPlayerDto
+
+    @GET("trophies")
+    suspend fun getTrophiesPlayer(@Query("player") player: Int): PlayerTrophiesDto
+
+    @GET("standings")
+    suspend fun getRankedLeague(@Query("league") league: Int, @Query("season") season: Int): RankedCompetitionDtoResponse
+
+    @GET("standings")
+    suspend fun getTopScoresForLeague(@Query("league") league: Int, @Query("season") season: Int): TopScoresLeagueDtoResponse
+
+    @GET("teams")
+    suspend fun getTeamInfo(@Query("id") id: Int): TeamInfoDtoResponse
+
+    @GET("teams/statistics")
+    suspend fun getTeamStats(@Query("league") league: Int, @Query("season") season: Int, @Query("team") team: Int): TeamStatsDtoResponse
+
+    @GET("players/squads")
+    suspend fun getTeamSquad(@Query("team") team: Int): TeamSquadDtoResponse
 }

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 
 @Composable
@@ -76,7 +76,7 @@ fun ItemMenuIndividual(
                 text = item.second,
                 style = TextStyle(
                     color = Color.Black,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp
                 )

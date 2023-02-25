@@ -6,12 +6,21 @@ import com.yzdev.sportome.common.*
 import com.yzdev.sportome.data.data_source.AppDao
 import com.yzdev.sportome.data.remote.ApiService
 import com.yzdev.sportome.data.remote.dto.competition.CompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.RankedCompetitionDtoResponse
+import com.yzdev.sportome.data.remote.dto.competition.TopScoresLeagueDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.DetailMatchDtoResponse
 import com.yzdev.sportome.data.remote.dto.match.h2hResponseDto.H2hResponseDto
 import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseDto
+import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
+import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
+import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
+import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamSquadDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
 import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -54,6 +63,38 @@ class AppRepositoryImp @Inject constructor(
 
     override suspend fun getPredictionMatch(idMatch: Int): PredictionsResponseDto {
         return api.getPredictionMatch(idMatch)
+    }
+
+    override suspend fun getPlayerInfo(playerId: Int, season: Int): InfoPlayerDto {
+        return api.getPlayerInfoRemote(id = playerId, season = season)
+    }
+
+    override suspend fun getTransferPlayerRemote(playerId: Int): TransferPlayerDto {
+        return api.getTransferPlayer(playerId)
+    }
+
+    override suspend fun getTrophiesPlayer(playerId: Int): PlayerTrophiesDto {
+        return api.getTrophiesPlayer(playerId)
+    }
+
+    override suspend fun getRankedLeague(leagueId: Int, season: Int): RankedCompetitionDtoResponse {
+        return api.getRankedLeague(league = leagueId, season = season)
+    }
+
+    override suspend fun getTopScoreForLeague(leagueId: Int, season: Int): TopScoresLeagueDtoResponse {
+        return api.getTopScoresForLeague(league = leagueId, season = season)
+    }
+
+    override suspend fun getTeamInfo(id: Int): TeamInfoDtoResponse {
+        return api.getTeamInfo(id)
+    }
+
+    override suspend fun getTeamStats(leagueId: Int, teamId: Int, season: Int): TeamStatsDtoResponse {
+        return api.getTeamStats(league = leagueId, team = teamId, season = season)
+    }
+
+    override suspend fun getTeamSquad(teamId: Int): TeamSquadDtoResponse {
+        return api.getTeamSquad(teamId)
     }
 
     //-------------------------------------------------------------------------------------
@@ -167,6 +208,39 @@ class AppRepositoryImp @Inject constructor(
         return dao.deleteFavoriteTeam(localTeam)
     }
 
+    override suspend fun getAllSeasonPlayerUnFormat(): Flow<List<LocalSeasonPlayer>> {
+        return dao.getAllSeasonPlayer()
+    }
+
+    override suspend fun getAllSeasonPlayerUnFormatWithOutFlow(): List<LocalSeasonPlayer> {
+        return dao.getAllSeasonPlayerWithoutFlow()
+    }
+
+    override suspend fun getAllSeasonPlayer(): List<LocalSeasonPlayer> {
+        Log.e("seasonPlayer", "init fun")
+        var seasons = dao.getAllSeasonPlayerWithoutFlow()
+        if(seasons.isEmpty()){
+            //from api
+            Log.e("seasonPlayer", "from api")
+            val apiSeasons = api.getAllSeasonsPlayer()
+
+            dao.insertSeasonPlayer(apiSeasons.toLocalSeasonPlayer())
+
+            seasons = dao.getAllSeasonPlayerWithoutFlow()
+
+        }else if(getHourDifference(timeToUnix() - seasons.first().timeRequest) >= 72){    //if hours is 72hr
+            Log.e("seasonPlayer", "from api seasons update ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
+            val apiSeasons = api.getAllSeasonsPlayer()
+
+            dao.insertSeasonPlayer(apiSeasons.toLocalSeasonPlayer())
+
+            seasons = dao.getAllSeasonPlayerWithoutFlow()
+        }
+
+        Log.e("seasonPlayer", "hours difference ${getHourDifference(timeToUnix() - seasons.first().timeRequest)} hr")
+        return seasons
+    }
+
     override suspend fun getWeekMatchesTeam(): List<LocalMatch> {
         val competitionFav = dao.getAllLocalCompetitionWithOutFlow()
         val teamsFav = dao.getAllLocalTeamWithoutFlow()
@@ -187,6 +261,7 @@ class AppRepositoryImp @Inject constructor(
                             data.forEach {response->
                                 dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix(), matchDay = unixToDayWeek(response.fixture.timestamp).toInt()))
                             }
+                            delay(1000)
                         }
                     }
                 }else{
@@ -212,6 +287,7 @@ class AppRepositoryImp @Inject constructor(
                             data.forEach {response->
                                 dateMatches.add(LocalMatch(idMatch = response.fixture.id, idLeague = response.league.id, seasonYear = response.league.season, timestamp = timeToUnix(), matchDay = unixToDayWeek(response.fixture.timestamp).toInt()))
                             }
+                            delay(1000)
                         }
                     }
                 }else{
@@ -249,6 +325,7 @@ class AppRepositoryImp @Inject constructor(
                         )
                     )
                 }
+                delay(1000)
             }
 
         }else{
@@ -270,6 +347,7 @@ class AppRepositoryImp @Inject constructor(
                 )
 
                 listMatches.addAll(data.toListMatchesResponseLocal())
+                delay(1000)
             }
         }
 

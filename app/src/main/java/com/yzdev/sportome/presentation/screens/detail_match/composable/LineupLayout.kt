@@ -1,5 +1,6 @@
 package com.yzdev.sportome.presentation.screens.detail_match.composable
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,11 +22,14 @@ import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.getFirstAndLastName
 import com.yzdev.sportome.presentation.screens.detail_match.DetailMatchState
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 
 @Composable
 fun LineupLayout(
-    stateDetail: DetailMatchState
+    stateDetail: DetailMatchState,
+    navigateToCoach: (Int)-> Unit,
+    navigateToPlayer: (Int)-> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         when{
@@ -46,19 +50,74 @@ fun LineupLayout(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Error")
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stateDetail.error,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = blackLight
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
             else -> {
                 if (stateDetail.info?.statistics != null){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LineupLayoutDesign(stateDetail = stateDetail)
+                    if (stateDetail.info.statistics.isNotEmpty()){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LineupLayoutDesign(
+                                stateDetail = stateDetail,
+                                navigateToCoach = {
+                                    navigateToCoach(it)
+                                },
+                                navigateToPlayer = {
+                                    navigateToPlayer(it)
+                                }
+                            )
+                        }
+                    }else{
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.lineupEmpty),
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 20.sp,
+                                            fontFamily = RobotoCondensed,
+                                            color = blackLight
+                                        ),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        }
                     }
                 }else{
                     Box(
@@ -72,7 +131,22 @@ fun LineupLayout(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "Error")
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.erroGeneric),
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        fontFamily = RobotoCondensed,
+                                        color = blackLight
+                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }
@@ -83,7 +157,9 @@ fun LineupLayout(
 
 @Composable
 private fun LineupLayoutDesign(
-    stateDetail: DetailMatchState
+    stateDetail: DetailMatchState,
+    navigateToCoach: (Int)-> Unit,
+    navigateToPlayer: (Int)-> Unit
 ) {
     Column(
         modifier = Modifier
@@ -105,7 +181,7 @@ private fun LineupLayoutDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -119,22 +195,32 @@ private fun LineupLayoutDesign(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
+                modifier = Modifier.clickable {
+                    stateDetail.info?.lineups?.first()?.coach?.let {
+                        navigateToCoach(it.id)
+                    }
+                },
                 text = stateDetail.info?.lineups?.first()?.coach?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.Start
             )
 
             Text(
+                modifier = Modifier.clickable {
+                    stateDetail.info?.lineups?.first()?.coach?.let {
+                        navigateToCoach(it.id)
+                    }
+                },
                 text = stateDetail.info?.lineups?.last()?.coach?.name ?: "",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 10.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = Color.Black.copy(alpha = 0.25f)
                 ),
                 textAlign = TextAlign.End
@@ -148,7 +234,7 @@ private fun LineupLayoutDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -173,7 +259,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -185,7 +271,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -193,7 +279,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -211,7 +302,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -223,7 +314,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -231,7 +322,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -246,7 +342,7 @@ private fun LineupLayoutDesign(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             ),
             textAlign = TextAlign.Center
@@ -271,7 +367,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -283,7 +379,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -291,7 +387,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
@@ -309,7 +410,7 @@ private fun LineupLayoutDesign(
                                 style = SpanStyle(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 12.sp,
-                                    fontFamily = QuickSandFont,
+                                    fontFamily = RobotoCondensed,
                                     color = Color.Black.copy(alpha = 0.25f),
                                 )
                             ){
@@ -321,7 +422,7 @@ private fun LineupLayoutDesign(
                                     style = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 12.sp,
-                                        fontFamily = QuickSandFont,
+                                        fontFamily = RobotoCondensed,
                                         color = Color.Black,
                                     )
                                 ){
@@ -329,7 +430,12 @@ private fun LineupLayoutDesign(
                                 }
                             }
                         },
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.clickable {
+                            it.player.let {player->
+                                navigateToPlayer(player.id)
+                            }
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))

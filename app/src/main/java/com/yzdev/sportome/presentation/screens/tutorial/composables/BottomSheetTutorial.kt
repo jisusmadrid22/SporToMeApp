@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 
 @Composable
 fun BottomSheetTutorialDesign(
@@ -45,7 +45,7 @@ fun BottomSheetTutorialDesign(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 )
             )
         }

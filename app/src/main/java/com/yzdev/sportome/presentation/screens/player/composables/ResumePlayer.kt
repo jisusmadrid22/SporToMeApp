@@ -25,19 +25,141 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.gray
 import com.yzdev.sportome.R
+import com.yzdev.sportome.common.AppResource
+import com.yzdev.sportome.common.Constant
+import com.yzdev.sportome.common.composable.canvasUtils.AnimatedShimmerTwoLines
+import com.yzdev.sportome.common.dateToUnix
+import com.yzdev.sportome.common.unixToDateTimeSA
+import com.yzdev.sportome.presentation.screens.player.CareerPlayerState
+import com.yzdev.sportome.presentation.screens.player.PlayerResumeState
+import com.yzdev.sportome.presentation.ui.theme.blackLight
 
 @Composable
 fun ResumePlayer(
+    playerInfo: PlayerResumeState,
+    navigateToInfoTeam: () -> Unit,
+    careerPlayer: CareerPlayerState
+) {
+    when{
+        playerInfo.isLoading ->{
+            LoadingItemPlayer()
+        }
+        playerInfo.error.isNotEmpty() ->{
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = playerInfo.error,
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                fontFamily = RobotoCondensed,
+                                color = blackLight
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+        else ->{
+            if (playerInfo.info != null){
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+                    item {
+                        ResumePlayerTeam(
+                            playerInfo = playerInfo,
+                            navigateToInfoTeam = {
+                                navigateToInfoTeam()
+                            },
+                            careerPlayer = careerPlayer
+                        )
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    item {
+                        ResumeInfoPlayer(
+                            playerInfo = playerInfo
+                        )
+                    }
+                }
+            }else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.errorPlayerInfo),
+                                style = TextStyle(
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp,
+                                    fontFamily = RobotoCondensed,
+                                    color = blackLight
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoadingItemPlayer(
 
 ) {
+    val height = LocalConfiguration.current.screenWidthDp.dp * 0.5f
     LazyColumn(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()){
         item {
-            ResumePlayerTeam()
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height)
+                    .padding(horizontal = 24.dp),
+                shape = RoundedCornerShape(16.dp),
+                backgroundColor = Color.White,
+                elevation = 0.dp,
+            ) {
+                AnimatedShimmerTwoLines()
+            }
         }
 
         item{
@@ -45,15 +167,23 @@ fun ResumePlayer(
         }
 
         item{
-            ResumeInfoPlayer()
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height)
+                    .padding(horizontal = 24.dp),
+                shape = RoundedCornerShape(16.dp),
+                backgroundColor = Color.White,
+                elevation = 0.dp,
+            ) {
+                AnimatedShimmerTwoLines()
+            }
         }
     }
 }
 
 @Composable
-private fun ResumeInfoPlayer(
-
-) {
+private fun ResumeInfoPlayer(playerInfo: PlayerResumeState) {
     val paddingHeight = 4.dp
 
 
@@ -71,56 +201,49 @@ private fun ResumeInfoPlayer(
         ) {
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.dateBirth),
-                valueInfo = "DD/MM/YYYY"
+                valueInfo = unixToDateTimeSA(dateToUnix(playerInfo.info?.response?.first()?.player?.birth?.date ?: "")) ?: ""
             )
 
             Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.city),
-                valueInfo = "Nombre ciudad"
+                valueInfo = playerInfo.info?.response?.first()?.player?.birth?.place ?: ""
             )
 
             Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.age),
-                valueInfo = "Edad"
+                valueInfo = (playerInfo.info?.response?.first()?.player?.age ?: 0).toString()
             )
 
             Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.weight),
-                valueInfo = "Peso"
+                valueInfo = (playerInfo.info?.response?.first()?.player?.weight ?: 0).toString()
             )
 
             Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.height),
-                valueInfo = "Altura"
+                valueInfo = (playerInfo.info?.response?.first()?.player?.height ?: 0).toString()
             )
 
             Spacer(modifier = Modifier.height(paddingHeight))
 
             InfoPlayer(
                 titleInfo = stringResource(id = R.string.injure),
-                valueInfo = "No"
-            )
-
-            Spacer(modifier = Modifier.height(paddingHeight))
-
-            InfoPlayer(
-                titleInfo = stringResource(id = R.string.captain),
-                valueInfo = "No"
+                valueInfo = if (playerInfo.info?.response?.first()?.player?.injured == true) AppResource.getString(R.string.yesTitle) else AppResource.getString(R.string.noTitle)
             )
         }
     }
 }
 
 @Composable
-private fun InfoPlayer(
+fun InfoPlayer(
     titleInfo: String,
     valueInfo: String
 ) {
@@ -134,7 +257,7 @@ private fun InfoPlayer(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black.copy(alpha = 0.25f)
             )
         )
@@ -144,7 +267,7 @@ private fun InfoPlayer(
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 10.sp,
-                fontFamily = QuickSandFont,
+                fontFamily = RobotoCondensed,
                 color = Color.Black
             )
         )
@@ -153,8 +276,14 @@ private fun InfoPlayer(
 
 @Composable
 private fun ResumePlayerTeam(
-
+    playerInfo: PlayerResumeState,
+    navigateToInfoTeam: ()-> Unit,
+    careerPlayer: CareerPlayerState
 ) {
+
+    val teamInfo = playerInfo.info?.response?.first()?.statistics?.first { it?.league?.country != Constant.COUNTRY_WORLD }
+    val teamCareer = if (!careerPlayer.info?.response.isNullOrEmpty()) if (!careerPlayer.info?.response?.first()?.transfers.isNullOrEmpty()) careerPlayer.info?.response?.first()?.transfers?.find { it.teams.inTeam.name == teamInfo?.team?.name } else null else null
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -162,8 +291,9 @@ private fun ResumePlayerTeam(
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White,
         elevation = 0.dp,
+        enabled = (playerInfo.info != null),
         onClick = {
-
+            navigateToInfoTeam()
         }
     ) {
         Row(modifier = Modifier
@@ -188,11 +318,11 @@ private fun ResumePlayerTeam(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Paris Saint Germany",
+                        text = teamInfo?.team?.name ?: "",
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
-                            fontFamily = QuickSandFont,
+                            fontFamily = RobotoCondensed,
                             color = Color.Black
                         )
                     )
@@ -204,26 +334,27 @@ private fun ResumePlayerTeam(
 
                             },
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_heart),
-                        contentDescription = ""
+                        contentDescription = "",
+                        tint = MaterialTheme.colors.secondary
                     )
                 }
 
                 Text(
-                    text = "Pais: Francia",
+                    text = stringResource(R.string.countryTitle) + ": ${teamInfo?.league?.country}",
                     style = TextStyle(
                         fontWeight = FontWeight.Light,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     )
                 )
 
                 Text(
-                    text = "Inicio: DD/MM/YYYY",
+                    text = stringResource(R.string.dateInitTitle) + ": ${teamCareer?.let { dateToUnix(it.date) }?.let { unixToDateTimeSA(it) }}",
                     style = TextStyle(
                         fontWeight = FontWeight.Light,
                         fontSize = 10.sp,
-                        fontFamily = QuickSandFont,
+                        fontFamily = RobotoCondensed,
                         color = Color.Black
                     )
                 )
@@ -237,7 +368,7 @@ private fun ResumePlayerTeam(
                 ) {
                     Text(
                         text = stringResource(id = R.string.information),
-                        style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light, fontFamily = QuickSandFont, fontSize = 8.sp),
+                        style = MaterialTheme.typography.caption.copy(fontWeight = FontWeight.Light, fontFamily = RobotoCondensed, fontSize = 8.sp),
                         textAlign = TextAlign.End
                     )
                     Icon(modifier = Modifier.size(14.dp), imageVector = Icons.Rounded.KeyboardArrowRight, contentDescription = "", tint = Color.Black.copy(alpha = 0.25f))

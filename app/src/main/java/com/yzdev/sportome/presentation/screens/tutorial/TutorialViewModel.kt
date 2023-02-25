@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yzdev.sportome.R
 import com.yzdev.sportome.TutorialDs
 import com.yzdev.sportome.common.*
 import com.yzdev.sportome.domain.model.LocalCompetition
@@ -16,6 +17,7 @@ import com.yzdev.sportome.domain.use_case.favoriteCompetition.CompetitionUseCase
 import com.yzdev.sportome.domain.use_case.favoriteTeam.TeamUseCaseFormat
 import com.yzdev.sportome.domain.use_case.getAllCompetitionQueryRemote.GetAllCompetitionQueryRemoteUseCase
 import com.yzdev.sportome.domain.use_case.getAllCountries.GetAllCountriesUseCase
+import com.yzdev.sportome.domain.use_case.getAllSeasonPlayer.GetAllSeasonPlayerUseCase
 import com.yzdev.sportome.domain.use_case.getAllSeasonsYear.GetAllSeasonsYearUseCase
 import com.yzdev.sportome.domain.use_case.getAllTeamsQueryRemote.GetAllTeamsQueryRemoteUseCase
 import com.yzdev.sportome.ds.KeysDataStore
@@ -34,7 +36,8 @@ class TutorialViewModel @Inject constructor(
     private val competitionUseCase: CompetitionUseCaseFormat,
     private val getAllSeasonsYearUseCase: GetAllSeasonsYearUseCase,
     private val teamUseCase: TeamUseCaseFormat,
-    private val getAllTeamsQueryRemoteUseCase: GetAllTeamsQueryRemoteUseCase
+    private val getAllTeamsQueryRemoteUseCase: GetAllTeamsQueryRemoteUseCase,
+    private val getAllSeasonPlayerUseCase: GetAllSeasonPlayerUseCase
 ) : ViewModel() {
 
     private val _stateListCountry = mutableStateOf(CountryState())
@@ -49,6 +52,7 @@ class TutorialViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getAllSeasonsYear()
+            getAllSeasonsPlayer()
         }
     }
 
@@ -59,7 +63,7 @@ class TutorialViewModel @Inject constructor(
         getAllCountriesUseCase().onEach { result->
             when(result){
                 is Resource.Error -> {
-                    _stateListCountry.value = CountryState(error = result.message ?: "An unexpected error occurred")
+                    _stateListCountry.value = CountryState(error = result.message ?: AppResource.getString(R.string.erroGeneric))
                 }
                 is Resource.Loading -> {
                     _stateListCountry.value = CountryState(isLoading = true)
@@ -160,6 +164,23 @@ class TutorialViewModel @Inject constructor(
     private suspend fun getAllSeasonsYear(){
         Log.e("countries", "init")
         getAllSeasonsYearUseCase().onEach { result->
+            when(result){
+                is Resource.Error -> {
+                    Log.e("seasons", "error -> ${result.message}")
+                }
+                is Resource.Loading -> {
+                    Log.e("countries", "loading")
+                }
+                is Resource.Success -> {
+                    Log.e("countries", "success")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private suspend fun getAllSeasonsPlayer(){
+        Log.e("countries", "init")
+        getAllSeasonPlayerUseCase(null).onEach { result->
             when(result){
                 is Resource.Error -> {
                     Log.e("seasons", "error -> ${result.message}")

@@ -6,10 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,14 +15,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.common.labelTextFieldByStep
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
 
 
@@ -58,7 +52,7 @@ fun SearcherField(
                 textStyle = TextStyle(
                     fontWeight = FontWeight.Light,
                     fontSize = 14.sp,
-                    fontFamily = QuickSandFont
+                    fontFamily = RobotoCondensed
                 ),
                 placeholder = {
                     Text(
@@ -66,7 +60,7 @@ fun SearcherField(
                         style = TextStyle(
                             fontWeight = FontWeight.Normal,
                             fontSize = 14.sp,
-                            fontFamily = QuickSandFont
+                            fontFamily = RobotoCondensed
                         )
                     )
                 },

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yzdev.sportome.R
 import com.yzdev.sportome.common.AppResource
-import com.yzdev.sportome.presentation.ui.theme.QuickSandFont
+import com.yzdev.sportome.presentation.ui.theme.RobotoCondensed
 
 @Composable
 fun SwitchType(
@@ -94,7 +94,7 @@ private fun CardSwitch(
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
-                    fontFamily = QuickSandFont,
+                    fontFamily = RobotoCondensed,
                     color = colorText
                 ),
                 textAlign = TextAlign.Center
