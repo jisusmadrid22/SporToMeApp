@@ -10,8 +10,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.yzdev.sportome.domain.model.LocalCompetition
 import com.yzdev.sportome.presentation.screens.team.composables.HeaderTeam
 import com.yzdev.sportome.presentation.screens.team.composables.SelectorTeamInfo
+import com.yzdev.sportome.presentation.screens.team.composables.StatsTeam
 import com.yzdev.sportome.presentation.screens.team.composables.TeamResume
 import com.yzdev.sportome.presentation.screens.tutorial.CompetitionState
 import com.yzdev.sportome.presentation.ui.theme.grayBackground
@@ -48,6 +50,14 @@ private fun TeamInfoLayout(
     val teamSquad = teamInfoViewModel.stateTeamSquad.value
     val teamStats = teamInfoViewModel.stateTeamStats.value
 
+    var seasonSelected: Int? by remember {
+        mutableStateOf(null)
+    }
+
+    var selectedLeague by remember {
+        mutableStateOf((stateLeague.info?.first()))
+    }
+
     val scope = rememberCoroutineScope()
 
     Scaffold(modifier = Modifier.fillMaxSize(), backgroundColor = grayBackground) {
@@ -60,6 +70,7 @@ private fun TeamInfoLayout(
                 seasonTeam = seasonTeam,
                 teamInfo = teamInfo,
                 onChangeSeason = {
+                    seasonSelected = it
                     scope.launch {
                         teamInfo.info?.response?.first()?.team?.id?.let { it1 ->
                             teamInfoViewModel.getLeagueByTeam(
@@ -68,9 +79,12 @@ private fun TeamInfoLayout(
                             )
                         }
                     }
+                },
+                favoriteChange = {
+
                 }
             ) {
-
+                seasonSelected = it
             }
 
             SelectorTeamInfo(
@@ -88,8 +102,24 @@ private fun TeamInfoLayout(
                 stateLeague = stateLeague,
                 seasonTeamState = seasonTeam,
                 teamSquadState = teamSquad,
-                teamStatState = teamStats
-            )
+                teamStatState = teamStats,
+                selectedLeague = selectedLeague,
+                selectedLeagueOnChane = {
+                    selectedLeague = it
+                }
+            ){
+                scope.launch {
+                    seasonSelected?.let {
+                        selectedLeague?.let {it1->
+                            teamInfoViewModel.getTeamStats(
+                                leagueId = it1.idApi,
+                                teamId = teamId,
+                                season = it
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -102,7 +132,10 @@ private fun AnimationSelector(
     stateLeague: CompetitionState,
     seasonTeamState: SeasonTeamState,
     teamSquadState: TeamSquadState,
-    teamStatState: TeamStatState
+    teamStatState: TeamStatState,
+    selectedLeague: LocalCompetition?,
+    selectedLeagueOnChane: (LocalCompetition)-> Unit,
+    leagueOnChange: (LocalCompetition)-> Unit
 ) {
     AnimatedContent(
         targetState = numberSelector,
@@ -126,7 +159,17 @@ private fun AnimationSelector(
                 )
             }
             2->{
-
+                StatsTeam(
+                    teamStatState = teamStatState,
+                    competitionState = stateLeague,
+                    leagueOnChange = {
+                        leagueOnChange(it)
+                    },
+                    selectedLeague = selectedLeague,
+                    selectedLeagueOnChane = {
+                        selectedLeagueOnChane(it)
+                    }
+                )
             }
         }
     }

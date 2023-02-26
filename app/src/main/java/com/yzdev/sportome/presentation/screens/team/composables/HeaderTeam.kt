@@ -38,7 +38,8 @@ fun HeaderTeam(
     seasonTeam: SeasonTeamState,
     teamInfo: TeamInfoState,
     onChangeSeason: (Int)-> Unit,
-    favoriteChange: ()-> Unit
+    favoriteChange: ()-> Unit,
+    successSeason: (Int)-> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var listSeasonTeam: List<Int> by remember {
@@ -109,6 +110,7 @@ fun HeaderTeam(
                 LaunchedEffect(key1 = true, block = {
                     listSeasonTeam = seasonTeam.info.listSeason.reversed()
                     selectedText = seasonTeam.info.listSeason.last().toString()
+                    successSeason(seasonTeam.info.listSeason.last())
                 })
 
                 Box(

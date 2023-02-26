@@ -153,4 +153,12 @@
     <string name="capacityTitle">Capacidad</string>
     <string name="detailTeam">Detalle del equipo</string>
     <string name="personTitle">personas</string>
+    <string name="matchesClean">Partido limpio</string>
+    <string name="failedScore">Goles Fallados</string>
+    <string name="receiverGoalsTitle">Recibidos</string>
+    <string name="winTitle">Victorias</string>
+    <string name="drawTitle">Empates</string>
+    <string name="loseTitle">Derrotas</string>
+    <string name="errorStatTeam">Ha ocurrido un error inesperado obteniendo las estadisticas</string>
+    <string name="errorFixtureTeam">Ha ocurrido un error obteniendo los partidos jugados</string>
 </resources>
