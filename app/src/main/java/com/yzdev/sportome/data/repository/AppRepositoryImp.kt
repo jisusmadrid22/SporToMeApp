@@ -14,10 +14,7 @@ import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseD
 import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
-import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamSquadDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.*
 import com.yzdev.sportome.domain.model.*
 import com.yzdev.sportome.domain.repository.AppRepository
 import kotlinx.coroutines.delay
@@ -37,6 +34,10 @@ class AppRepositoryImp @Inject constructor(
      * */
     override suspend fun getAllCompetitionRemoteQuery(countryCode: String): CompetitionDtoResponse {
         return api.getAllCurrentLeaguesByCountry(code = countryCode)
+    }
+
+    override suspend fun getLeagueByTeam(teamId: Int, season: Int): CompetitionDtoResponse {
+        return api.getAllLeagueByTeam(team = teamId, season = season)
     }
 
     /** get all teams from api, query for current season and id league
@@ -95,6 +96,10 @@ class AppRepositoryImp @Inject constructor(
 
     override suspend fun getTeamSquad(teamId: Int): TeamSquadDtoResponse {
         return api.getTeamSquad(teamId)
+    }
+
+    override suspend fun getAllSeasonTeam(teamId: Int): TeamSeasonDtoResponse {
+        return api.getAllSeasonYearTeam(teamId)
     }
 
     //-------------------------------------------------------------------------------------

@@ -13,10 +13,7 @@ import com.yzdev.sportome.data.remote.dto.player.AllSeasonPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
-import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamSquadDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.*
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -31,6 +28,9 @@ interface ApiService {
      * */
     @GET("leagues")
     suspend fun getAllCurrentLeaguesByCountry(@Query("code") code: String, @Query("current") current: Boolean = true): CompetitionDtoResponse
+
+    @GET("leagues")
+    suspend fun getAllLeagueByTeam(@Query("team") team: Int, @Query("season") season: Int): CompetitionDtoResponse
 
     /** get all seasons year from api*/
     @GET("leagues/seasons")
@@ -91,4 +91,8 @@ interface ApiService {
 
     @GET("players/squads")
     suspend fun getTeamSquad(@Query("team") team: Int): TeamSquadDtoResponse
+
+    /** get all seasons year from api*/
+    @GET("teams/seasons")
+    suspend fun getAllSeasonYearTeam(@Query("team") team: Int): TeamSeasonDtoResponse
 }

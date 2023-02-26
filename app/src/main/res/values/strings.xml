@@ -148,4 +148,9 @@
     <string name="careerPlayerError">Ha ocurrido un error obteniendo la carrera del jugador</string>
     <string name="seasonTitle">Temporada</string>
     <string name="trophiePlayerError">Ha ocurrido un error obteniendo los trofeos del jugador</string>
+    <string name="foundedTitle">Fundado</string>
+    <string name="cityTitle">Ciudad</string>
+    <string name="capacityTitle">Capacidad</string>
+    <string name="detailTeam">Detalle del equipo</string>
+    <string name="personTitle">personas</string>
 </resources>

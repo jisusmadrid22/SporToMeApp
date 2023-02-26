@@ -19,6 +19,8 @@ import com.yzdev.sportome.presentation.screens.home.HomeViewModel
 import com.yzdev.sportome.presentation.screens.on_boarding.OnBoardingScreen
 import com.yzdev.sportome.presentation.screens.player.PlayerInfoScreen
 import com.yzdev.sportome.presentation.screens.player.PlayerInfoViewModel
+import com.yzdev.sportome.presentation.screens.team.TeamInfoScreen
+import com.yzdev.sportome.presentation.screens.team.TeamInfoViewModel
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialContentScreen
 import com.yzdev.sportome.presentation.screens.tutorial.TutorialViewModel
 
@@ -30,7 +32,7 @@ fun Navigation(
 
     NavHost(
         navController = navigation,
-        startDestination = Destination.ON_BOARDING.screenRoute
+        startDestination = Destination.DETAIL_TEAM.screenRoute
     ){
         /** ON BOARDING SCREEN*/
         composable(
@@ -108,6 +110,20 @@ fun Navigation(
 
             Box(modifier = Modifier.fillMaxSize()){
                 PlayerInfoScreen(viewModel = viewModel, playerId = it.arguments?.getLong(Constant.PLAYER_ID_KEY))
+            }
+        }
+
+        /** DETAIL TEAM SCREEN*/
+        composable(
+            route = Destination.DETAIL_TEAM.screenRoute /*+ "/{${Constant.PLAYER_ID_KEY}}",
+            arguments = listOf(
+                navArgument(name = Constant.PLAYER_ID_KEY) { type = NavType.LongType }
+            )*/
+        ){
+            val viewModel: TeamInfoViewModel = hiltViewModel<TeamInfoViewModel>()
+
+            Box(modifier = Modifier.fillMaxSize()){
+                TeamInfoScreen(teamInfoViewModel = viewModel, teamId = 33)
             }
         }
     }
