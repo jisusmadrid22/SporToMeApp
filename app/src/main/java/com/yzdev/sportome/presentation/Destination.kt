@@ -43,5 +43,10 @@ enum class Destination(val screenRoute: String, val title: String, val iconRes: 
         screenRoute = "SPTM_SCREEN:DETAIL_PLAYER_1",
         title = AppResource.getString(R.string.detailPlayer),
         iconRes = R.drawable.ic_info
+    ),
+    DETAIL_TEAM(
+        screenRoute = "SPTM_SCREEN:DETAIL_TEAM_1",
+        title = AppResource.getString(R.string.detailTeam),
+        iconRes = R.drawable.ic_info
     )
 }

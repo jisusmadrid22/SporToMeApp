@@ -9,10 +9,7 @@ import com.yzdev.sportome.data.remote.dto.match.predictions.PredictionsResponseD
 import com.yzdev.sportome.data.remote.dto.player.InfoPlayerDto
 import com.yzdev.sportome.data.remote.dto.player.PlayerTrophiesDto
 import com.yzdev.sportome.data.remote.dto.player.TransferPlayerDto
-import com.yzdev.sportome.data.remote.dto.team.TeamInfoDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamSquadDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamStatsDtoResponse
-import com.yzdev.sportome.data.remote.dto.team.TeamsDtoResponse
+import com.yzdev.sportome.data.remote.dto.team.*
 import com.yzdev.sportome.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
@@ -21,6 +18,8 @@ interface AppRepository {
     //---------------------------------- API ----------------------------------------------
     /** get all competition from api by country code and current season*/
     suspend fun getAllCompetitionRemoteQuery(countryCode: String): CompetitionDtoResponse
+
+    suspend fun getLeagueByTeam(teamId: Int, season: Int): CompetitionDtoResponse
 
     suspend fun getAllTeamsRemoteQuery(leagueId: Int, yearSeason: Int): TeamsDtoResponse
 
@@ -106,5 +105,8 @@ interface AppRepository {
 
     /** get today matches team*/
     suspend fun getAllMatchesTodayTeam(): List<MatchesResponseLocal>
+
+    /** get local season team with api and db*/
+    suspend fun getAllSeasonTeam(teamId: Int): TeamSeasonDtoResponse
     // -------------------------------------------------------------------------------------
 }
